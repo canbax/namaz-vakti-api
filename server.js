@@ -35,5 +35,5 @@ for (let i = 0; i < paths.length; i++) {
   });
 }
 
-
-app.listen(3000, () => console.log('namaz vakti listening on 3000'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('namaz vakti listening on 3000'));
