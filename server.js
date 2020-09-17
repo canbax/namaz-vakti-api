@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
-const http = require('http');
+const got = require('got');
+const static_data = require('./static_data.js');
 
-const baseUrl = 'http://ap.kuleonu.com.tr';
+const baseUrl = 'http://namazvakitleri.diyanet.gov.tr/tr-TR/home/';
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -10,30 +11,29 @@ app.use(function (req, res, next) {
   next();
 });
 
-function byPasser(res, url) {
-  http.get(baseUrl + url, (resp) => {
-    let data = '';
-
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
-
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      const parsedData = JSON.parse(data);
-      res.send(parsedData);
-    });
+app.get('/sehirler', (req, res) => {
+  const url = baseUrl + 'GetRegList?ChangeType=country&CountryId=' + req.query.ulke;
+  got(url).then(response => {
+    res.send(JSON.parse(response.body).StateList);
+  }).catch(error => {
+    console.log(error);
+    res.send(error);
   });
-}
+});
 
-const paths = ['/ulkeler', '/sehirler', '/ilceler', '/vakitler'];
-for (let i = 0; i < paths.length; i++) {
-  console.log('path: ', paths[i]);
-  app.get(paths[i], (req, res) => {
-    byPasser(res, req.originalUrl);
+app.get('/ilceler', (req, res) => {
+  const url = baseUrl + `GetRegList?ChangeType=state&CountryId=${req.query.ulke}&StateId=${req.query.sehir}`;
+  got(url).then(response => {
+    res.send(JSON.parse(response.body).StateRegionList);
+  }).catch(error => {
+    console.log(error);
+    res.send(error);
   });
-}
+});
+
+app.get('/vakitler', (req, res) => {
+
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('namaz vakti listening on 3000'));
