@@ -1428,7 +1428,7 @@ const COUNTRIES = [
   }
 ];
 
-module.export = {
+module.exports = {
   COUNTRIES: COUNTRIES,
   TR_CITIES: TR_CITIES
 };

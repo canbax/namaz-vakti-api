@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const got = require('got');
-const static_data = require('./static_data.js');
+const static_data = require('./static_data');
 
 const baseUrl = 'http://namazvakitleri.diyanet.gov.tr/tr-TR/';
 
@@ -129,7 +129,7 @@ function findTable(str) {
   if (t1 < 0 || t2 < 0) {
     return null;
   }
-  return { str: str.substring(t1, t2), lastIdx: t2 + 7 };
+  return { str: str.substring(t1, t2 - 1), lastIdx: t2 + 7 };
 }
 
 app.use(allowOrigin4All);

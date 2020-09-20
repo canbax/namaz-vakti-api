@@ -2,20 +2,33 @@
 <html>
 
 <head>
-  <title>Namaz Vakti API (Muslim Prayer Times API)</title>
+  <title>Namaz Vakti API</title>
   <script>
     function translate() {
-      
-      
+
+
     }
   </script>
 </head>
 
 <body>
 
-  <h1>Namaz Vakti API <button click="translate('en')" id="langBtn"> English </button></h1>
-  <p>My first paragraph.</p>
-
+  <h1 id="haeder">Namaz Vakti API</h1>
+  <span id="exp">Diyanetin sitesindeki verileri kullanarak namaz vakitleri verileri sunar.</span>
+  <br>
+  <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">https://github.com/canbax/namaz-vakti-api</a>
+  <br>
+  <h2>Kullanım</h2>
+  <span>Ülkelerin listesi: </span>
+  <a target="_blank" href="/countries">/countries</a>
+  <br>
+  <span>Şehirlerin/Eyaletlerin listesi: </span>
+  <a target="_blank" href="/cities?country=33">/cities?country=33</a>
+  <br>
+  <span>İlçelerin/Bölgelerin listesi: </span>
+  <a target="_blank" href="/regions?country=2&city=503">/regions?country=2&city=503</a>
+  <br>
+  Vakit verileri: <a target="_blank" href="/data?region=9541">/data?region=9541</a>
 </body>
 
 </html>
