@@ -1,5 +1,5 @@
 # namaz-vakti-api
 
-https://canbax.herokuapp.com/
+https://namaz-vakti-api.herokuapp.com/
 
 Brings Muslim prayer times data from namazvakitleri.diyanet.gov.tr (Namaz vakti API. Diyanet sitesinden namaz vakti verileri getirir.)
