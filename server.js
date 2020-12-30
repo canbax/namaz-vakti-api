@@ -141,4 +141,4 @@ app.get('/regions', getRegionsList);
 app.get('/data', getTimeData4Region);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('namaz vakti listening on 3000'));
+app.listen(PORT, () => console.log('namaz vakti API listening on 3000'));
