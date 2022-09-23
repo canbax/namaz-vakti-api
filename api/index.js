@@ -143,5 +143,9 @@ app.get('/api/item', (req, res) => {
   res.end(`Item: asd`);
 });
 
+app.get('/api/asd', (req, res) => {
+  res.end(`Item: fghh egd swfa f`);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('namaz vakti API listening on 3000'));
