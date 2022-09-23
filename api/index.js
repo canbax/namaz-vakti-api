@@ -148,7 +148,7 @@ function findTable(str) {
 
 app.use(allowOrigin4All);
 app.use(express.static("public"));
-console.log("__dirname: ", __dirname);
+
 app.get("/api/countries", getCountryList);
 app.get("/api/cities", getCityList);
 app.get("/api/regions", getRegionsList);

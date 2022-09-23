@@ -4,44 +4,49 @@
     <title>Namaz Vakti API</title>
     <link rel="icon" href="favicon.ico" />
     <script></script>
+    <style>
+      h3 {
+        display: inline;
+      }
+    </style>
   </head>
 
   <body>
-    <h1>Namaz Vakti API (Prayer Time APı)</h1>
+    <h1>Namaz Vakti API</h1>
     <span>
       Diyanetin sitesindeki verileri kullanarak namaz vakitleri verileri sunar.
-      (Serves Praying Times data using the official website of the turkish
-      directorate of religious affairs)
     </span>
     <br />
-    <span>
-      API ücretsiz ve erişime açıktır. Ücretsiz sunucu kullanıldığından ilk
-      açılış 10-15 saniye sürebilir. İlk açılıştan sonra hızlı çalışır.
-    </span>
     <br />
-    <h3>
+    <b>
+      Ücretsiz, reklamsız,
       <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">
-        Kaynak Kodlar (GitHub)
+        açık kaynak kodlu
       </a>
-    </h3>
+    </b>
+    <br />
     <br />
     <a target="_blank" href="https://github.com/canbax/namaz-vakti">
-      <h3> namaz-vakti </h3> uygulaması için oluşturulmuştur
+      <h3>namaz-vakti</h3>
     </a>
+    uygulaması için oluşturulmuştur
+
     <br />
     <h2>Kullanım</h2>
     <span>Ülkelerin listesi: </span>
-    <a target="_blank" href="/api/countries">/countries</a>
+    <a target="_blank" href="/api/countries"> /api/countries </a>
     <br />
     <span>Şehirlerin/Eyaletlerin listesi: </span>
-    <a target="_blank" href="/api/cities?country=33">/cities?country=33</a>
+    <a target="_blank" href="/api/cities?country=33">
+      /api/cities?country=33
+    </a>
     <br />
     <span>İlçelerin/Bölgelerin listesi: </span>
-    <a target="_blank" href="/api/regions?country=2&city=503"
-      >/regions?country=2&city=503</a
-    >
+    <a target="_blank" href="/api/regions?country=2&city=503">
+      /api/regions?country=2&city=503
+    </a>
     <br />
     Vakit verileri:
-    <a target="_blank" href="/api/data?region=9541">/data?region=9541</a>
+    <a target="_blank" href="/api/data?region=9541"> /api/data?region=9541 </a>
   </body>
 </html>
