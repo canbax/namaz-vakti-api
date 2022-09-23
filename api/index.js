@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const got = require('got');
-const static_data = require('./static_data');
+const static_data = require('../static_data');
 
 const baseUrl = 'http://namazvakitleri.diyanet.gov.tr/tr-TR/';
 
@@ -139,6 +139,9 @@ app.get('/countries', getCountryList);
 app.get('/cities', getCityList);
 app.get('/regions', getRegionsList);
 app.get('/data', getTimeData4Region);
+app.get('/api/item', (req, res) => {
+  res.end(`Item: asd`);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('namaz vakti API listening on 3000'));
