@@ -1,39 +1,52 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Namaz Vakti API</title>
+    <link rel="icon" href="favicon.ico" />
+    <script></script>
+    <style>
+      h3 {
+        display: inline;
+      }
+    </style>
+  </head>
 
-<head>
-  <title>Namaz Vakti API</title>
-  <link rel="icon" href="favicon.ico">
-  <script>
-  </script>
-</head>
+  <body>
+    <h1>Namaz Vakti API</h1>
+    <span>
+      Diyanetin sitesindeki verileri kullanarak namaz vakitleri verileri sunar.
+    </span>
+    <br />
+    <br />
+    <b>
+      Ücretsiz, reklamsız,
+      <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">
+        açık kaynak kodlu
+      </a>
+    </b>
+    <br />
+    <br />
+    <a target="_blank" href="https://github.com/canbax/namaz-vakti">
+      <h3>namaz-vakti</h3>
+    </a>
+    uygulaması için oluşturulmuştur
 
-<body>
-
-  <h1 id="haeder">Namaz Vakti API</h1>
-  <span> Diyanetin sitesindeki verileri kullanarak namaz vakitleri verileri sunar. (Serves Praying Times data
-    using the official website of the turkish directorate of religious affairs) </span>
-  <br>
-  <span>
-    API ücretsiz ve erişime açıktır. Ücretsiz sunucu kullanıldığından ilk açılış 10-15 saniye sürebilir. İlk açılıştan
-    sonra hızlı çalışır.
-  </span>
-  <br>
-  <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">Kaynak Kodlar (GitHub)</a>
-  <br>
-  <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">namaz vakti uygulaması için oluşturulmuştur </a>
-  <br>
-  <h2>Kullanım</h2>
-  <span>Ülkelerin listesi: </span>
-  <a target="_blank" href="/countries">/countries</a>
-  <br>
-  <span>Şehirlerin/Eyaletlerin listesi: </span>
-  <a target="_blank" href="/cities?country=33">/cities?country=33</a>
-  <br>
-  <span>İlçelerin/Bölgelerin listesi: </span>
-  <a target="_blank" href="/regions?country=2&city=503">/regions?country=2&city=503</a>
-  <br>
-  Vakit verileri: <a target="_blank" href="/data?region=9541">/data?region=9541</a>
-</body>
-
+    <br />
+    <h2>Kullanım</h2>
+    <span>Ülkelerin listesi: </span>
+    <a target="_blank" href="/api/countries"> /api/countries </a>
+    <br />
+    <span>Şehirlerin/Eyaletlerin listesi: </span>
+    <a target="_blank" href="/api/cities?country=33">
+      /api/cities?country=33
+    </a>
+    <br />
+    <span>İlçelerin/Bölgelerin listesi: </span>
+    <a target="_blank" href="/api/regions?country=2&city=503">
+      /api/regions?country=2&city=503
+    </a>
+    <br />
+    Vakit verileri:
+    <a target="_blank" href="/api/data?region=9541"> /api/data?region=9541 </a>
+  </body>
 </html>

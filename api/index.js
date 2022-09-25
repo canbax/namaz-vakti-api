@@ -1,18 +1,21 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const got = require('got');
-const static_data = require('./static_data');
+const got = require("got");
+const static_data = require("../static_data");
 
-const baseUrl = 'http://namazvakitleri.diyanet.gov.tr/tr-TR/';
+const baseUrl = "http://namazvakitleri.diyanet.gov.tr/tr-TR/";
 
 /** use this function like `app.use(allowOrigion4All);` for an express app
  * Make API accessiable for all clients. Not for only clients from a specific domain.
  */
 function allowOrigin4All(_, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
-};
+}
 
 /** get a list of countries
  * @param  {} _
@@ -31,13 +34,15 @@ const getCityList = (req, res) => {
   if (id == 2) {
     res.send(static_data.TR_CITIES);
   } else {
-    const url = baseUrl + '/home/GetRegList?ChangeType=country&CountryId=' + id;
-    got(url).then(response => {
-      res.send(JSON.parse(response.body).StateList);
-    }).catch(error => {
-      console.log(error);
-      res.send(error);
-    });
+    const url = baseUrl + "/home/GetRegList?ChangeType=country&CountryId=" + id;
+    got(url)
+      .then((response) => {
+        res.send(JSON.parse(response.body).StateList);
+      })
+      .catch((error) => {
+        console.log(error);
+        res.send(error);
+      });
   }
 };
 
@@ -48,13 +53,17 @@ const getCityList = (req, res) => {
 const getRegionsList = (req, res) => {
   const country = req.query.country;
   const city = req.query.city;
-  const url = baseUrl + `/home/GetRegList?ChangeType=state&CountryId=${country}&StateId=${city}`;
-  got(url).then(response => {
-    res.send(JSON.parse(response.body).StateRegionList);
-  }).catch(error => {
-    console.log(error);
-    res.send(error);
-  });
+  const url =
+    baseUrl +
+    `/home/GetRegList?ChangeType=state&CountryId=${country}&StateId=${city}`;
+  got(url)
+    .then((response) => {
+      res.send(JSON.parse(response.body).StateRegionList);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.send(error);
+    });
 };
 
 /** get times data for a region/district, returns an string[][].
@@ -63,14 +72,16 @@ const getRegionsList = (req, res) => {
  */
 const getTimeData4Region = (req, res) => {
   const url = baseUrl + req.query.region;
-  got(url).then(response => {
-    const t = findTableWithMonthInfo(response.body);
-    const d = getDataFromTable(t);
-    res.send(d);
-  }).catch(error => {
-    console.log(error);
-    res.send(error);
-  });
+  got(url)
+    .then((response) => {
+      const t = findTableWithMonthInfo(response.body);
+      const d = getDataFromTable(t);
+      res.send(d);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.send(error);
+    });
 };
 
 /**  returns values inside <td> as string[][]
@@ -78,18 +89,21 @@ const getTimeData4Region = (req, res) => {
  */
 function getDataFromTable(str) {
   const arr = [];
-  str = str.replace(/<\/tr>/g, '');
-  str = str.replace(/<\/td>/g, '');
-  str = str.replace(/<tbody>/g, '');
-  str = str.replace(/<\/tbody>/g, '');
-  const emptyFilterFn = (x) => { x = x.trim(); return x && x.length > 0; };
-  const rows = str.split('<tr>').filter(emptyFilterFn);
+  str = str.replace(/<\/tr>/g, "");
+  str = str.replace(/<\/td>/g, "");
+  str = str.replace(/<tbody>/g, "");
+  str = str.replace(/<\/tbody>/g, "");
+  const emptyFilterFn = (x) => {
+    x = x.trim();
+    return x && x.length > 0;
+  };
+  const rows = str.split("<tr>").filter(emptyFilterFn);
   for (const row of rows) {
     if (!row || row.length < 1) {
       continue;
     }
-    const cols = row.split('<td>');
-    arr.push(cols.filter(emptyFilterFn).map(x => x.trim()));
+    const cols = row.split("<td>");
+    arr.push(cols.filter(emptyFilterFn).map((x) => x.trim()));
   }
   return arr;
 }
@@ -120,12 +134,12 @@ function countRowsInTable(table) {
   return (table.match(/<tr>/g) || []).length;
 }
 
-/** find the substring for table inside 'str' 
+/** find the substring for table inside 'str'
  * @param  {} str webpage as HTML string
  */
 function findTable(str) {
-  const t1 = str.indexOf('<tbody');
-  const t2 = str.indexOf('/tbody>');
+  const t1 = str.indexOf("<tbody");
+  const t2 = str.indexOf("/tbody>");
   if (t1 < 0 || t2 < 0) {
     return null;
   }
@@ -133,12 +147,12 @@ function findTable(str) {
 }
 
 app.use(allowOrigin4All);
-app.use(express.static('public'));
-console.log('__dirname: ', __dirname);
-app.get('/countries', getCountryList);
-app.get('/cities', getCityList);
-app.get('/regions', getRegionsList);
-app.get('/data', getTimeData4Region);
+app.use(express.static("public"));
+
+app.get("/api/countries", getCountryList);
+app.get("/api/cities", getCityList);
+app.get("/api/regions", getRegionsList);
+app.get("/api/data", getTimeData4Region);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('namaz vakti API listening on 3000'));
+app.listen(PORT, () => console.log("namaz vakti API listening on 3000"));
