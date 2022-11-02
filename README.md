@@ -1,6 +1,6 @@
 # namaz-vakti-api
 
-https://namaz-vakti-api.herokuapp.com/
+https://namaz-vakti.vercel.app/
 
 Brings Muslim prayer times data from namazvakitleri.diyanet.gov.tr (Namaz vakti API. Diyanet sitesinden namaz vakti verileri getirir.)
 
