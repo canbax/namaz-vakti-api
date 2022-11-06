@@ -4,6 +4,7 @@ const got = require("got");
 const static_data = require("../static_data");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
+const chrome = require("chrome-aws-lambda");
 
 const baseUrl = "http://namazvakitleri.diyanet.gov.tr/tr-TR/";
 const isUseHeadlessChrome = true;
@@ -63,8 +64,10 @@ const getCityList = async (req, res) => {
   } else {
     const browser = await puppeteer.launch({
       headless: isUseHeadlessChrome,
+      executablePath: await chrome.executablePath,
       ignoreHTTPSErrors: true,
       args: [
+        ...chrome.args,
         "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36",
         // "--window-size=1200,800",
       ],
