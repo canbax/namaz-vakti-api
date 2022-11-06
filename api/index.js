@@ -59,6 +59,7 @@ function log2file(msg) {
 
 const getCityList = async (req, res) => {
   const id = req.query.country;
+  
   if (id == 2) {
     res.send(static_data.TR_CITIES);
   } else {
