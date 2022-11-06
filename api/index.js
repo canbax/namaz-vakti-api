@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const got = require("got");
 const static_data = require("../static_data");
+const puppeteer = require("puppeteer");
+const fs = require("fs");
 
 const baseUrl = "http://namazvakitleri.diyanet.gov.tr/tr-TR/";
+const isUseHeadlessChrome = true;
 
 /** use this function like `app.use(allowOrigion4All);` for an express app
  * Make API accessiable for all clients. Not for only clients from a specific domain.
@@ -29,20 +32,67 @@ const getCountryList = (_, res) => {
  * @param  {} req
  * @param  {} res
  */
-const getCityList = (req, res) => {
+// const getCityList = (req, res) => {
+//   const id = req.query.country;
+//   if (id == 2) {
+//     res.send(static_data.TR_CITIES);
+//   } else {
+//     const url = baseUrl + "/home/GetRegList?ChangeType=country&CountryId=" + id;
+//     got(url)
+//       .then((response) => {
+//         res.send(JSON.parse(response.body).StateList);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//         res.send(error);
+//       });
+//   }
+// };
+
+function log2file(msg) {
+  const fileName = "log-" + new Date() + ".txt";
+  fs.writeFile(fileName, msg, function (err) {
+    if (err) return console.log(err);
+  });
+}
+
+const getCityList = async (req, res) => {
   const id = req.query.country;
   if (id == 2) {
     res.send(static_data.TR_CITIES);
   } else {
-    const url = baseUrl + "/home/GetRegList?ChangeType=country&CountryId=" + id;
-    got(url)
-      .then((response) => {
-        res.send(JSON.parse(response.body).StateList);
-      })
-      .catch((error) => {
-        console.log(error);
-        res.send(error);
-      });
+    const browser = await puppeteer.launch({
+      headless: isUseHeadlessChrome,
+      ignoreHTTPSErrors: true,
+      args: [
+        "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36",
+        // "--window-size=1200,800",
+      ],
+    });
+    const page = await browser.newPage();
+
+    await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+    console.log("id: ", id);
+    await page.select("select.country-select", id);
+
+    await page.waitForNetworkIdle();
+    await page.waitForSelector("select.city-select");
+    log2file(await page.content());
+
+    let cities = await (
+      await page.$("select.city-select")
+    ).evaluate((node) => {
+      const r = [];
+      for (let i = 0; i < node.children.length; i++) {
+        const c = node.children[i];
+        if (c.value < 0) continue;
+        r.push({ id: c.value, text: c.textContent });
+      }
+      return r;
+    });
+    await browser.close();
+    console.log("cities: ", cities[1]);
+    res.send(cities);
   }
 };
 
