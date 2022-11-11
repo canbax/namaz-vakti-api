@@ -154,5 +154,12 @@ app.get("/api/cities", getCityList);
 app.get("/api/regions", getRegionsList);
 app.get("/api/data", getTimeData4Region);
 
+app.get("/api/ip", function (req, res) {
+  let ipAddress = '' + req.socket.remoteAddress;
+  ipAddress += ' - ' + req.headers['x-forwarded-for'];
+  ipAddress += ' - ' + req.ip;
+  res.send(ipAddress);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("namaz vakti API listening on 3000"));
