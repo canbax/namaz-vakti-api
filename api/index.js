@@ -155,10 +155,7 @@ app.get("/api/regions", getRegionsList);
 app.get("/api/data", getTimeData4Region);
 
 app.get("/api/ip", function (req, res) {
-  let ipAddress = '' + req.socket.remoteAddress;
-  ipAddress += ' - ' + req.headers['x-forwarded-for'];
-  ipAddress += ' - ' + req.ip;
-  res.send(ipAddress);
+  res.send(req.headers["x-forwarded-for"]);
 });
 
 const PORT = process.env.PORT || 3000;
