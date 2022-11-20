@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Namaz Vakti API</title>
+    <title>Namaz Vakti API (v2.0)</title>
     <link rel="icon" href="favicon.ico" />
     <script></script>
     <style>
@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <h1>Namaz Vakti API</h1>
+    <h1>Namaz Vakti API (v2.0)</h1>
     <span>
       Diyanetin sitesindeki verileri kullanarak namaz vakitleri verileri sunar.
     </span>
@@ -37,17 +37,19 @@
     <a target="_blank" href="/api/countries"> /api/countries </a>
     <br />
     <span>Şehirlerin/Eyaletlerin listesi: </span>
-    <a target="_blank" href="/api/cities?country=33">
-      /api/cities?country=33
+    <a target="_blank" href="/api/regions?country=Germany">
+      /api/regions?country=Germany
     </a>
     <br />
     <span>İlçelerin/Bölgelerin listesi: </span>
-    <a target="_blank" href="/api/regions?country=2&city=503">
-      /api/regions?country=2&city=503
+    <a target="_blank" href="/api/cities?country=Germany&region=Bayern">
+      /api/cities?country=Germany&region=Bayern
     </a>
     <br />
     Vakit verileri:
-    <a target="_blank" href="/api/data?region=9541"> /api/data?region=9541 </a>
+    <a target="_blank" href="/api/times?lat=39.91987&lng=32.85427">
+      /api/times?lat=39.91987&lng=32.85427
+    </a>
     <br />
     IP adresi:
     <a target="_blank" href="/api/ip"> /api/ip </a>
