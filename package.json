@@ -2,18 +2,22 @@
   "name": "namaz-vakti-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon api/index.js"
+    "start": "ts-node api/index.ts",
+    "dev": "nodemon api/index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "got": "^11.8.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.11.9",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
   }
 }
