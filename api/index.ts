@@ -61,9 +61,27 @@ const getCoordinateData = (req: Request, res: Response) => {
 const getTime = (lat: number, lng: number, date: Date) => {
   const coordinates = new Coordinates(lat, lng);
   const params = CalculationMethod.Turkey();
-  params.madhab = Madhab.Hanafi;
+  params.madhab = Madhab.Shafi;
   const times = new PrayerTimes(coordinates, date, params);
-  return times;
+  let arr: string[] = [];
+  arr.push(extractTimeFromDate(times.fajr));
+  arr.push(extractTimeFromDate(times.sunrise));
+  arr.push(extractTimeFromDate(times.dhuhr));
+  arr.push(extractTimeFromDate(times.asr));
+  arr.push(extractTimeFromDate(times.maghrib));
+  arr.push(extractTimeFromDate(times.isha));
+  return arr;
+};
+
+const extractTimeFromDate = (d: Date) => {
+  const hour = d.getHours();
+  const minute = d.getMinutes();
+  return prefix0(hour) + ":" + prefix0(minute);
+};
+
+const prefix0 = (n: number) => {
+  if (n > 99 || n < -99) throw "Can only process 2 digits integers!";
+  return (n + "").padStart(2, "0");
 };
 
 const getTimesFromCoordinates = (req: Request, res: Response) => {
