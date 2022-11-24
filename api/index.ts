@@ -1,6 +1,13 @@
-import express, { Express, Request, Response } from "express";
-import { ALL_PLACES } from "../staticData";
-import { Coordinates, CalculationMethod, PrayerTimes, Madhab } from "adhan";
+import express, { Express } from "express";
+import {
+  getCountries,
+  getRegionsOfCountry,
+  getCitiesOfRegion,
+  getCoordinateData,
+  getPlaceData,
+  getTimesFromCoordinates,
+  getIPAdress,
+} from "./request-handlers";
 
 const app: Express = express();
 
@@ -16,129 +23,6 @@ function allowOrigin4All(_: any, res: any, next: any) {
   next();
 }
 
-/** get a list of countries
- * @param  {} _
- * @param  {} res
- */
-const getCountries = (_: Request, res: Response) => {
-  res.send(Object.keys(ALL_PLACES));
-};
-
-const getRegionsOfCountry = (req: Request, res: Response) => {
-  const country = req.query.country as string;
-  if (ALL_PLACES[country]) {
-    res.send(Object.keys(ALL_PLACES[country].regions));
-  } else {
-    res.send("NOT FOUND!");
-  }
-};
-
-const getCitiesOfRegion = (req: Request, res: Response) => {
-  const country = req.query.country as string;
-  const region = req.query.region as string;
-  if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
-    res.send(Object.keys(ALL_PLACES[country].regions[region]));
-  } else {
-    res.send("NOT FOUND!");
-  }
-};
-
-const getCoordinateData = (req: Request, res: Response) => {
-  const country = req.query.country as string;
-  const region = req.query.region as string;
-  const city = req.query.city as string;
-  if (
-    ALL_PLACES[country] &&
-    ALL_PLACES[country].regions[region] &&
-    ALL_PLACES[country].regions[region][city]
-  ) {
-    res.send(ALL_PLACES[country].regions[region][city]);
-  } else {
-    res.send("NOT FOUND!");
-  }
-};
-
-const getTime = (lat: number, lng: number, date: Date) => {
-  const coordinates = new Coordinates(lat, lng);
-  const params = CalculationMethod.Turkey();
-  params.madhab = Madhab.Shafi;
-  const times = new PrayerTimes(coordinates, date, params);
-  let arr: string[] = [];
-  arr.push(extractTimeFromDate(times.fajr));
-  arr.push(extractTimeFromDate(times.sunrise));
-  arr.push(extractTimeFromDate(times.dhuhr));
-  arr.push(extractTimeFromDate(times.asr));
-  arr.push(extractTimeFromDate(times.maghrib));
-  arr.push(extractTimeFromDate(times.isha));
-  return arr;
-};
-
-const extractTimeFromDate = (d: Date) => {
-  const hour = d.getHours();
-  const minute = d.getMinutes();
-  return prefix0(hour) + ":" + prefix0(minute);
-};
-
-const prefix0 = (n: number) => {
-  if (n > 99 || n < -99) throw "Can only process 2 digits integers!";
-  return (n + "").padStart(2, "0");
-};
-
-const getTimesFromCoordinates = (req: Request, res: Response) => {
-  const lat = Number(req.query.lat as string);
-  const lng = Number(req.query.lng as string);
-  if (isNaN(lat) || isNaN(lng)) {
-    res.send("INVALID coordinates!");
-  } else {
-    const place = getPlace(lat, lng);
-    const time = getTime(lat, lng, new Date());
-    res.send({ place, time });
-  }
-};
-
-const getPlace = (lat: number, lng: number) => {
-  let minDiff = 1000000;
-  let place: {
-    countryCode: string;
-    country: string;
-    region: string;
-    city: string;
-  } = {
-    countryCode: "",
-    country: "",
-    region: "",
-    city: "null",
-  };
-  for (let country in ALL_PLACES) {
-    for (let region in ALL_PLACES[country].regions) {
-      for (let city in ALL_PLACES[country].regions[region]) {
-        const [lat1, lng1] = ALL_PLACES[country].regions[region][city];
-        const diff = Math.abs(lat1 - lat) + Math.abs(lng1 - lng);
-        if (diff < minDiff) {
-          place = {
-            countryCode: ALL_PLACES[country].code,
-            country,
-            region,
-            city,
-          };
-          minDiff = diff;
-        }
-      }
-    }
-  }
-  return place;
-};
-
-const getPlaceData = (req: Request, res: Response) => {
-  const lat = Number(req.query.lat as string);
-  const lng = Number(req.query.lng as string);
-  if (isNaN(lat) || isNaN(lng)) {
-    res.send("INVALID coordinates!");
-  } else {
-    res.send(getPlace(lat, lng));
-  }
-};
-
 app.use(allowOrigin4All);
 app.use(express.static("public"));
 
@@ -148,10 +32,7 @@ app.get("/api/cities", getCitiesOfRegion);
 app.get("/api/coordinates", getCoordinateData);
 app.get("/api/getPlaceData", getPlaceData);
 app.get("/api/times", getTimesFromCoordinates);
-
-app.get("/api/ip", (req: Request, res: Response) => {
-  res.send(req.headers["x-forwarded-for"]);
-});
+app.get("/api/ip", getIPAdress);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("namaz vakti API listening on 3000"));
