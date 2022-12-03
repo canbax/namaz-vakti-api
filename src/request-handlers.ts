@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ALL_PLACES } from "../staticData";
-import { getPlace, getPrayTimes } from "./calculator";
+import { getPlace, getTimes } from "./calculator";
+import { isValidDate } from "./util";
 
 /** get a list of countries
  * @param  {} _
@@ -47,12 +48,16 @@ export function getCoordinateData(req: Request, res: Response) {
 export function getTimesFromCoordinates(req: Request, res: Response) {
   const lat = Number(req.query.lat as string);
   const lng = Number(req.query.lng as string);
+  const dateStr = req.query.date as string;
+  const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
+  const daysParam = Number(req.query.days as string);
+  const days = isNaN(daysParam) || daysParam < 1 ? 50 : daysParam; // 50 is default
   if (isNaN(lat) || isNaN(lng)) {
     res.send("INVALID coordinates!");
   } else {
     const place = getPlace(lat, lng);
-    const time = getPrayTimes(lat, lng, new Date());
-    res.send({ place, time });
+    const times = getTimes(lat, lng, date, days);
+    res.send({ place, times });
   }
 }
 
