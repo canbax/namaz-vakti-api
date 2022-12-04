@@ -5,6 +5,8 @@ export type Place = {
   country: string;
   region: string;
   city: string;
+  latitude: number;
+  longitude: number;
 };
 
 export type CountryData = {

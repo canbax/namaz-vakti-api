@@ -13,9 +13,7 @@
 
   <body>
     <h1>Namaz Vakti API (v2.0)</h1>
-    <span>
-      Diyanetin sitesindeki verileri kullanarak namaz vakitleri verileri sunar.
-    </span>
+    <span> Diyanetin yöntemini kullanarak namaz vakti verileri sunar. </span>
     <br />
     <br />
     <b>
@@ -33,9 +31,20 @@
 
     <br />
     <h2>Kullanım</h2>
-    <span>Vakit verileri: </span>
-    <a target="_blank" href="/api/times?lat=39.91987&lng=32.85427">
-      /api/times?lat=39.91987&lng=32.85427
+    <span>Koordinatlardan vakit verileri: </span>
+    <a
+      target="_blank"
+      href="/api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=100"
+    >
+      /api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=100
+    </a>
+    <br />
+    <span>Mahalden vakit verileri: </span>
+    <a
+      target="_blank"
+      href="/api/timesFromPlace?country=Turkey&region=Ankara&city=Ankara&date=2023-10-29&days=100"
+    >
+      /api/timesFromPlace?country=Turkey&amp;region=Ankara&city=Ankara&date=2023-10-29&days=100
     </a>
     <br />
     <span>Ülkelerin listesi: </span>

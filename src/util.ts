@@ -26,9 +26,13 @@ export function dateToString(date: Date): DateString {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  return `${year}-${month}-${day}` as DateString;
+  return `${year}-${prefix0(month)}-${prefix0(day)}` as DateString;
 }
 
 export function isNil(value: any) {
   return value === null || value === undefined;
+}
+
+export function isInRange(a: number, min: number, max: number) {
+  return a >= min && a <= max;
 }

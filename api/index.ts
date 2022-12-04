@@ -7,6 +7,7 @@ import {
   getPlaceData,
   getTimesFromCoordinates,
   getIPAdress,
+  getTimesFromPlace,
 } from "../src/request-handlers";
 
 const app: Express = express();
@@ -26,7 +27,8 @@ function allowOrigin4All(_: any, res: any, next: any) {
 app.use(allowOrigin4All);
 app.use(express.static("public"));
 
-app.get("/api/times", getTimesFromCoordinates);
+app.get("/api/timesFromCoordinates", getTimesFromCoordinates);
+app.get("/api/timesFromPlace", getTimesFromPlace);
 app.get("/api/countries", getCountries);
 app.get("/api/regions", getRegionsOfCountry);
 app.get("/api/cities", getCitiesOfRegion);

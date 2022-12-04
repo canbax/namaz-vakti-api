@@ -1,14 +1,18 @@
 import { Request, Response } from "express";
 import { ALL_PLACES } from "../staticData";
-import { getPlace, getTimes } from "./calculator";
-import { isValidDate } from "./util";
+import { getPlace, findPlace, getTimes } from "./calculator";
+import { isInRange, isValidDate } from "./util";
 
 /** get a list of countries
  * @param  {} _
  * @param  {} res
  */
 export function getCountries(_: Request, res: Response) {
-  res.send(Object.keys(ALL_PLACES));
+  const r = [];
+  for (let c in ALL_PLACES) {
+    r.push({ code: ALL_PLACES[c].code, name: c });
+  }
+  res.send(r);
 }
 
 export function getRegionsOfCountry(req: Request, res: Response) {
@@ -34,12 +38,9 @@ export function getCoordinateData(req: Request, res: Response) {
   const country = req.query.country as string;
   const region = req.query.region as string;
   const city = req.query.city as string;
-  if (
-    ALL_PLACES[country] &&
-    ALL_PLACES[country].regions[region] &&
-    ALL_PLACES[country].regions[region][city]
-  ) {
-    res.send(ALL_PLACES[country].regions[region][city]);
+  const coords = getPlace(country, region, city);
+  if (coords) {
+    res.send(coords);
   } else {
     res.send("NOT FOUND!");
   }
@@ -51,11 +52,16 @@ export function getTimesFromCoordinates(req: Request, res: Response) {
   const dateStr = req.query.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
   const daysParam = Number(req.query.days as string);
-  const days = isNaN(daysParam) || daysParam < 1 ? 50 : daysParam; // 50 is default
-  if (isNaN(lat) || isNaN(lng)) {
-    res.send("INVALID coordinates!");
+  const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
+  if (
+    isNaN(lat) ||
+    isNaN(lng) ||
+    !isInRange(lat, -90, 90) ||
+    !isInRange(lng, -180, 180)
+  ) {
+    res.send("Invalid coordinates!");
   } else {
-    const place = getPlace(lat, lng);
+    const place = findPlace(lat, lng);
     const times = getTimes(lat, lng, date, days);
     res.send({ place, times });
   }
@@ -67,7 +73,24 @@ export function getPlaceData(req: Request, res: Response) {
   if (isNaN(lat) || isNaN(lng)) {
     res.send("INVALID coordinates!");
   } else {
-    res.send(getPlace(lat, lng));
+    res.send(findPlace(lat, lng));
+  }
+}
+
+export function getTimesFromPlace(req: Request, res: Response) {
+  const country = req.query.country as string;
+  const region = req.query.region as string;
+  const city = req.query.city as string;
+  const place = getPlace(country, region, city);
+  const dateStr = req.query.date as string;
+  const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
+  const daysParam = Number(req.query.days as string);
+  const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
+  if (!place) {
+    res.send("Place cannot be found!");
+  } else {
+    const times = getTimes(place.latitude, place.longitude, date, days);
+    res.send({ place, times });
   }
 }
 
