@@ -44817,7 +44817,7 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Kragenhof: [51.36481, 9.53399],
         Koddingen: [50.61829, 9.21099],
         Herbstein: [50.56105, 9.34592],
-        Mus: [50.59294, 9.50472],
+        Muş: [50.59294, 9.50472],
         Grebenhain: [50.48924, 9.33855],
         Schadges: [50.56768, 9.41888],
         Ulm: [50.58182, 8.29932],
@@ -72562,8 +72562,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
   Turkey: {
     code: "TR",
     regions: {
-      Istanbul: {
-        Istanbul: [41.01384, 28.94966],
+      İstanbul: {
+        İstanbul: [41.01384, 28.94966],
         Muratbey: [41.0963, 28.49227],
         Kartal: [40.90495, 29.18861],
         Catalca: [41.14324, 28.46154],
@@ -72616,8 +72616,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Ergin: [39.64417, 33.15701],
         Esen: [39.40194, 32.40361],
       },
-      Izmir: {
-        Izmir: [38.41273, 27.13838],
+      İzmir: {
+        İzmir: [38.41273, 27.13838],
         Ilica: [38.306137, 26.352986],
         Cesme: [38.32278, 26.30639],
         Reis: [38.39599, 27.11803],
@@ -72681,8 +72681,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Gazipasa: [36.26942, 32.31792],
         Side: [36.76672, 31.38852],
       },
-      Kahramanmaras: {
-        Kahramanmaras: [37.5847, 36.9264],
+      Kahramanmaraş: {
+        Kahramanmaraş: [37.5847, 36.9264],
         Elbistan: [38.20591, 37.1983],
         Caglayancerit: [37.74959, 37.29622],
         Turkoglu: [37.38844, 36.84833],
@@ -72711,8 +72711,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Sehitkamil: [37.0846, 37.35673],
         Karkamis: [36.83333, 37.99806],
       },
-      Kutahya: {
-        Kutahya: [39.42417, 29.98333],
+      Kütahya: {
+        Kütahya: [39.42417, 29.98333],
         Cavdarhisar: [39.19344, 29.61915],
         Tavsanli: [39.54237, 29.49866],
         Emet: [39.343, 29.25847],
@@ -72724,9 +72724,9 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Aslanapa: [39.21581, 29.8699],
         Pazarlar: [38.995, 29.12583],
       },
-      Canakkale: {
+      Çanakkale: {
         Kepez: [40.099722, 26.396667],
-        Canakkale: [40.14556, 26.40639],
+        Çanakkale: [40.14556, 26.40639],
         Yenice: [39.93083, 27.25806],
         Gelibolu: [40.41028, 26.67083],
         Ayvacik: [39.60111, 26.40472],
@@ -72794,16 +72794,16 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Tuzla: [36.70074, 35.08726],
         Guven: [37.47369, 35.36029],
       },
-      Nigde: {
+      Niğde: {
         Ulukisla: [37.54776, 34.48528],
-        Nigde: [37.96583, 34.67935],
+        Niğde: [37.96583, 34.67935],
         Bor: [37.89056, 34.55889],
         Camardi: [37.83222, 34.98139],
         Ciftlik: [38.1758, 34.48535],
         Altunhisar: [37.99159, 34.37334],
       },
-      Diyarbakir: {
-        Diyarbakir: [37.91583, 40.21889],
+      Diyarbakır: {
+        Diyarbakır: [37.91583, 40.21889],
         Dicle: [38.37515, 40.07219],
         Yuksek: [38.01951, 40.17718],
         Bismil: [37.84861, 40.66583],
@@ -72826,9 +72826,9 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Mutlu: [38.48437, 40.7564],
         Turkmen: [38.2373, 39.40919],
       },
-      Sanliurfa: {
+      Şanlıurfa: {
         Siverek: [37.75502, 39.31667],
-        Sanliurfa: [37.16708, 38.79392],
+        Şanlıurfa: [37.16708, 38.79392],
         Magarali: [36.96889, 38.07444],
         Bozova: [37.3625, 38.52667],
         Halfeti: [37.24729, 37.86896],
@@ -72896,11 +72896,11 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Hasankeyf: [37.71308, 41.41459],
         Oymatas: [37.79907, 41.02083],
       },
-      Sirnak: {
+      Şırnak: {
         Cizre: [37.32722, 42.19028],
         Bozalan: [37.32894, 42.26482],
         Ortakoy: [37.32639, 43.28889],
-        Sirnak: [37.52278, 42.45944],
+        Şırnak: [37.52278, 42.45944],
         Balveren: [37.48333, 42.54694],
         Idil: [37.34114, 41.8895],
         Silopi: [37.24972, 42.46944],
@@ -72959,11 +72959,11 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Baklan: [37.97694, 29.60861],
         Buldan: [38.045, 28.83056],
       },
-      Aydin: {
+      Aydın: {
         Nazilli: [37.91631, 28.32225],
         Sultanhisar: [37.88972, 28.1575],
         Kusadasi: [37.85562, 27.2566],
-        Aydin: [37.84501, 27.83963],
+        Aydın: [37.84501, 27.83963],
         Soeke: [37.7482, 27.40614],
         Yenipazar: [37.82419, 28.19717],
         Didim: [37.37556, 27.26778],
@@ -73024,7 +73024,7 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Tefenni: [37.30968, 29.77538],
         Karamanli: [37.37301, 29.82308],
       },
-      Mugla: {
+      Muğla: {
         Bodrum: [37.03833, 27.42917],
         Marmaris: [36.855, 28.27417],
         Fethiye: [36.62167, 29.11639],
@@ -73035,7 +73035,7 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Datca: [36.73778, 27.68417],
         Yelken: [36.43056, 29.2601],
         Milas: [37.31639, 27.78389],
-        Mugla: [37.21807, 28.3665],
+        Muğla: [37.21807, 28.3665],
         Ula: [37.10491, 28.41667],
         Yatagan: [37.34026, 28.14279],
         Dalaman: [36.76591, 28.8028],
@@ -73106,16 +73106,16 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Ikizdere: [40.77913, 40.55888],
         Kalkandere: [40.92804, 40.4419],
       },
-      Elazig: {
-        Elazig: [38.67431, 39.22321],
+      Elazığ: {
+        Elazığ: [38.67431, 39.22321],
         Sivrice: [38.44816, 39.30845],
         Karakocan: [38.95583, 40.03861],
         Agin: [38.94519, 38.71198],
         Kovancilar: [38.72139, 39.86806],
         Keban: [38.79778, 38.73361],
       },
-      Nevsehir: {
-        Nevsehir: [38.625, 34.71222],
+      Nevşehir: {
+        Nevşehir: [38.625, 34.71222],
         Gulsehir: [38.74594, 34.62524],
         Urgub: [38.6296, 34.91198],
         Derinkuyu: [38.3751, 34.73419],
@@ -73158,9 +73158,9 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Kat: [40.34582, 36.32401],
         Ozdemir: [40.6666, 36.9888],
       },
-      Duzce: {
+      Düzce: {
         Golyaka: [40.77673, 30.996406],
-        Duzce: [40.83889, 31.16389],
+        Düzce: [40.83889, 31.16389],
         Akcakoca: [41.08288, 31.11274],
         Dag: [40.98333, 31.43333],
       },
@@ -73185,8 +73185,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Melikgazi: [38.75, 35.45],
         Kocasinan: [38.77147, 35.5725],
       },
-      Corum: {
-        Corum: [40.54889, 34.95333],
+      Çorum: {
+        Çorum: [40.54889, 34.95333],
         Kargi: [41.13373, 34.48744],
         Sungurlu: [40.1675, 34.37389],
         Lacin: [40.77018, 34.89838],
@@ -73196,13 +73196,13 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Bogazkale: [40.02191, 34.60947],
         Mecitozu: [40.52, 35.29528],
       },
-      Gumushane: {
+      Gümüşhane: {
         Kelkit: [40.12978, 39.43607],
         Torul: [40.55805, 39.2936],
         Kose: [40.21, 39.65111],
         Gumushkhane: [40.46028, 39.48139],
         Siran: [40.18944, 39.12667],
-        Gumushane: [40.46001, 39.47176],
+        Gümüşhane: [40.46001, 39.47176],
         Yaglidere: [40.54501, 39.53167],
         Evren: [40.24432, 39.17533],
         Ozen: [40.18139, 39.42889],
@@ -73275,8 +73275,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Goynucek: [40.39917, 35.525],
         Koc: [40.79817, 35.2745],
       },
-      Eskisehir: {
-        Eskisehir: [39.77667, 30.52056],
+      Eskişehir: {
+        Eskişehir: [39.77667, 30.52056],
         Sivrihisar: [39.45037, 31.53409],
         Alpu: [39.76056, 30.95806],
         Seyitgazi: [39.44472, 30.69472],
@@ -73351,18 +73351,18 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Refahiye: [39.90083, 38.76667],
         Aydogan: [39.90019, 38.57874],
       },
-      Tekirdag: {
+      Tekirdağ: {
         Muratli: [41.17262, 27.49633],
         Corlu: [41.15917, 27.8],
-        Tekirdag: [40.97801, 27.50852],
+        Tekirdağ: [40.97801, 27.50852],
         Cerkezkoy: [41.285, 28.00028],
         Hayrabolu: [41.21311, 27.10688],
         Malkara: [40.89, 26.90111],
         Marmaraereglisi: [40.97003, 27.95528],
         Kapakli: [41.32912, 27.98064],
       },
-      Agri: {
-        Agri: [39.71944, 43.05139],
+      Ağrı: {
+        Ağrı: [39.71944, 43.05139],
         Diyadin: [39.54056, 43.67135],
         Dogubayazit: [39.54694, 44.08417],
         Taslicay: [39.63361, 43.375],
@@ -73390,16 +73390,16 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Dogansehir: [38.09194, 37.87889],
         Dilek: [38.442283, 38.250183],
       },
-      Kirikkale: {
-        Kirikkale: [39.84528, 33.50639],
+      Kırıkkale: {
+        Kırıkkale: [39.84528, 33.50639],
         Bahsili: [39.80017, 33.43701],
         Delice: [39.95371, 34.02587],
         Yahsihan: [39.85028, 33.45294],
         Celebi: [39.46418, 33.5241],
         Keskin: [39.67306, 33.61361],
       },
-      Adiyaman: {
-        Adiyaman: [37.76441, 38.27629],
+      Adıyaman: {
+        Adıyaman: [37.76441, 38.27629],
         Besni: [37.69278, 37.86111],
         Sincik: [38.03675, 38.61487],
         Kahta: [37.78552, 38.6237],
@@ -73410,10 +73410,10 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Saglik: [38.05153, 39.15255],
         Aksoy: [37.98018, 38.45873],
       },
-      Usak: {
+      Uşak: {
         Sivasli: [38.49944, 29.68361],
         Guellue: [38.26972, 29.10806],
-        Usak: [38.67351, 29.4058],
+        Uşak: [38.67351, 29.4058],
         Banaz: [38.73707, 29.75194],
         Ulubey: [38.41987, 29.29129],
         Esme: [38.39976, 28.96905],
@@ -73459,11 +73459,11 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Destek: [37.90528, 42.81028],
         Ugur: [37.97117, 43.32149],
       },
-      Balikesir: {
+      Balıkesir: {
         Ayvalik: [39.31905, 26.6954],
         Gonen: [40.1049, 27.65399],
         Kepsut: [39.68889, 28.15222],
-        Balikesir: [39.64917, 27.88611],
+        Balıkesir: [39.64917, 27.88611],
         Bigadic: [39.3925, 28.13111],
         Bandirma: [40.35222, 27.97667],
         Burhaniye: [39.50041, 26.97269],
@@ -73487,13 +73487,13 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Pazaryeri: [39.99395, 29.90424],
         Sogut: [40.015099, 30.1834],
       },
-      Bingol: {
-        Bingol: [38.88472, 40.49389],
+      Bingöl: {
+        Bingöl: [38.88472, 40.49389],
         Genc: [38.75071, 40.56035],
         Solhan: [38.96338, 41.02931],
       },
-      Karabuk: {
-        Karabuk: [41.20488, 32.62768],
+      Karabük: {
+        Karabük: [41.20488, 32.62768],
         Safranbolu: [41.25083, 32.69417],
         Ovacik: [41.07661, 32.91994],
         Eflani: [41.42289, 32.95761],
@@ -73523,9 +73523,9 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Toprakkale: [37.06855, 36.14661],
         Hasanbeyli: [37.13718, 36.55933],
       },
-      Cankiri: {
+      Çankırı: {
         Ilgaz: [40.92511, 33.62586],
-        Cankiri: [40.59995, 33.6153],
+        Çankırı: [40.59995, 33.6153],
         Kursunlu: [40.84101, 33.26028],
         Atkaracalar: [40.81593, 33.07556],
         Cerkes: [40.81164, 32.89358],
@@ -73538,8 +73538,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Orta: [40.6242, 33.10928],
         Yayla: [41.05, 33.83333],
       },
-      Bartin: {
-        Bartin: [41.63583, 32.3375],
+      Bartın: {
+        Bartın: [41.63583, 32.3375],
         Ulus: [41.58417, 32.64139],
         Amasra: [41.74633, 32.38633],
         Kurucasile: [41.83781, 32.71621],
@@ -73596,9 +73596,9 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Turkeli: [41.94764, 34.33861],
         Dikmen: [41.65, 35.26667],
       },
-      Kirsehir: {
+      Kırşehir: {
         Akcakent: [39.62278, 34.09583],
-        Kirsehir: [39.14583, 34.16389],
+        Kırşehir: [39.14583, 34.16389],
         Mucur: [39.06147, 34.38286],
         Kaman: [39.3575, 33.72389],
         Akpinar: [39.45005, 33.96484],
@@ -73610,16 +73610,16 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Gole: [40.793352, 42.609533],
         Zurzuna: [41.12806, 43.13361],
       },
-      Kirklareli: {
+      Kırklareli: {
         Pinarhisar: [41.62417, 27.52],
         Luleburgaz: [41.40385, 27.35918],
         Babaeski: [41.4325, 27.09306],
-        Kirklareli: [41.73508, 27.22521],
+        Kırklareli: [41.73508, 27.22521],
         Vize: [41.5725, 27.76583],
         Pehlivankoy: [41.34812, 26.92522],
       },
-      Mus: {
-        Mus: [38.74525, 41.50693],
+      Muş: {
+        Muş: [38.74525, 41.50693],
         Bulanik: [39.09292, 42.27031],
         Varto: [39.17321, 41.45593],
         Korkut: [38.73908, 41.78216],
@@ -73639,8 +73639,8 @@ export const ALL_PLACES: Record<string, CountryData> = {
         Isitma: [39.3142, 39.12756],
         Sin: [39.18333, 39.41667],
       },
-      Igdir: {
-        Igdir: [39.92371, 44.045],
+      Iğdır: {
+        Iğdır: [39.92371, 44.045],
         Tuzluca: [40.04957, 43.66184],
         Karakoyunlu: [39.87036, 43.63014],
       },
