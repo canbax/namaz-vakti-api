@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node api/index.ts",
     "dev": "nodemon api/index.ts",
+    "format": "prettier --write .",
     "lint": "eslint . --ext .ts --ignore-path .gitignore",
     "lint-fix": "eslint . --ext .ts --ignore-path .gitignore --fix"
   },
