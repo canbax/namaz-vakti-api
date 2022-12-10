@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ALL_PLACES } from "../staticData";
+import { ALL_PLACES } from "../data/geoData";
 import { getPlace, findPlace, getTimes } from "./calculator";
 import { isInRange, isValidDate } from "./util";
 

@@ -1,4 +1,4 @@
-import { CountryData } from "./src/types";
+import { CountryData } from "../src/types";
 
 export const ALL_PLACES: Record<string, CountryData> = {
   "United States of America": {

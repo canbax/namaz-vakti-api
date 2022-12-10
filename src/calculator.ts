@@ -1,5 +1,5 @@
 import { Coordinates, CalculationMethod, PrayerTimes, Madhab } from "adhan";
-import { ALL_PLACES } from "../staticData";
+import { ALL_PLACES } from "../data/geoData";
 import { HourString, Place, TimesData } from "./types";
 import { extractTimeFromDate, dateToString } from "./util";
 
