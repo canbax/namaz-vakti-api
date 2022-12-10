@@ -1,7 +1,7 @@
 import { getTimes, findPlace, getPlace } from "../src/calculator";
 import { DateString } from "../src/types";
 import { isHourStringsClose } from "../src/util";
-import { DATA_ANKARA_1 } from "./mockData";
+import { DATA_ANKARA_1 } from "../data/mockData";
 
 test("should bring times data similar to https://namazvakitleri.diyanet.gov.tr/tr-TR for Ankara in 2022-12-10 for 31 days", function () {
   const utcDate = new Date(2022, 11, 10);
