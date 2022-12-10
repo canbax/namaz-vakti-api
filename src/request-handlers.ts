@@ -53,6 +53,8 @@ export function getTimesFromCoordinates(req: Request, res: Response) {
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
   const daysParam = Number(req.query.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
+  const tzParam = Number(req.query.timezoneOffset as string);
+  const tzOffset = isNaN(tzParam) ? 180 : tzParam; // 180 is default
   if (
     isNaN(lat) ||
     isNaN(lng) ||
@@ -62,7 +64,7 @@ export function getTimesFromCoordinates(req: Request, res: Response) {
     res.send("Invalid coordinates!");
   } else {
     const place = findPlace(lat, lng);
-    const times = getTimes(lat, lng, date, days);
+    const times = getTimes(lat, lng, date, days, tzOffset);
     res.send({ place, times });
   }
 }
@@ -86,10 +88,14 @@ export function getTimesFromPlace(req: Request, res: Response) {
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
   const daysParam = Number(req.query.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
+  const tzParam = Number(req.query.timezoneOffset as string);
+  const tzOffset = isNaN(tzParam) ? 180 : tzParam; // 180 is default
   if (!place) {
     res.send("Place cannot be found!");
   } else {
-    const times = getTimes(place.latitude, place.longitude, date, days);
+    const lat = place.latitude;
+    const lng = place.longitude;
+    const times = getTimes(lat, lng, date, days, tzOffset);
     res.send({ place, times });
   }
 }

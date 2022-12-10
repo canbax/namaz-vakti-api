@@ -1,13 +1,17 @@
 import { DateString, HourString } from "./types";
 
 export function prefix0(n: number) {
-  if (n > 99 || n < -99) throw "Can only process 2 digits integers!";
+  if (n > 99 || n < -99) throw new Error("Can only process 2 digits integers!");
   return (n + "").padStart(2, "0");
 }
 
-export function extractTimeFromDate(d: Date): HourString {
-  const hour = d.getHours();
-  const minute = d.getMinutes();
+export function extractTimeFromDate(
+  d: Date,
+  timezoneOffset: number
+): HourString {
+  d.setMinutes(d.getMinutes() + timezoneOffset);
+  const hour = d.getUTCHours();
+  const minute = d.getUTCMinutes();
   return (prefix0(hour) + ":" + prefix0(minute)) as HourString;
 }
 
@@ -35,4 +39,15 @@ export function isNil(value: string | null | undefined) {
 
 export function isInRange(a: number, min: number, max: number) {
   return a >= min && a <= max;
+}
+
+export function isHourStringsClose(
+  s1: HourString,
+  s2: HourString,
+  minuteDiff = 5
+): boolean {
+  const [hour1, min1] = s1.split(":").map((x) => Number(x));
+  const [hour2, min2] = s2.split(":").map((x) => Number(x));
+
+  return Math.abs(hour1 * 60 + min1 - hour2 * 60 - min2) <= minuteDiff;
 }
