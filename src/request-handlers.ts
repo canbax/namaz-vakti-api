@@ -9,7 +9,7 @@ import { isInRange, isValidDate } from "./util";
  */
 export function getCountries(_: Request, res: Response) {
   const r = [];
-  for (let c in ALL_PLACES) {
+  for (const c in ALL_PLACES) {
     r.push({ code: ALL_PLACES[c].code, name: c });
   }
   res.send(r);

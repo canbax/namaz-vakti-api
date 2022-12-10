@@ -10,7 +10,7 @@ export function getTimes(lat: number, lng: number, date: Date, days: number) {
   const r: TimesData = {};
   for (let i = 0; i < days; i++) {
     const times = new PrayerTimes(coordinates, date, params);
-    let arr: HourString[] = [];
+    const arr: HourString[] = [];
     arr.push(extractTimeFromDate(times.fajr));
     arr.push(extractTimeFromDate(times.sunrise));
     arr.push(extractTimeFromDate(times.dhuhr));
@@ -33,9 +33,9 @@ export function findPlace(lat: number, lng: number): Place {
     latitude: 0,
     longitude: 0,
   };
-  for (let country in ALL_PLACES) {
-    for (let region in ALL_PLACES[country].regions) {
-      for (let city in ALL_PLACES[country].regions[region]) {
+  for (const country in ALL_PLACES) {
+    for (const region in ALL_PLACES[country].regions) {
+      for (const city in ALL_PLACES[country].regions[region]) {
         const [lat1, lng1] = ALL_PLACES[country].regions[region][city];
         const diff = Math.abs(lat1 - lat) + Math.abs(lng1 - lng);
         if (diff < minDiff) {
