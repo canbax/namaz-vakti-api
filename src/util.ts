@@ -29,7 +29,7 @@ export function dateToString(date: Date): DateString {
   return `${year}-${prefix0(month)}-${prefix0(day)}` as DateString;
 }
 
-export function isNil(value: any) {
+export function isNil(value: string | null | undefined) {
   return value === null || value === undefined;
 }
 

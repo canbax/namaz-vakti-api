@@ -1,4 +1,10 @@
-import express, { Express } from "express";
+import express, {
+  Express,
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+} from "express";
 import {
   getCountries,
   getRegionsOfCountry,
@@ -15,14 +21,18 @@ const app: Express = express();
 /** use this function like `app.use(allowOrigion4All);` for an express app
  * Make API accessiable for all clients. Not for only clients from a specific domain.
  */
-function allowOrigin4All(_: any, res: any, next: any) {
+const allowOrigin4All: RequestHandler = (
+  _: Request,
+  res: Response,
+  next: NextFunction
+) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
-}
+};
 
 app.use(allowOrigin4All);
 app.use(express.static("public"));

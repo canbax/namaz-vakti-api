@@ -1,5 +1,3 @@
-import { isValidDate } from "./util";
-
 export type Place = {
   countryCode: string;
   country: string;

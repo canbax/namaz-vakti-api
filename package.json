@@ -7,8 +7,9 @@
     "start": "ts-node api/index.ts",
     "dev": "nodemon api/index.ts",
     "format": "prettier --write .",
-    "lint": "eslint . --ext .ts --ignore-path .gitignore",
-    "lint-fix": "eslint . --ext .ts --ignore-path .gitignore --fix"
+    "lint": "eslint . --ext .ts --ignore-path .gitignore --max-warnings=0",
+    "lint-fix": "eslint . --ext .ts --ignore-path .gitignore --fix",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -22,9 +23,17 @@
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
     "eslint": "^8.29.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
     "nodemon": "^2.0.20",
     "prettier": "2.8.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.3"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "prettier --write",
+      "eslint --max-warnings=0"
+    ]
   }
 }
