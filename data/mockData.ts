@@ -33,3 +33,12 @@ export const DATA_ANKARA_1: TimesData = {
   "2023-01-08": ["06:34", "08:03", "13:00", "15:25", "17:47", "19:11"],
   "2023-01-09": ["06:34", "08:03", "13:00", "15:26", "17:48", "19:12"],
 };
+
+export const ANKARA_PLACE_DATA = {
+  countryCode: "TR",
+  country: "Turkey",
+  region: "Ankara",
+  city: "Ankara",
+  latitude: 39.91987,
+  longitude: 32.85427,
+};

@@ -9,7 +9,7 @@ import { ALL_PLACES } from "../data/geoData";
 import { getPlace, findPlace, getTimes } from "../src/calculator";
 import { isInRange, isValidDate } from "../src/util";
 
-const app: Express = express();
+export const app: Express = express();
 
 /** use this function like `app.use(allowOrigion4All);` for an express app
  * Make API accessiable for all clients. Not for only clients from a specific domain.
@@ -40,7 +40,7 @@ app.get("/api/place", getPlaceData);
 app.get("/api/ip", getIPAdress);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("namaz vakti API listening on 3000"));
+export const httpServer = app.listen(PORT);
 
 /** get a list of countries
  * @param  {} _

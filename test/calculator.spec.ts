@@ -10,9 +10,8 @@ describe("calculator tests", () => {
     for (const k in DATA_ANKARA_1) {
       const ds = k as DateString;
       for (let i = 0; i < times[ds].length; i++) {
-        expect(isHourStringsClose(times[ds][i], DATA_ANKARA_1[ds][i], 3)).toBe(
-          true
-        );
+        const b = isHourStringsClose(times[ds][i], DATA_ANKARA_1[ds][i], 3);
+        expect(b).toBe(true);
       }
     }
   });
