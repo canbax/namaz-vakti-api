@@ -1,8 +1,6 @@
 # namaz-vakti-api
 
-| Test coverage                                                                              |
-| ------------------------------------------------------------------------------------------ |
-| ![Statements](https://img.shields.io/badge/statements-94.63%25-brightgreen.svg?style=flat) |
+![Tests coverage](https://img.shields.io/badge/statements-94.63%25-brightgreen.svg?style=flat) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/canbax/namaz-vakti-api/blob/main/LICENSE)
 
 https://namaz-vakti.vercel.app/
 
