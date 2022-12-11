@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app, httpServer } from "../api/index";
+import { app, httpServer, writerTimerID } from "../api/index";
 import { ANKARA_PLACE_DATA } from "../data/mockData";
 
 describe("API endpoint tests", () => {
@@ -110,6 +110,7 @@ describe("API endpoint tests", () => {
   });
 
   afterAll(() => {
+    clearInterval(writerTimerID);
     httpServer.close();
   });
 });

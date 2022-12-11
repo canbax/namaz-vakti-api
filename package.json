@@ -12,8 +12,8 @@
     "prepare": "husky install",
     "test": "jest",
     "test-dev": "jest --detectOpenHandles",
-    "test-cov": "jest --coverage",
-    "test2": "PORT=3002 jest",
+    "test-cov": "PORT=8080 jest --coverage",
+    "test2": "PORT=8080 jest",
     "make-badges": "istanbul-badges-readme"
   },
   "author": "",

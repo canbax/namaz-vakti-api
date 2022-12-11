@@ -8,6 +8,7 @@ import express, {
 import { ALL_PLACES } from "../data/geoData";
 import { getPlace, findPlace, getTimes } from "../src/calculator";
 import { isInRange, isValidDate } from "../src/util";
+import { readFileSync, writeFile } from "fs";
 
 export const app: Express = express();
 
@@ -24,8 +25,13 @@ const allowOrigin4All: RequestHandler = (
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  totalVisits++;
   next();
 };
+const totalVisitCountFile = __dirname + "/total-visit-count.txt";
+let totalVisits = readTotalVisitCount();
+
+export const writerTimerID = setInterval(writeTotalVisitCount, 1000);
 
 app.use(allowOrigin4All);
 app.use(express.static("public"));
@@ -141,4 +147,22 @@ function getTimesFromPlace(req: Request, res: Response) {
 
 function getIPAdress(req: Request, res: Response) {
   res.send(req.headers["x-forwarded-for"]);
+}
+
+function readTotalVisitCount(): number {
+  const num = Number(
+    readFileSync(totalVisitCountFile, {
+      encoding: "utf-8",
+    })
+  );
+  if (!isNaN(num)) return num;
+  console.log("CANNOT read total visit counts!");
+  return 0;
+}
+
+function writeTotalVisitCount() {
+  if (isNaN(totalVisits)) return;
+  writeFile(totalVisitCountFile, totalVisits + "", function (err) {
+    if (err) return console.log(err);
+  });
 }
