@@ -7,7 +7,7 @@ import express, {
 } from "express";
 import { ALL_PLACES } from "../data/geoData";
 import { getPlace, findPlace, getTimes } from "../src/calculator";
-import { isInRange, isValidDate } from "../src/util";
+import { dateToString, isInRange, isValidDate } from "../src/util";
 import { readFileSync, writeFile } from "fs";
 
 export const app: Express = express();
@@ -29,6 +29,7 @@ const allowOrigin4All: RequestHandler = (
   next();
 };
 const totalVisitCountFile = __dirname + "/total-visit-count.txt";
+const userVisitCountFile = __dirname + "/user-visit-count.json";
 let totalVisits = readTotalVisitCount();
 
 export const writerTimerID = setInterval(writeTotalVisitCount, 3000);
@@ -44,6 +45,9 @@ app.get("/api/cities", getCitiesOfRegion);
 app.get("/api/coordinates", getCoordinateData);
 app.get("/api/place", getPlaceData);
 app.get("/api/ip", getIPAdress);
+app.get("/api/totalVisitCount", getTotalVisitCount);
+app.get("/api/saveUserStat", saveUserStat);
+app.get("/api/getUserStat", getUserStat);
 
 const PORT = process.env.PORT || 3000;
 export const httpServer = app.listen(PORT);
@@ -147,6 +151,53 @@ function getTimesFromPlace(req: Request, res: Response) {
 
 function getIPAdress(req: Request, res: Response) {
   res.send(req.headers["x-forwarded-for"]);
+}
+
+function getTotalVisitCount(_: Request, res: Response) {
+  res.send(readTotalVisitCount() + "");
+}
+
+function getUserStat(_: Request, res: Response) {
+  res.send(readUserVisitsFile());
+}
+
+function readUserVisitsFile(): string {
+  return readFileSync(userVisitCountFile, {
+    encoding: "utf-8",
+  });
+}
+
+function saveUserStat(req: Request, res: Response) {
+  const country = req.query.country as string;
+  const region = req.query.region as string;
+  const city = req.query.city as string;
+  const dateString = dateToString(new Date());
+
+  const json = JSON.parse(readUserVisitsFile());
+  if (country && region && city) {
+    if (!json[country]) {
+      json[country] = {};
+    }
+    if (!json[country][region]) {
+      json[country][region] = {};
+    }
+    if (!json[country][region][city]) {
+      json[country][region][city] = {};
+    }
+    if (!json[country][region][city][dateString]) {
+      json[country][region][city][dateString] = 0;
+    }
+    json[country][region][city][dateString] += 1;
+    writeFile(userVisitCountFile, JSON.stringify(json), function (err) {
+      if (err) {
+        res.send("write file error:" + err);
+      } else {
+        res.send("success");
+      }
+    });
+  } else {
+    res.send("INVALID parameters!");
+  }
 }
 
 function readTotalVisitCount(): number {
