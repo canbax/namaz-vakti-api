@@ -69,7 +69,7 @@ function getRegionsOfCountry(req: Request, res: Response) {
   if (ALL_PLACES[country]) {
     res.send(Object.keys(ALL_PLACES[country].regions));
   } else {
-    res.send("NOT FOUND!");
+    res.send({ error: "NOT FOUND!" });
   }
 }
 
@@ -79,7 +79,7 @@ function getCitiesOfRegion(req: Request, res: Response) {
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
     res.send(Object.keys(ALL_PLACES[country].regions[region]));
   } else {
-    res.send("NOT FOUND!");
+    res.send({ error: "NOT FOUND!" });
   }
 }
 
@@ -91,7 +91,7 @@ function getCoordinateData(req: Request, res: Response) {
   if (coords) {
     res.send(coords);
   } else {
-    res.send("NOT FOUND!");
+    res.send({ error: "NOT FOUND!" });
   }
 }
 
@@ -110,7 +110,7 @@ function getTimesFromCoordinates(req: Request, res: Response) {
     !isInRange(lat, -90, 90) ||
     !isInRange(lng, -180, 180)
   ) {
-    res.send("Invalid coordinates!");
+    res.send({ error: "Invalid coordinates!" });
   } else {
     const place = findPlace(lat, lng);
     const times = getTimes(lat, lng, date, days, tzOffset);
@@ -121,8 +121,8 @@ function getTimesFromCoordinates(req: Request, res: Response) {
 function getPlaceData(req: Request, res: Response) {
   const lat = Number(req.query.lat as string);
   const lng = Number(req.query.lng as string);
-  if (isNaN(lat) || isNaN(lng)) {
-    res.send("INVALID coordinates!");
+  if (lat === undefined || lng === undefined || isNaN(lat) || isNaN(lng)) {
+    res.send({ error: "INVALID coordinates!" });
   } else {
     res.send(findPlace(lat, lng));
   }
@@ -140,7 +140,7 @@ function getTimesFromPlace(req: Request, res: Response) {
   const tzParam = Number(req.query.timezoneOffset as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   if (!place) {
-    res.send("Place cannot be found!");
+    res.send({ error: "Place cannot be found!" });
   } else {
     const lat = place.latitude;
     const lng = place.longitude;
@@ -150,15 +150,15 @@ function getTimesFromPlace(req: Request, res: Response) {
 }
 
 function getIPAdress(req: Request, res: Response) {
-  res.send(req.headers["x-forwarded-for"]);
+  res.send({ IP: req.headers["x-forwarded-for"] });
 }
 
 function getTotalVisitCount(_: Request, res: Response) {
-  res.send(readTotalVisitCount() + "");
+  res.send({ totalVisitCount: readTotalVisitCount() });
 }
 
 function getUserStat(_: Request, res: Response) {
-  res.send(readUserVisitsFile());
+  res.send(JSON.parse(readUserVisitsFile()));
 }
 
 function readUserVisitsFile(): string {
@@ -190,13 +190,13 @@ function saveUserStat(req: Request, res: Response) {
     json[country][region][city][dateString] += 1;
     writeFile(userVisitCountFile, JSON.stringify(json), function (err) {
       if (err) {
-        res.send("write file error:" + err);
+        res.send({ error: "write file error:" + err });
       } else {
-        res.send("success");
+        res.send({ status: "success" });
       }
     });
   } else {
-    res.send("INVALID parameters!");
+    res.send({ error: "INVALID parameters!" });
   }
 }
 

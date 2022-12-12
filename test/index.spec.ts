@@ -101,11 +101,48 @@ describe("API endpoint tests", () => {
     expect(res.body).toEqual(ANKARA_PLACE_DATA);
   });
 
+  it("should be able to read total visit counts", async () => {
+    const url = "/api/totalVisitCount";
+    const res = await request(app).get(url);
+    expect(res.body.totalVisitCount).toBeDefined();
+    const n = Number(res.body.totalVisitCount);
+    expect(res.statusCode).toEqual(200);
+    expect(isNaN(n)).toEqual(false);
+    expect(n > -1).toEqual(true);
+  });
+
+  it("should give error to 'place' request if coordinates are wrong", async () => {
+    const url = "/api/place?lat=a&lng=g";
+    const res = await request(app).get(url);
+    expect(res.body).toEqual({ error: "INVALID coordinates!" });
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it("should give error to save user statistics if parameters are not given", async () => {
+    const url = "/api/saveUserStat";
+    const res = await request(app).get(url);
+    expect(res.body).toEqual({ error: "INVALID parameters!" });
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it("should be able to save user statistics successfully", async () => {
+    const url = "/api/saveUserStat?country=Turkey&region=Ankara&city=Ankara";
+    const res = await request(app).get(url);
+    expect(res.body).toEqual({ status: "success" });
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it("should be able to read user statistics successfully", async () => {
+    const url = "/api/getUserStat";
+    const res = await request(app).get(url);
+    expect(res.body).toBeDefined();
+    expect(res.statusCode).toEqual(200);
+  });
+
   it("should be able to find a locale from coordinates", async () => {
     const url = "/api/place?lat=39.91986&lng=32.85424";
     const res = await request(app).get(url);
     expect(res.statusCode).toEqual(200);
-
     expect(res.body).toEqual(ANKARA_PLACE_DATA);
   });
 
