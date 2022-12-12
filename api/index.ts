@@ -31,7 +31,7 @@ const allowOrigin4All: RequestHandler = (
 const totalVisitCountFile = __dirname + "/total-visit-count.txt";
 let totalVisits = readTotalVisitCount();
 
-export const writerTimerID = setInterval(writeTotalVisitCount, 1000);
+export const writerTimerID = setInterval(writeTotalVisitCount, 3000);
 
 app.use(allowOrigin4All);
 app.use(express.static("public"));
@@ -99,7 +99,7 @@ function getTimesFromCoordinates(req: Request, res: Response) {
   const daysParam = Number(req.query.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
   const tzParam = Number(req.query.timezoneOffset as string);
-  const tzOffset = isNaN(tzParam) ? 180 : tzParam; // 180 is default
+  const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   if (
     isNaN(lat) ||
     isNaN(lng) ||
@@ -134,7 +134,7 @@ function getTimesFromPlace(req: Request, res: Response) {
   const daysParam = Number(req.query.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
   const tzParam = Number(req.query.timezoneOffset as string);
-  const tzOffset = isNaN(tzParam) ? 180 : tzParam; // 180 is default
+  const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   if (!place) {
     res.send("Place cannot be found!");
   } else {

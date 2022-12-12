@@ -12,7 +12,7 @@ describe("API endpoint tests", () => {
 
   it("should be able to bring times from coordinates for 'Ankara'", async () => {
     const url =
-      "/api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=100";
+      "/api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=100&timezoneOffset=180";
     const res = await request(app).get(url);
     expect(res.statusCode).toEqual(200);
     const { place, times } = res.body;
@@ -30,7 +30,7 @@ describe("API endpoint tests", () => {
 
   it("should be able to bring times from locale for 'Ankara'", async () => {
     const url =
-      "/api/timesFromPlace?country=Turkey&region=Ankara&city=Ankara&date=2023-10-29&days=100";
+      "/api/timesFromPlace?country=Turkey&region=Ankara&city=Ankara&date=2023-10-29&days=100&timezoneOffset=180";
     const res = await request(app).get(url);
     expect(res.statusCode).toEqual(200);
     const { place, times } = res.body;
