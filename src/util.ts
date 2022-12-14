@@ -15,8 +15,9 @@ export function extractTimeFromDate(
   return (prefix0(hour) + ":" + prefix0(minute)) as HourString;
 }
 
-export function isValidDate(str: string): boolean {
+export function isValidDate(str: string | null | undefined): boolean {
   if (isNil(str)) return false;
+  str = str as string;
   const regexMatch = str.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
   if (!regexMatch) return false;
   const [y, m, d] = str.split("-").map((x) => Number(x));

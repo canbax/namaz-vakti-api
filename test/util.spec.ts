@@ -58,6 +58,10 @@ describe("check re tests", () => {
     expect(extractTimeFromDate(d, 150)).toBe("02:02");
   });
 
+  it("should not except date string if nil ", () => {
+    expect(isValidDate(undefined)).toBe(false);
+  });
+
   it("should not except date string if year is less than 1000 ", () => {
     expect(isValidDate("100-1-10")).toBe(false);
   });

@@ -71,7 +71,15 @@ describe("API endpoint tests", () => {
     ]);
   });
 
-  it("should be able to bring cities or districts of a country", async () => {
+  it("should give error response if country not found", async () => {
+    const url = "/api/regions?country=XXXX";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+
+    expect(res.body).toEqual({ error: "NOT FOUND!" });
+  });
+
+  it("should be able to bring cities of a region", async () => {
     const url = "/api/cities?country=Turkey&region=Isparta";
     const res = await request(app).get(url);
     expect(res.statusCode).toEqual(200);
@@ -91,6 +99,14 @@ describe("API endpoint tests", () => {
       "Uluborlu",
       "Erenler",
     ]);
+  });
+
+  it("should give error response if a region is not found", async () => {
+    const url = "/api/cities?country=Turkey&region=XXXX";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+
+    expect(res.body).toEqual({ error: "NOT FOUND!" });
   });
 
   it("should be able to find geographic coordinates of a locale", async () => {
