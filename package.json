@@ -13,8 +13,11 @@
     "test": "jest",
     "test-dev": "jest --detectOpenHandles",
     "test-cov": "PORT=8080 jest --coverage",
+    "test-cov-report": "PORT=8080 jest --coverage -c=jest.config2.js",
     "test2": "PORT=8080 jest",
-    "make-badges": "istanbul-badges-readme"
+    "update-readme-test-cov": "npm run test-cov && npm run make-badges",
+    "make-badges": "istanbul-badges-readme",
+    "make-badges:ci": "npm run make-badges -- --ci"
   },
   "author": "",
   "license": "ISC",
