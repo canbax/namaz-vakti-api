@@ -28,6 +28,43 @@ describe("API endpoint tests", () => {
     ]);
   });
 
+  it("should be able to bring times for proper negative coordinates ", async () => {
+    const url = "/api/timesFromCoordinates?lat=-1&lng=-37";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    const { place, times } = res.body;
+    expect(place).toBeTruthy();
+    expect(times).toBeTruthy();
+  });
+
+  it("should respond error if latitude is not given properly for times request", async () => {
+    const url = "/api/timesFromCoordinates?lat=A&lng=32.85427";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ error: "Invalid coordinates!" });
+  });
+
+  it("should respond error if longtitude is not given properly for times request", async () => {
+    const url = "/api/timesFromCoordinates?lat=1&lng=B";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ error: "Invalid coordinates!" });
+  });
+
+  it("should respond error if latitude is not in range for times request", async () => {
+    const url = "/api/timesFromCoordinates?lat=100&lng=32.85427";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ error: "Invalid coordinates!" });
+  });
+
+  it("should respond error if longtitude is not in range for times request", async () => {
+    const url = "/api/timesFromCoordinates?lat=10&lng=-190";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ error: "Invalid coordinates!" });
+  });
+
   it("should be able to bring times from locale for 'Ankara'", async () => {
     const url =
       "/api/timesFromPlace?country=Turkey&region=Ankara&city=Ankara&date=2023-10-29&days=100&timezoneOffset=180";
@@ -44,6 +81,19 @@ describe("API endpoint tests", () => {
       "17:50",
       "19:10",
     ]);
+  });
+
+  it("should be able to respond to bring times from locale that is not found", async () => {
+    const url = "/api/timesFromPlace?country=A&region=Ankara&city=Ankara";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ error: "Place cannot be found!" });
+  });
+
+  it("should be able to get IP address", async () => {
+    const url = "/api/ip";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
   });
 
   it("should be able to bring cities or states of a country", async () => {
@@ -117,6 +167,14 @@ describe("API endpoint tests", () => {
     expect(res.body).toEqual(ANKARA_PLACE_DATA);
   });
 
+  it("should be able to return not found for coordinates if locale not found", async () => {
+    const url = "/api/coordinates?country=X&region=Y&city=Z";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+
+    expect(res.body).toEqual({ error: "NOT FOUND!" });
+  });
+
   it("should be able to read total visit counts", async () => {
     const url = "/api/totalVisitCount";
     const res = await request(app).get(url);
@@ -140,6 +198,13 @@ describe("API endpoint tests", () => {
     expect(res.body).toEqual({ error: "INVALID parameters!" });
     expect(res.statusCode).toEqual(200);
   });
+
+  // it("should give error to save user statistics if cannot write to a file", async () => {
+  //   const url = "/api/saveUserStat?country=Turkey&region=Ankara&city=Ankara";
+  //   const res = await request(app).get(url);
+  //   expect(res.body).toEqual({ error: "write file error:" + "err" });
+  //   expect(res.statusCode).toEqual(200);
+  // });
 
   it("should be able to save user statistics successfully", async () => {
     const url = "/api/saveUserStat?country=Turkey&region=Ankara&city=Ankara";
