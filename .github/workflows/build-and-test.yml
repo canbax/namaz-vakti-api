@@ -33,4 +33,4 @@ jobs:
     - run: npm run format
     - run: npm run lint
     - run: npm test
-    - run: make-badges:ci
+    - run: npm run make-badges:ci
