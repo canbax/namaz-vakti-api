@@ -211,8 +211,7 @@ function readTotalVisitCount(): number {
   return 0;
 }
 
-function writeTotalVisitCount() {
-  if (isNaN(totalVisits)) return;
+export function writeTotalVisitCount() {
   writeFile(totalVisitCountFile, totalVisits + "", function (err) {
     if (err) return console.log(err);
   });
