@@ -1,4 +1,9 @@
-import { Coordinates, CalculationMethod, PrayerTimes, Madhab } from "adhan";
+import {
+  Coordinates,
+  CalculationMethod,
+  PrayerTimes,
+  Madhab,
+} from "./lib/Adhan";
 import { ALL_PLACES } from "../data/geoData";
 import { HourString, Place, TimesData } from "./types";
 import { extractTimeFromDate, dateToString } from "./util";
