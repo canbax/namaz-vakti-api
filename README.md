@@ -7,3 +7,5 @@ https://namaz-vakti.vercel.app/
 Namaz vakti API. Diyanetin yöntemi ile vakitleri hesaplar. Calculates the times with method of namazvakitleri.diyanet.gov.tr
 
 https://github.com/canbax/namaz-vakti
+
+thanks a lot to [adhan-js](https://github.com/batoulapps/adhan-js) and [ip2location](https://lite.ip2location.com/)
