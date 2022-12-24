@@ -4,6 +4,6 @@
 
 https://namaz-vakti.vercel.app/
 
-Brings Muslim prayer times data from namazvakitleri.diyanet.gov.tr (Namaz vakti API. Diyanet sitesinden namaz vakti verileri getirir.)
+Namaz vakti API. Diyanetin yöntemi ile vakitleri hesaplar. Calculates the times with method of namazvakitleri.diyanet.gov.tr
 
-Built for https://github.com/canbax/namaz-vakti
+https://github.com/canbax/namaz-vakti
