@@ -5,7 +5,9 @@
 https://namaz-vakti.vercel.app/
 
 Namaz vakti API. Diyanetin yöntemi ile vakitleri hesaplar. (Calculates the times with method of namazvakitleri.diyanet.gov.tr)
-[POSTMAN](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
-https://github.com/canbax/namaz-vakti
+
+[Postman definition](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
+
+Built for [namaz-vakti](https://github.com/canbax/namaz-vakti)
 
 thanks a lot to [adhan-js](https://github.com/batoulapps/adhan-js) and [ip2location](https://lite.ip2location.com/)
