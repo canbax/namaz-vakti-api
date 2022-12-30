@@ -1,89 +1,96 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Namaz Vakti API (v2.0)</title>
+    <link rel="icon" href="favicon.ico" />
+    <script></script>
+    <style>
+      h3 {
+        display: inline;
+      }
 
-<head>
-  <title>Namaz Vakti API (v2.0)</title>
-  <link rel="icon" href="favicon.ico" />
-  <script></script>
-  <style>
-    h3 {
-      display: inline;
-    }
+      .footer {
+        position: absolute;
+        bottom: 0;
+      }
+    </style>
+  </head>
 
-    .footer {
-      position: absolute;
-      bottom: 0;
-    }
-  </style>
-</head>
-
-<body>
-  <h1>Namaz Vakti API (v2.0)</h1>
-  <span> Diyanetin yöntemini kullanarak namaz vakti verileri sunar. </span>
-  <br />
-  <br />
-  <b>
-    Ücretsiz, reklamsız,
-    <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">
-      açık kaynak kodlu
+  <body>
+    <h1>Namaz Vakti API (v2.0)</h1>
+    <span> Diyanetin yöntemini kullanarak namaz vakti verileri sunar. </span>
+    <br />
+    <br />
+    <b>
+      Ücretsiz, reklamsız,
+      <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">
+        açık kaynak kodlu
+      </a>
+    </b>
+    <br />
+    <br />
+    <a target="_blank" href="https://github.com/canbax/namaz-vakti">
+      <h3>namaz-vakti</h3>
     </a>
-  </b>
-  <br />
-  <br />
-  <a target="_blank" href="https://github.com/canbax/namaz-vakti">
-    <h3>namaz-vakti</h3>
-  </a>
-  uygulaması için oluşturulmuştur
+    uygulaması için oluşturulmuştur
 
-  <br />
-  <h2>Kullanım</h2>
-  <a target="_blank"
-    href="https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a">
-    Postman API tanımı
-  </a>
-  <br />
-  <span>Koordinatlardan vakit verileri: </span>
-  <a target="_blank"
-    href="/api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=3&timezoneOffset=180">
-    /api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=3
-  </a>
-  <br />
-  <span>Mahalden vakit verileri: </span>
-  <a target="_blank"
-    href="/api/timesFromPlace?country=Turkey&region=Ankara&city=Ankara&date=2023-10-29&days=3&timezoneOffset=180">
-    /api/timesFromPlace?country=Turkey&amp;region=Ankara&city=Ankara&date=2023-10-29&days=3
-  </a>
-  <br />
-  <span>Ülkelerin listesi: </span>
-  <a target="_blank" href="/api/countries"> /api/countries </a>
-  <br />
-  <span>Şehirlerin/Eyaletlerin listesi: </span>
-  <a target="_blank" href="/api/regions?country=Germany">
-    /api/regions?country=Germany
-  </a>
-  <br />
-  <span>İlçelerin/Bölgelerin listesi: </span>
-  <a target="_blank" href="/api/cities?country=Germany&region=Bayern">
-    <span>/api/cities?country=Germany&amp;region=Bayern</span>
-  </a>
-  <br />
-  <span>Koordinatını bul: </span>
-  <a target="_blank" href="/api/coordinates?country=Turkey&region=Ankara&city=Ankara">
-    <span>/api/cities?country=Turkey&amp;region=Ankara&city=Ankara</span>
-  </a>
-  <br />
-  <span>Koordinatlardan yer bul: </span>
-  <a target="_blank" href="/api/place?lat=39.91987&lng=32.85427">
-    <span>/api/place?lat=39.91987&lng=32.85427</span>
-  </a>
-  <br />
-  <span>IP adresi: </span>
-  <a target="_blank" href="/api/ip"> /api/ip </a>
+    <br />
+    <h2>Kullanım</h2>
+    <a
+      target="_blank"
+      href="https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a"
+    >
+      Postman API tanımı
+    </a>
+    <br />
+    <span>Koordinatlardan vakit verileri: </span>
+    <a
+      target="_blank"
+      href="/api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=3&timezoneOffset=180"
+    >
+      /api/timesFromCoordinates?lat=39.91987&lng=32.85427&date=2023-10-29&days=3&timezoneOffset=180
+    </a>
+    <br />
+    <span>Mahalden vakit verileri: </span>
+    <a
+      target="_blank"
+      href="/api/timesFromPlace?country=Turkey&region=Ankara&city=Ankara&date=2023-10-29&days=3&timezoneOffset=180"
+    >
+      /api/timesFromPlace?country=Turkey&amp;region=Ankara&city=Ankara&date=2023-10-29&days=3&timezoneOffset=180
+    </a>
+    <br />
+    <span>Ülkelerin listesi: </span>
+    <a target="_blank" href="/api/countries"> /api/countries </a>
+    <br />
+    <span>Şehirlerin/Eyaletlerin listesi: </span>
+    <a target="_blank" href="/api/regions?country=Germany">
+      /api/regions?country=Germany
+    </a>
+    <br />
+    <span>İlçelerin/Bölgelerin listesi: </span>
+    <a target="_blank" href="/api/cities?country=Germany&region=Bayern">
+      <span>/api/cities?country=Germany&amp;region=Bayern</span>
+    </a>
+    <br />
+    <span>Koordinatını bul: </span>
+    <a
+      target="_blank"
+      href="/api/coordinates?country=Turkey&region=Ankara&city=Ankara"
+    >
+      <span>/api/cities?country=Turkey&amp;region=Ankara&city=Ankara</span>
+    </a>
+    <br />
+    <span>Koordinatlardan yer bul: </span>
+    <a target="_blank" href="/api/place?lat=39.91987&lng=32.85427">
+      <span>/api/place?lat=39.91987&lng=32.85427</span>
+    </a>
+    <br />
+    <span>IP adresi: </span>
+    <a target="_blank" href="/api/ip"> /api/ip </a>
 
-  <div class="footer">
-    This site or product includes IP2Location LITE data available from
-    <a href="https://lite.ip2location.com">https://lite.ip2location.com</a>.
-  </div>
-</body>
-
+    <div class="footer">
+      This site or product includes IP2Location LITE data available from
+      <a href="https://lite.ip2location.com">https://lite.ip2location.com</a>.
+    </div>
+  </body>
 </html>
