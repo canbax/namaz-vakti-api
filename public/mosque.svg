@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="210mm"
+   viewBox="0 0 210 210"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   sodipodi:docname="mosque.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.5946522"
+     inkscape:cx="630.62072"
+     inkscape:cy="519.63148"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
+     inkscape:window-x="0"
+     inkscape:window-y="361"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path344"
+       style="fill:#00ff00;stroke-width:0.264583"
+       d="M 191.26182,136.44684 A 93.441734,93.441734 0 0 1 66.34933,148.10596 93.441734,93.441734 0 0 1 41.268594,27.135408 93.441734,93.441734 0 0 0 35.200009,34.337131 93.441734,93.441734 0 0 0 53.887728,165.15543 93.441734,93.441734 0 0 0 184.70635,146.46731 a 93.441734,93.441734 0 0 0 6.55547,-10.02047 z" />
+    <rect
+       style="fill:#00ff00;stroke-width:0.264583"
+       id="rect403"
+       width="15.572828"
+       height="113.45918"
+       x="134.36133"
+       y="52.251297" />
+    <ellipse
+       style="fill:#00ff00;stroke-width:0.292384"
+       id="path461"
+       cx="142.15092"
+       cy="52.511497"
+       rx="7.7880392"
+       ry="7.8575606" />
+    <rect
+       style="fill:#00ff00;stroke-width:0.264583"
+       id="rect463"
+       width="62.923725"
+       height="47.192795"
+       x="71.787025"
+       y="119.78457" />
+    <circle
+       style="fill:#00ff00;stroke-width:0.264583"
+       id="path467"
+       cx="104.65812"
+       cy="121.71835"
+       r="19.034428" />
+  </g>
+</svg>
