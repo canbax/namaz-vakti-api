@@ -10,4 +10,6 @@ Namaz vakti API. Diyanetin yöntemi ile vakitleri hesaplar. (Calculates the time
 
 Built for [namaz-vakti](https://github.com/canbax/namaz-vakti)
 
+Uses [geo-data-generator](https://github.com/canbax/geo-data-generator) for geographic data
+
 thanks a lot to [adhan-js](https://github.com/batoulapps/adhan-js) and [ip2location](https://lite.ip2location.com/)
