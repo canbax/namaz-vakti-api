@@ -61,13 +61,17 @@ function getCountries(_: Request, res: Response) {
   for (const c in ALL_PLACES) {
     r.push({ code: ALL_PLACES[c].code, name: c });
   }
-  res.send(r);
+  res.send(r.sort((a, b) => a.name.localeCompare(b.name)));
 }
 
 function getRegionsOfCountry(req: Request, res: Response) {
   const country = req.query.country as string;
   if (ALL_PLACES[country]) {
-    res.send(Object.keys(ALL_PLACES[country].regions));
+    res.send(
+      Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
+        a.localeCompare(b)
+      )
+    );
   } else {
     res.send({ error: "NOT FOUND!" });
   }
@@ -77,7 +81,11 @@ function getCitiesOfRegion(req: Request, res: Response) {
   const country = req.query.country as string;
   const region = req.query.region as string;
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
-    res.send(Object.keys(ALL_PLACES[country].regions[region]));
+    res.send(
+      Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
+        a.localeCompare(b)
+      )
+    );
   } else {
     res.send({ error: "NOT FOUND!" });
   }

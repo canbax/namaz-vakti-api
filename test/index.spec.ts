@@ -117,22 +117,22 @@ describe("API endpoint tests", () => {
     expect(res.statusCode).toEqual(200);
 
     expect(res.body).toEqual([
-      "Hessen",
-      "Hamburg",
+      "Baden-Wurttemberg",
       "Bayern",
+      "Berlin",
+      "Brandenburg",
+      "Bremen",
+      "Hamburg",
+      "Hessen",
+      "Mecklenburg-Vorpommern",
+      "Niedersachsen",
       "Nordrhein-Westfalen",
       "Rheinland-Pfalz",
-      "Berlin",
-      "Baden-Wurttemberg",
-      "Schleswig-Holstein",
-      "Sachsen",
-      "Bremen",
       "Saarland",
-      "Niedersachsen",
+      "Sachsen",
       "Sachsen-Anhalt",
-      "Mecklenburg-Vorpommern",
+      "Schleswig-Holstein",
       "Thuringen",
-      "Brandenburg",
     ]);
   });
 
@@ -150,19 +150,17 @@ describe("API endpoint tests", () => {
     expect(res.statusCode).toEqual(200);
 
     expect(res.body).toEqual([
-      "Isparta",
-      "Sarkikaraagac",
-      "Egirdir",
-      "Yalvac",
-      "Senirkent",
-      "Gelendost",
-      "Keciborlu",
-      "Yenisarbademli",
-      "Anamas",
-      "Gonen",
       "Atabey",
+      "Eğirdir",
+      "Gelendost",
+      "Gönen",
+      "Isparta",
+      "Keçiborlu",
+      "Şarkikaraağaç",
+      "Senirkent",
       "Uluborlu",
-      "Erenler",
+      "Yalvaç",
+      "Yenişarbademli",
     ]);
   });
 
