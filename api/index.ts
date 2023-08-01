@@ -12,10 +12,10 @@ import { readFileSync, writeFile } from "fs";
 
 export const app: Express = express();
 
-/** use this function like `app.use(allowOrigion4All);` for an express app
- * Make API accessiable for all clients. Not for only clients from a specific domain.
+/** use this function like `app.use(allowOriginForAll);` for an express app
+ * Make API accessible for all clients. Not for only clients from a specific domain.
  */
-const allowOrigin4All: RequestHandler = (
+const allowOriginForAll: RequestHandler = (
   _: Request,
   res: Response,
   next: NextFunction
@@ -34,8 +34,9 @@ let totalVisits = readTotalVisitCount();
 
 export const writerTimerID = setInterval(writeTotalVisitCount, 3000);
 
-app.use(allowOrigin4All);
+app.use(allowOriginForAll);
 app.use(express.static("public"));
+app.use(logIPAdress);
 
 app.get("/api/timesFromCoordinates", getTimesFromCoordinates);
 app.get("/api/timesFromPlace", getTimesFromPlace);
@@ -159,6 +160,10 @@ function getTimesFromPlace(req: Request, res: Response) {
 
 function getIPAdress(req: Request, res: Response) {
   res.send({ IP: req.headers["x-forwarded-for"] });
+}
+
+function logIPAdress(req: Request) {
+  console.log("IP address:", req.headers["x-forwarded-for"]);
 }
 
 function getTotalVisitCount(_: Request, res: Response) {
