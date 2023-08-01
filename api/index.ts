@@ -7,8 +7,7 @@ import express, {
 } from "express";
 import { ALL_PLACES } from "../data/geoData";
 import { getPlace, findPlace, getTimes } from "../src/calculator";
-import { dateToString, isInRange, isValidDate } from "../src/util";
-import { readFileSync, writeFile } from "fs";
+import { isInRange, isValidDate } from "../src/util";
 
 export const app: Express = express();
 
@@ -25,14 +24,8 @@ const allowOriginForAll: RequestHandler = (
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  totalVisits++;
   next();
 };
-const totalVisitCountFile = __dirname + "/total-visit-count.txt";
-const userVisitCountFile = __dirname + "/user-visit-count.json";
-let totalVisits = readTotalVisitCount();
-
-export const writerTimerID = setInterval(writeTotalVisitCount, 3000);
 
 app.use(allowOriginForAll);
 app.use(express.static("public"));
@@ -46,9 +39,6 @@ app.get("/api/cities", getCitiesOfRegion);
 app.get("/api/coordinates", getCoordinateData);
 app.get("/api/place", getPlaceData);
 app.get("/api/ip", getIPAdress);
-app.get("/api/totalVisitCount", getTotalVisitCount);
-app.get("/api/saveUserStat", saveUserStat);
-app.get("/api/getUserStat", getUserStat);
 
 const PORT = process.env.PORT || 3000;
 export const httpServer = app.listen(PORT);
@@ -165,68 +155,4 @@ function getIPAdress(req: Request, res: Response) {
 function logIPAdress(req: Request, _: Response, next: NextFunction) {
   console.log("IP address:", req.headers["x-forwarded-for"]);
   next();
-}
-
-function getTotalVisitCount(_: Request, res: Response) {
-  res.send({ totalVisitCount: readTotalVisitCount() });
-}
-
-function getUserStat(_: Request, res: Response) {
-  res.send(JSON.parse(readUserVisitsFile()));
-}
-
-function readUserVisitsFile(): string {
-  return readFileSync(userVisitCountFile, {
-    encoding: "utf-8",
-  });
-}
-
-function saveUserStat(req: Request, res: Response) {
-  const country = req.query.country as string;
-  const region = req.query.region as string;
-  const city = req.query.city as string;
-  const dateString = dateToString(new Date());
-
-  const json = JSON.parse(readUserVisitsFile());
-  if (country && region && city) {
-    if (!json[country]) {
-      json[country] = {};
-    }
-    if (!json[country][region]) {
-      json[country][region] = {};
-    }
-    if (!json[country][region][city]) {
-      json[country][region][city] = {};
-    }
-    if (!json[country][region][city][dateString]) {
-      json[country][region][city][dateString] = 0;
-    }
-    json[country][region][city][dateString] += 1;
-    writeFile(userVisitCountFile, JSON.stringify(json), function (err) {
-      if (err) {
-        res.send({ error: "write file error:" + err });
-      } else {
-        res.send({ status: "success" });
-      }
-    });
-  } else {
-    res.send({ error: "INVALID parameters!" });
-  }
-}
-
-function readTotalVisitCount(): number {
-  const num = Number(
-    readFileSync(totalVisitCountFile, {
-      encoding: "utf-8",
-    })
-  );
-  if (!isNaN(num)) return num;
-  console.log("CANNOT read total visit counts!");
-  return 0;
-}
-
-export function writeTotalVisitCount() {
-  writeFile(totalVisitCountFile, totalVisits + "", function (err) {
-    if (err) return console.log(err);
-  });
 }
