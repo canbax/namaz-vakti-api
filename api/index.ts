@@ -162,8 +162,9 @@ function getIPAdress(req: Request, res: Response) {
   res.send({ IP: req.headers["x-forwarded-for"] });
 }
 
-function logIPAdress(req: Request) {
+function logIPAdress(req: Request, _: Response, next: NextFunction) {
   console.log("IP address:", req.headers["x-forwarded-for"]);
+  next();
 }
 
 function getTotalVisitCount(_: Request, res: Response) {
