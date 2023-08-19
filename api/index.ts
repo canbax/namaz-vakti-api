@@ -7,7 +7,11 @@ import express, {
 } from "express";
 import { ALL_PLACES } from "../data/geoData";
 import { getPlace, findPlace, getTimes } from "../src/calculator";
-import { isInRange, isValidDate } from "../src/util";
+import {
+  getCalculationMethodParameter,
+  isInRange,
+  isValidDate,
+} from "../src/util";
 
 export const app: Express = express();
 
@@ -100,9 +104,12 @@ function getTimesFromCoordinates(req: Request, res: Response) {
   const dateStr = req.query.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
   const daysParam = Number(req.query.days as string);
-  const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
+  const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 100 is default
   const tzParam = Number(req.query.timezoneOffset as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
+  const calculateMethod = getCalculationMethodParameter(
+    req.query.calculationMethod as string
+  );
   if (
     isNaN(lat) ||
     isNaN(lng) ||
@@ -112,7 +119,7 @@ function getTimesFromCoordinates(req: Request, res: Response) {
     res.send({ error: "Invalid coordinates!" });
   } else {
     const place = findPlace(lat, lng);
-    const times = getTimes(lat, lng, date, days, tzOffset);
+    const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
     res.send({ place, times });
   }
 }
@@ -138,12 +145,15 @@ function getTimesFromPlace(req: Request, res: Response) {
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
   const tzParam = Number(req.query.timezoneOffset as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
+  const calculateMethod = getCalculationMethodParameter(
+    req.query.calculationMethod as string
+  );
   if (!place) {
     res.send({ error: "Place cannot be found!" });
   } else {
     const lat = place.latitude;
     const lng = place.longitude;
-    const times = getTimes(lat, lng, date, days, tzOffset);
+    const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
     res.send({ place, times });
   }
 }

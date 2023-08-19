@@ -2,6 +2,7 @@ import { getTimes, findPlace, getPlace } from "../src/calculator";
 import { DateString } from "../src/types";
 import { isHourStringsClose } from "../src/util";
 import { DATA_ANKARA_1 } from "../data/mockData";
+import { CalculationMethod } from "../src/lib/Adhan";
 
 describe("calculator tests", () => {
   it("should bring times data similar to https://namazvakitleri.diyanet.gov.tr/tr-TR for Ankara in 2022-12-10 for 31 days", () => {
@@ -15,6 +16,31 @@ describe("calculator tests", () => {
       }
     }
   });
+
+  it.each([
+    "MuslimWorldLeague",
+    "Egyptian",
+    "Karachi",
+    "UmmAlQura",
+    "Dubai",
+    "MoonsightingCommittee",
+    "NorthAmerica",
+    "Kuwait",
+    "Qatar",
+    "Singapore",
+    "Tehran",
+    "Turkey",
+    "Other",
+  ] as (keyof typeof CalculationMethod)[])(
+    "Should get valid times data for calculation method %s",
+    (x) => {
+      const times = getTimes(39.91987, 32.85427, new Date(), 1, 0, x);
+      expect(times).toBeDefined();
+      expect(Object.keys(times).length).toBe(1);
+      expect(Object.values(times).length).toBe(1);
+      expect(Object.values(times)[0].length).toBe(6);
+    }
+  );
 
   it("should find closest place to 0,0", () => {
     const p = findPlace(0, 0);
