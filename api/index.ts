@@ -43,6 +43,14 @@ app.get("/api/cities", getCitiesOfRegion);
 app.get("/api/coordinates", getCoordinateData);
 app.get("/api/place", getPlaceData);
 app.get("/api/ip", getIPAdress);
+app.post("/api/timesFromCoordinates", getTimesFromCoordinates);
+app.post("/api/timesFromPlace", getTimesFromPlace);
+app.post("/api/countries", getCountries);
+app.post("/api/regions", getRegionsOfCountry);
+app.post("/api/cities", getCitiesOfRegion);
+app.post("/api/coordinates", getCoordinateData);
+app.post("/api/place", getPlaceData);
+app.post("/api/ip", getIPAdress);
 
 const PORT = process.env.PORT || 3000;
 export const httpServer = app.listen(PORT);
