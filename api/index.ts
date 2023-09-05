@@ -35,6 +35,7 @@ app.use(allowOriginForAll);
 app.use(express.static("public"));
 app.use(logIPAdress);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.post("/api/timesFromCoordinates", getTimesFromCoordinates);
 app.post("/api/timesFromPlace", getTimesFromPlace);
@@ -142,6 +143,7 @@ export const httpServer = app.listen(PORT);
 function getCountries(req: Request, res: Response) {
   let txt = req.body.inputParameters?.country;
   console.log("txt: ", txt);
+  console.log("req: ", req);
   if (!txt) txt = "";
 
   const r = [];
