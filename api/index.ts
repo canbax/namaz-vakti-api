@@ -52,7 +52,7 @@ app.post("/api/countries", (_: Request, res: Response) => {
     r.push({ code: ALL_PLACES[c].code, name: c });
   }
   const arr = r.sort((a, b) => a.name.localeCompare(b.name));
-  res.send({ content: arr });
+  res.send(wrapWithContent(arr));
 });
 app.post("/api/regions", getRegionsOfCountry);
 app.post("/api/cities", getCitiesOfRegion);
@@ -60,33 +60,39 @@ app.post("/api/coordinates", getCoordinateData);
 app.post("/api/place", getPlaceData);
 app.post("/api/ip", getIPAdress);
 
+function wrapWithContent(obj: object[] | object) {
+  return { content: obj };
+}
+
 app.post("/api/graph", (req: Request, res: Response) => {
   console.log("req body", req.body);
   console.log("req params", req.params);
 
   setTimeout(() => {
-    res.send([
-      {
-        __nodes__: [
-          {
-            __id: -1,
-            __labels: ["Person"],
-            name: "Roddy Piper",
-          },
-          {
-            __id: -2,
-            __labels: ["Person"],
-            name: "Allen Wearer",
-          },
-          {
-            __id: -3,
-            __labels: ["Person"],
-            name: "James McAllistor",
-          },
-        ],
-        __links__: [],
-      },
-    ]);
+    res.send(
+      wrapWithContent([
+        {
+          __nodes__: [
+            {
+              __id: -1,
+              __labels: ["Person"],
+              name: "Roddy Piper",
+            },
+            {
+              __id: -2,
+              __labels: ["Person"],
+              name: "Allen Wearer",
+            },
+            {
+              __id: -3,
+              __labels: ["Person"],
+              name: "James McAllistor",
+            },
+          ],
+          __links__: [],
+        },
+      ])
+    );
   }, 100);
 });
 
@@ -94,11 +100,12 @@ app.post("/ping", (req: Request, res: Response) => {
   console.log("req body", req.body);
   console.log("req params", req.params);
 
-  res.send([
+  const arr = [
     {
       __pingNodes__: req.body._selection.nodeIds,
     },
-  ]);
+  ];
+  res.send(wrapWithContent(arr));
 });
 
 app.post("/movies", (req: Request, res: Response) => {
@@ -113,23 +120,29 @@ app.post("/movies", (req: Request, res: Response) => {
 
 app.post("/actors", (req: Request, res: Response) => {
   if (req.body.movie == 0) {
-    res.send([
-      { id: 0, value: "A" },
-      { id: 1, value: "B" },
-    ]);
+    res.send(
+      wrapWithContent([
+        { id: 0, value: "A" },
+        { id: 1, value: "B" },
+      ])
+    );
   } else {
-    res.send([
-      { id: 2, value: "C" },
-      { id: 3, value: "D" },
-    ]);
+    res.send(
+      wrapWithContent([
+        { id: 2, value: "C" },
+        { id: 3, value: "D" },
+      ])
+    );
   }
 });
 
 app.post("/defaults", (req: Request, res: Response) => {
-  res.send({
-    movie: { id: 12, value: "The Matrix 3" },
-    actor: { id: 13, value: "John" },
-  });
+  res.send(
+    wrapWithContent({
+      movie: { id: 12, value: "The Matrix 3" },
+      actor: { id: 13, value: "John" },
+    })
+  );
 });
 
 const PORT = process.env.PORT || 3000;
