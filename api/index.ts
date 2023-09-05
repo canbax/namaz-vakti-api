@@ -112,10 +112,12 @@ app.post("/movies", (req: Request, res: Response) => {
   console.log("req body", req.body);
   console.log("req params", req.params);
 
-  res.send([
-    { id: 0, value: "The Matrix" },
-    { id: 1, value: "The Matrix Reloaded" },
-  ]);
+  res.send(
+    wrapWithContent([
+      { id: 0, value: "The Matrix" },
+      { id: 1, value: "The Matrix Reloaded" },
+    ])
+  );
 });
 
 app.post("/actors", (req: Request, res: Response) => {
