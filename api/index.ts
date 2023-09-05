@@ -140,7 +140,7 @@ export const httpServer = app.listen(PORT);
  * @param  {} res
  */
 function getCountries(req: Request, res: Response) {
-  let txt = req.body.inputParameters.country;
+  let txt = req.body.inputParameters?.country;
   console.log("txt: ", txt);
   if (!txt) txt = "";
 
@@ -154,8 +154,8 @@ function getCountries(req: Request, res: Response) {
 }
 
 function getRegionsOfCountry(req: Request, res: Response) {
-  const country = req.body.inputParameters.country as string;
-  let txt = req.body.inputParameters.region;
+  const country = req.body.inputParameters?.country as string;
+  let txt = req.body.inputParameters?.region;
   console.log("txt: ", txt);
   if (!txt) txt = "";
   if (ALL_PLACES[country]) {
@@ -176,9 +176,9 @@ function getRegionsOfCountry(req: Request, res: Response) {
 }
 
 function getCitiesOfRegion(req: Request, res: Response) {
-  const country = req.body.inputParameters.country as string;
-  const region = req.body.inputParameters.region as string;
-  let txt = req.body.inputParameters.city;
+  const country = req.body.inputParameters?.country as string;
+  const region = req.body.inputParameters?.region as string;
+  let txt = req.body.inputParameters?.city;
   console.log("txt: ", txt);
   if (!txt) txt = "";
 
@@ -200,9 +200,9 @@ function getCitiesOfRegion(req: Request, res: Response) {
 }
 
 function getCoordinateData(req: Request, res: Response) {
-  const country = req.body.inputParameters.country as string;
-  const region = req.body.inputParameters.region as string;
-  const city = req.body.inputParameters.city as string;
+  const country = req.body.inputParameters?.country as string;
+  const region = req.body.inputParameters?.region as string;
+  const city = req.body.inputParameters?.city as string;
   const coords = getPlace(country, region, city);
   if (coords) {
     res.send(coords);
@@ -212,16 +212,16 @@ function getCoordinateData(req: Request, res: Response) {
 }
 
 function getTimesFromCoordinates(req: Request, res: Response) {
-  const lat = Number(req.body.inputParameters.lat as string);
-  const lng = Number(req.body.inputParameters.lng as string);
-  const dateStr = req.body.inputParameters.date as string;
+  const lat = Number(req.body.inputParameters?.lat as string);
+  const lng = Number(req.body.inputParameters?.lng as string);
+  const dateStr = req.body.inputParameters?.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
-  const daysParam = Number(req.body.inputParameters.days as string);
+  const daysParam = Number(req.body.inputParameters?.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 100 is default
-  const tzParam = Number(req.body.inputParameters.timezoneOffset as string);
+  const tzParam = Number(req.body.inputParameters?.timezoneOffset as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   const calculateMethod = getCalculationMethodParameter(
-    req.body.inputParameters.calculationMethod as string
+    req.body.inputParameters?.calculationMethod as string
   );
   if (
     isNaN(lat) ||
@@ -238,8 +238,8 @@ function getTimesFromCoordinates(req: Request, res: Response) {
 }
 
 function getPlaceData(req: Request, res: Response) {
-  const lat = Number(req.body.inputParameters.lat as string);
-  const lng = Number(req.body.inputParameters.lng as string);
+  const lat = Number(req.body.inputParameters?.lat as string);
+  const lng = Number(req.body.inputParameters?.lng as string);
   if (lat === undefined || lng === undefined || isNaN(lat) || isNaN(lng)) {
     res.send({ error: "INVALID coordinates!" });
   } else {
@@ -248,18 +248,18 @@ function getPlaceData(req: Request, res: Response) {
 }
 
 function getTimesFromPlace(req: Request, res: Response) {
-  const country = req.body.inputParameters.country as string;
-  const region = req.body.inputParameters.region as string;
-  const city = req.body.inputParameters.city as string;
+  const country = req.body.inputParameters?.country as string;
+  const region = req.body.inputParameters?.region as string;
+  const city = req.body.inputParameters?.city as string;
   const place = getPlace(country, region, city);
-  const dateStr = req.body.inputParameters.date as string;
+  const dateStr = req.body.inputParameters?.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
-  const daysParam = Number(req.body.inputParameters.days as string);
+  const daysParam = Number(req.body.inputParameters?.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
-  const tzParam = Number(req.body.inputParameters.timezoneOffset as string);
+  const tzParam = Number(req.body.inputParameters?.timezoneOffset as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   const calculateMethod = getCalculationMethodParameter(
-    req.body.inputParameters.calculationMethod as string
+    req.body.inputParameters?.calculationMethod as string
   );
   if (!place) {
     res.send({ error: "Place cannot be found!" });
