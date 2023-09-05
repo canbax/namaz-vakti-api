@@ -139,24 +139,33 @@ export const httpServer = app.listen(PORT);
  * @param  {} _
  * @param  {} res
  */
-function getCountries(_: Request, res: Response) {
+function getCountries(req: Request, res: Response) {
+  let txt = req.body.inputParameters.country;
+  console.log("txt: ", txt);
+  if (!txt) txt = "";
+
   const r = [];
   for (const c in ALL_PLACES) {
     r.push({ id: ALL_PLACES[c].code, value: c });
   }
-  const arr = r.sort((a, b) => a.value.localeCompare(b.value));
+  const r2 = r.filter((x) => x.value.toLowerCase().includes(txt.toLowerCase()));
+  const arr = r2.sort((a, b) => a.value.localeCompare(b.value));
   res.send(wrapWithContent(arr));
 }
 
 function getRegionsOfCountry(req: Request, res: Response) {
   const country = req.body.inputParameters.country as string;
+  let txt = req.body.inputParameters.region;
+  console.log("txt: ", txt);
+  if (!txt) txt = "";
   if (ALL_PLACES[country]) {
     const arr = Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
       a.localeCompare(b)
     );
+    const arr2 = arr.filter((x) => x.toLowerCase().includes(txt.toLowerCase()));
     res.send(
       wrapWithContent(
-        arr.map((x) => {
+        arr2.map((x) => {
           return { id: x, value: x };
         })
       )
@@ -169,13 +178,18 @@ function getRegionsOfCountry(req: Request, res: Response) {
 function getCitiesOfRegion(req: Request, res: Response) {
   const country = req.body.inputParameters.country as string;
   const region = req.body.inputParameters.region as string;
+  let txt = req.body.inputParameters.city;
+  console.log("txt: ", txt);
+  if (!txt) txt = "";
+
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
     const arr = Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
       a.localeCompare(b)
     );
+    const arr2 = arr.filter((x) => x.toLowerCase().includes(txt.toLowerCase()));
     res.send(
       wrapWithContent(
-        arr.map((x) => {
+        arr2.map((x) => {
           return { id: x, value: x };
         })
       )
