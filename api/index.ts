@@ -143,7 +143,7 @@ export const httpServer = app.listen(PORT);
 function getCountries(req: Request, res: Response) {
   let txt = req.body._inputParameters?.country;
   console.log("txt: ", txt);
-  console.log("req: ", req);
+  console.log("req body: ", req.body);
   if (!txt) txt = "";
 
   const r = [];
@@ -159,6 +159,7 @@ function getRegionsOfCountry(req: Request, res: Response) {
   const country = req.body._inputParameters?.country as string;
   let txt = req.body._inputParameters?.region;
   console.log("txt: ", txt);
+  console.log("req body: ", req.body);
   if (!txt) txt = "";
   if (ALL_PLACES[country]) {
     const arr = Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
@@ -182,6 +183,7 @@ function getCitiesOfRegion(req: Request, res: Response) {
   const region = req.body._inputParameters?.region as string;
   let txt = req.body._inputParameters?.city;
   console.log("txt: ", txt);
+  console.log("req body: ", req.body);
   if (!txt) txt = "";
 
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
