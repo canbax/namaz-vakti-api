@@ -96,7 +96,7 @@ app.post("/api/graph", (req: Request, res: Response) => {
   }, 100);
 });
 
-app.post("/ping", (req: Request, res: Response) => {
+app.post("/api/ping", (req: Request, res: Response) => {
   console.log("req body", req.body);
   console.log("req params", req.params);
 
@@ -108,7 +108,7 @@ app.post("/ping", (req: Request, res: Response) => {
   res.send(wrapWithContent(arr));
 });
 
-app.post("/movies", (req: Request, res: Response) => {
+app.post("/api/movies", (req: Request, res: Response) => {
   console.log("req body", req.body);
   console.log("req params", req.params);
 
@@ -120,7 +120,7 @@ app.post("/movies", (req: Request, res: Response) => {
   );
 });
 
-app.post("/actors", (req: Request, res: Response) => {
+app.post("/api/actors", (req: Request, res: Response) => {
   if (req.body.movie == 0) {
     res.send(
       wrapWithContent([
@@ -138,7 +138,7 @@ app.post("/actors", (req: Request, res: Response) => {
   }
 });
 
-app.post("/defaults", (req: Request, res: Response) => {
+app.post("/api/defaults", (req: Request, res: Response) => {
   res.send(
     wrapWithContent({
       movie: { id: 12, value: "The Matrix 3" },
