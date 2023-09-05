@@ -148,7 +148,7 @@ function getCountries(req: Request, res: Response) {
 
   const r = [];
   for (const c in ALL_PLACES) {
-    r.push({ id: ALL_PLACES[c].code, value: c });
+    r.push({ id: c, value: c });
   }
   const r2 = r.filter((x) => x.value.toLowerCase().includes(txt.toLowerCase()));
   const arr = r2.sort((a, b) => a.value.localeCompare(b.value));
