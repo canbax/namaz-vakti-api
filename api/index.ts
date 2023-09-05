@@ -36,24 +36,9 @@ app.use(express.static("public"));
 app.use(logIPAdress);
 app.use(express.json());
 
-app.get("/api/timesFromCoordinates", getTimesFromCoordinates);
-app.get("/api/timesFromPlace", getTimesFromPlace);
-app.get("/api/countries", getCountries);
-app.get("/api/regions", getRegionsOfCountry);
-app.get("/api/cities", getCitiesOfRegion);
-app.get("/api/coordinates", getCoordinateData);
-app.get("/api/place", getPlaceData);
-app.get("/api/ip", getIPAdress);
 app.post("/api/timesFromCoordinates", getTimesFromCoordinates);
 app.post("/api/timesFromPlace", getTimesFromPlace);
-app.post("/api/countries", (_: Request, res: Response) => {
-  const r = [];
-  for (const c in ALL_PLACES) {
-    r.push({ code: ALL_PLACES[c].code, name: c });
-  }
-  const arr = r.sort((a, b) => a.name.localeCompare(b.name));
-  res.send(wrapWithContent(arr));
-});
+app.post("/api/countries", getCountries);
 app.post("/api/regions", getRegionsOfCountry);
 app.post("/api/cities", getCitiesOfRegion);
 app.post("/api/coordinates", getCoordinateData);
@@ -157,17 +142,23 @@ export const httpServer = app.listen(PORT);
 function getCountries(_: Request, res: Response) {
   const r = [];
   for (const c in ALL_PLACES) {
-    r.push({ code: ALL_PLACES[c].code, name: c });
+    r.push({ id: ALL_PLACES[c].code, value: c });
   }
-  res.send(r.sort((a, b) => a.name.localeCompare(b.name)));
+  const arr = r.sort((a, b) => a.value.localeCompare(b.value));
+  res.send(wrapWithContent(arr));
 }
 
 function getRegionsOfCountry(req: Request, res: Response) {
-  const country = req.query.country as string;
+  const country = req.body.inputParameters.country as string;
   if (ALL_PLACES[country]) {
+    const arr = Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
+      a.localeCompare(b)
+    );
     res.send(
-      Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
-        a.localeCompare(b)
+      wrapWithContent(
+        arr.map((x) => {
+          return { id: x, value: x };
+        })
       )
     );
   } else {
@@ -176,12 +167,17 @@ function getRegionsOfCountry(req: Request, res: Response) {
 }
 
 function getCitiesOfRegion(req: Request, res: Response) {
-  const country = req.query.country as string;
-  const region = req.query.region as string;
+  const country = req.body.inputParameters.country as string;
+  const region = req.body.inputParameters.region as string;
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
+    const arr = Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
+      a.localeCompare(b)
+    );
     res.send(
-      Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
-        a.localeCompare(b)
+      wrapWithContent(
+        arr.map((x) => {
+          return { id: x, value: x };
+        })
       )
     );
   } else {
@@ -190,9 +186,9 @@ function getCitiesOfRegion(req: Request, res: Response) {
 }
 
 function getCoordinateData(req: Request, res: Response) {
-  const country = req.query.country as string;
-  const region = req.query.region as string;
-  const city = req.query.city as string;
+  const country = req.body.inputParameters.country as string;
+  const region = req.body.inputParameters.region as string;
+  const city = req.body.inputParameters.city as string;
   const coords = getPlace(country, region, city);
   if (coords) {
     res.send(coords);
@@ -202,16 +198,16 @@ function getCoordinateData(req: Request, res: Response) {
 }
 
 function getTimesFromCoordinates(req: Request, res: Response) {
-  const lat = Number(req.query.lat as string);
-  const lng = Number(req.query.lng as string);
-  const dateStr = req.query.date as string;
+  const lat = Number(req.body.inputParameters.lat as string);
+  const lng = Number(req.body.inputParameters.lng as string);
+  const dateStr = req.body.inputParameters.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
-  const daysParam = Number(req.query.days as string);
+  const daysParam = Number(req.body.inputParameters.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 100 is default
-  const tzParam = Number(req.query.timezoneOffset as string);
+  const tzParam = Number(req.body.inputParameters.timezoneOffset as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   const calculateMethod = getCalculationMethodParameter(
-    req.query.calculationMethod as string
+    req.body.inputParameters.calculationMethod as string
   );
   if (
     isNaN(lat) ||
@@ -228,8 +224,8 @@ function getTimesFromCoordinates(req: Request, res: Response) {
 }
 
 function getPlaceData(req: Request, res: Response) {
-  const lat = Number(req.query.lat as string);
-  const lng = Number(req.query.lng as string);
+  const lat = Number(req.body.inputParameters.lat as string);
+  const lng = Number(req.body.inputParameters.lng as string);
   if (lat === undefined || lng === undefined || isNaN(lat) || isNaN(lng)) {
     res.send({ error: "INVALID coordinates!" });
   } else {
@@ -238,18 +234,18 @@ function getPlaceData(req: Request, res: Response) {
 }
 
 function getTimesFromPlace(req: Request, res: Response) {
-  const country = req.query.country as string;
-  const region = req.query.region as string;
-  const city = req.query.city as string;
+  const country = req.body.inputParameters.country as string;
+  const region = req.body.inputParameters.region as string;
+  const city = req.body.inputParameters.city as string;
   const place = getPlace(country, region, city);
-  const dateStr = req.query.date as string;
+  const dateStr = req.body.inputParameters.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
-  const daysParam = Number(req.query.days as string);
+  const daysParam = Number(req.body.inputParameters.days as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
-  const tzParam = Number(req.query.timezoneOffset as string);
+  const tzParam = Number(req.body.inputParameters.timezoneOffset as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   const calculateMethod = getCalculationMethodParameter(
-    req.query.calculationMethod as string
+    req.body.inputParameters.calculationMethod as string
   );
   if (!place) {
     res.send({ error: "Place cannot be found!" });
