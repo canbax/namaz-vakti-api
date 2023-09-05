@@ -34,6 +34,7 @@ const allowOriginForAll: RequestHandler = (
 app.use(allowOriginForAll);
 app.use(express.static("public"));
 app.use(logIPAdress);
+app.use(express.json());
 
 app.get("/api/timesFromCoordinates", getTimesFromCoordinates);
 app.get("/api/timesFromPlace", getTimesFromPlace);
@@ -45,12 +46,91 @@ app.get("/api/place", getPlaceData);
 app.get("/api/ip", getIPAdress);
 app.post("/api/timesFromCoordinates", getTimesFromCoordinates);
 app.post("/api/timesFromPlace", getTimesFromPlace);
-app.post("/api/countries", getCountries);
+app.post("/api/countries", (_: Request, res: Response) => {
+  const r = [];
+  for (const c in ALL_PLACES) {
+    r.push({ code: ALL_PLACES[c].code, name: c });
+  }
+  const arr = r.sort((a, b) => a.name.localeCompare(b.name));
+  res.send({ content: arr });
+});
 app.post("/api/regions", getRegionsOfCountry);
 app.post("/api/cities", getCitiesOfRegion);
 app.post("/api/coordinates", getCoordinateData);
 app.post("/api/place", getPlaceData);
 app.post("/api/ip", getIPAdress);
+
+app.post("/api/graph", (req: Request, res: Response) => {
+  console.log("req body", req.body);
+  console.log("req params", req.params);
+
+  setTimeout(() => {
+    res.send([
+      {
+        __nodes__: [
+          {
+            __id: -1,
+            __labels: ["Person"],
+            name: "Roddy Piper",
+          },
+          {
+            __id: -2,
+            __labels: ["Person"],
+            name: "Allen Wearer",
+          },
+          {
+            __id: -3,
+            __labels: ["Person"],
+            name: "James McAllistor",
+          },
+        ],
+        __links__: [],
+      },
+    ]);
+  }, 100);
+});
+
+app.post("/ping", (req: Request, res: Response) => {
+  console.log("req body", req.body);
+  console.log("req params", req.params);
+
+  res.send([
+    {
+      __pingNodes__: req.body._selection.nodeIds,
+    },
+  ]);
+});
+
+app.post("/movies", (req: Request, res: Response) => {
+  console.log("req body", req.body);
+  console.log("req params", req.params);
+
+  res.send([
+    { id: 0, value: "The Matrix" },
+    { id: 1, value: "The Matrix Reloaded" },
+  ]);
+});
+
+app.post("/actors", (req: Request, res: Response) => {
+  if (req.body.movie == 0) {
+    res.send([
+      { id: 0, value: "A" },
+      { id: 1, value: "B" },
+    ]);
+  } else {
+    res.send([
+      { id: 2, value: "C" },
+      { id: 3, value: "D" },
+    ]);
+  }
+});
+
+app.post("/defaults", (req: Request, res: Response) => {
+  res.send({
+    movie: { id: 12, value: "The Matrix 3" },
+    actor: { id: 13, value: "John" },
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 export const httpServer = app.listen(PORT);
