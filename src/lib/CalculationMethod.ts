@@ -84,7 +84,7 @@ const CalculationMethod = {
     return params;
   },
 
-  // Dianet
+  // Diyanet
   Turkey() {
     const params = new CalculationParameters("Turkey", 18, 17);
     params.methodAdjustments = {

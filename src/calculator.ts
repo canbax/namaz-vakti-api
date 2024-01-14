@@ -13,10 +13,11 @@ export function getTimes(
   lng: number,
   date: Date,
   days: number,
-  timezoneOffset: number
+  timezoneOffset: number,
+  calculationMethod: keyof typeof CalculationMethod = "Turkey"
 ): TimesData {
   const coordinates = new Coordinates(lat, lng);
-  const params = CalculationMethod.Turkey();
+  const params = CalculationMethod[calculationMethod]();
   params.madhab = Madhab.Shafi;
   const r: TimesData = {};
   for (let i = 0; i < days; i++) {

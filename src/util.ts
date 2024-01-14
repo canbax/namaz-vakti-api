@@ -1,3 +1,4 @@
+import { CalculationMethod } from "./lib/Adhan";
 import { DateString, HourString } from "./types";
 
 export function prefix0(n: number) {
@@ -24,6 +25,13 @@ export function isValidDate(str: string | null | undefined): boolean {
   if (y < 1000 || y > 3000 || m < 1 || m > 12 || d < 1 || d > 31) return false;
 
   return true;
+}
+
+export function getCalculationMethodParameter(
+  calculationMethod: string | undefined
+): keyof typeof CalculationMethod {
+  const val = calculationMethod as keyof typeof CalculationMethod;
+  return val && CalculationMethod[val] ? val : "Turkey";
 }
 
 export function dateToString(date: Date): DateString {

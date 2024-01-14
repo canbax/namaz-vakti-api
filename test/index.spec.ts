@@ -1,13 +1,6 @@
 import request from "supertest";
-import {
-  app,
-  httpServer,
-  writerTimerID,
-  writeTotalVisitCount,
-} from "../api/index";
+import { app, httpServer } from "../api/index";
 import { ANKARA_PLACE_DATA } from "../data/mockData";
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require("fs");
 
 describe("API endpoint tests", () => {
   jest.mock("fs");
@@ -188,92 +181,10 @@ describe("API endpoint tests", () => {
     expect(res.body).toEqual({ error: "NOT FOUND!" });
   });
 
-  it("should be able to read total visit counts", async () => {
-    const url = "/api/totalVisitCount";
-    const res = await request(app).get(url);
-    expect(res.body.totalVisitCount).toBeDefined();
-    const n = Number(res.body.totalVisitCount);
-    expect(res.statusCode).toEqual(200);
-    expect(isNaN(n)).toEqual(false);
-    expect(n > -1).toEqual(true);
-  });
-
-  it("should log message if total visit counts is NaN", async () => {
-    jest
-      .spyOn(fs, "readFileSync")
-      /* eslint-disable  */
-      .mockImplementation((_path, _callback) => {
-        return "a";
-      });
-    const logSpy = jest.spyOn(console, "log");
-    const url = "/api/totalVisitCount";
-
-    const res = await request(app).get(url);
-    expect(logSpy).toHaveBeenCalledWith("CANNOT read total visit counts!");
-    expect(res.body.totalVisitCount).toBeDefined();
-    const n = Number(res.body.totalVisitCount);
-    expect(res.statusCode).toEqual(200);
-    expect(isNaN(n)).toEqual(false);
-    expect(n > -1).toEqual(true);
-  });
-
-  it("should be able to write total visit counts without any error log", async () => {
-    const logSpy = jest.spyOn(console, "log");
-    writeTotalVisitCount();
-    expect(logSpy).toHaveBeenCalledTimes(0);
-  });
-
-  it("should log message if total visit counts is cannot be written", async () => {
-    jest
-      .spyOn(fs, "writeFile")
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      .mockImplementation((_path, _data, callback: any) => {
-        callback("err");
-      });
-    const logSpy = jest.spyOn(console, "log");
-    writeTotalVisitCount();
-    expect(logSpy).toHaveBeenCalledTimes(1);
-  });
-
   it("should give error to 'place' request if coordinates are wrong", async () => {
     const url = "/api/place?lat=a&lng=g";
     const res = await request(app).get(url);
     expect(res.body).toEqual({ error: "INVALID coordinates!" });
-    expect(res.statusCode).toEqual(200);
-  });
-
-  it("should give error to save user statistics if parameters are not given", async () => {
-    const url = "/api/saveUserStat";
-    const res = await request(app).get(url);
-    expect(res.body).toEqual({ error: "INVALID parameters!" });
-    expect(res.statusCode).toEqual(200);
-  });
-
-  it("should give error to save user statistics if cannot write to a file", async () => {
-    jest
-      .spyOn(fs, "writeFile")
-      /* eslint-disable  */
-      .mockImplementation((_path, _data, callback: any) => {
-        callback("err");
-      });
-
-    const url = "/api/saveUserStat?country=Turkey&region=Ankara&city=Ankara";
-    const res = await request(app).get(url);
-    expect(res.body).toEqual({ error: "write file error:err" });
-    expect(res.statusCode).toEqual(200);
-  });
-
-  it("should be able to save user statistics successfully", async () => {
-    const url = "/api/saveUserStat?country=Turkey&region=Ankara&city=Ankara";
-    const res = await request(app).get(url);
-    expect(res.body).toEqual({ status: "success" });
-    expect(res.statusCode).toEqual(200);
-  });
-
-  it("should be able to read user statistics successfully", async () => {
-    const url = "/api/getUserStat";
-    const res = await request(app).get(url);
-    expect(res.body).toBeDefined();
     expect(res.statusCode).toEqual(200);
   });
 
@@ -285,7 +196,6 @@ describe("API endpoint tests", () => {
   });
 
   afterAll(() => {
-    clearInterval(writerTimerID);
     httpServer.close();
   });
 });

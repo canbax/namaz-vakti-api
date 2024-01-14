@@ -4,9 +4,10 @@ import {
   isValidDate,
   dateToString,
   isHourStringsClose,
+  getCalculationMethodParameter,
 } from "../src/util";
 
-describe("check re tests", () => {
+describe("utils.ts", () => {
   it("should detect close hour strings for the same hour values", () => {
     expect(isHourStringsClose("00:00", "00:03")).toBe(true);
   });
@@ -104,5 +105,31 @@ describe("check re tests", () => {
 
   it("should convert Date object into 'DateString' when day and month are 1 digit", () => {
     expect(dateToString(new Date(2022, 2, 4))).toBe("2022-03-04");
+  });
+
+  it("Should get default calculation method of if undefined", () => {
+    expect(getCalculationMethodParameter(undefined)).toBe("Turkey");
+  });
+
+  it("Should get default calculation method of if invalid parameter value is passed", () => {
+    expect(getCalculationMethodParameter("my invalid method")).toBe("Turkey");
+  });
+
+  it.each([
+    "MuslimWorldLeague",
+    "Egyptian",
+    "Karachi",
+    "UmmAlQura",
+    "Dubai",
+    "MoonsightingCommittee",
+    "NorthAmerica",
+    "Kuwait",
+    "Qatar",
+    "Singapore",
+    "Tehran",
+    "Turkey",
+    "Other",
+  ])("Should calculation method for valid string %s", (x) => {
+    expect(getCalculationMethodParameter(x)).toBe(x);
   });
 });
