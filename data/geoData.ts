@@ -89,6 +89,7 @@ export const ALL_PLACES: Record<string, CountryData> = {
       },
       "Bursa": {
         "Bursa": [40.191727, 29.060982],
+        "İnegöl": [40.080556, 29.509722],
         "Karacabey": [40.21525, 28.40378],
         "Yenişehir": [40.26444, 29.65306],
         "Keles": [39.91361, 29.22944],
