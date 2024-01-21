@@ -31,5 +31,4 @@ jobs:
       - run: npm ci
       - run: npm run format
       - run: npm run lint
-      - run: npm run test-cov
-      - run: npm run make-badges:ci
+      - run: npm run test
