@@ -1,6 +1,6 @@
 # namaz-vakti-api
 
-![Build](https://github.com/canbax/namaz-vakti-api/actions/workflows/build-and-test.yml/badge.svg) ![Statements](https://img.shields.io/badge/statements-99.19%25-brightgreen.svg?style=flat) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/canbax/namaz-vakti-api/blob/main/LICENSE)
+![Build](https://github.com/canbax/namaz-vakti-api/actions/workflows/build-and-test.yml/badge.svg) ![Statements](https://img.shields.io/badge/statements-99.72%25-brightgreen.svg?style=flat) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/canbax/namaz-vakti-api/blob/main/LICENSE)
 
 https://namaz-vakti.vercel.app/
 
@@ -11,6 +11,8 @@ Namaz vakti API. Diyanetin yöntemi ile vakitleri hesaplar. (Calculates the time
 Built for [namaz-vakti](https://github.com/canbax/namaz-vakti)
 
 Uses [geo-data-generator](https://github.com/canbax/geo-data-generator) for geographic data
+
+Use `update-readme-test-cov` command to update test coverage occasionally
 
 thanks a lot to [adhan-js](https://github.com/batoulapps/adhan-js) and [ip2location](https://lite.ip2location.com/)
 
