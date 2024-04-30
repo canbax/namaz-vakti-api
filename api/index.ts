@@ -55,6 +55,9 @@ app.post("/api/ip", getIPAdress);
 const PORT = process.env.PORT || 3000;
 export const httpServer = app.listen(PORT);
 
+const DAYS_PARAM_DEFAULT = 1;
+const TIMEZONE_PARAM_DEFAULT = 0;
+
 /** get a list of countries
  * @param  {} _
  * @param  {} res
@@ -112,9 +115,10 @@ function getTimesFromCoordinates(req: Request, res: Response) {
   const dateStr = req.query.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
   const daysParam = Number(req.query.days as string);
-  const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 100 is default
+  const days =
+    isNaN(daysParam) || daysParam < 1 ? DAYS_PARAM_DEFAULT : daysParam;
   const tzParam = Number(req.query.timezoneOffset as string);
-  const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
+  const tzOffset = isNaN(tzParam) ? TIMEZONE_PARAM_DEFAULT : tzParam;
   const calculateMethod = getCalculationMethodParameter(
     req.query.calculationMethod as string
   );
@@ -150,9 +154,10 @@ function getTimesFromPlace(req: Request, res: Response) {
   const dateStr = req.query.date as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
   const daysParam = Number(req.query.days as string);
-  const days = isNaN(daysParam) || daysParam < 1 ? 100 : daysParam; // 50 is default
+  const days =
+    isNaN(daysParam) || daysParam < 1 ? DAYS_PARAM_DEFAULT : daysParam;
   const tzParam = Number(req.query.timezoneOffset as string);
-  const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
+  const tzOffset = isNaN(tzParam) ? TIMEZONE_PARAM_DEFAULT : tzParam;
   const calculateMethod = getCalculationMethodParameter(
     req.query.calculationMethod as string
   );
