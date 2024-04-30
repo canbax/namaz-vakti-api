@@ -27,6 +27,15 @@ export function isValidDate(str: string | null | undefined): boolean {
   return true;
 }
 
+export function parseValidDaysCount(days: string) {
+  const DAYS_PARAM_DEFAULT = 1;
+  const daysParam = Number(days);
+  if (isNaN(daysParam) || daysParam < 1 || daysParam > 1000) {
+    return DAYS_PARAM_DEFAULT;
+  }
+  return Math.floor(daysParam);
+}
+
 export function getCalculationMethodParameter(
   calculationMethod: string | undefined
 ): keyof typeof CalculationMethod {
