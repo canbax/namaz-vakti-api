@@ -1,4 +1,4 @@
-import { CountryData } from "../src/types";
+import { CountryData } from "../api_src/types.js";
 
 export const ALL_PLACES: Record<string, CountryData> = {
   "Turkey": {

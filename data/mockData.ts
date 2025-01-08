@@ -1,4 +1,4 @@
-import { TimesData } from "../src/types";
+import { TimesData } from "../api_src/types";
 
 export const DATA_ANKARA_1: TimesData = {
   "2022-12-10": ["06:22", "07:52", "12:46", "15:09", "17:30", "18:55"],

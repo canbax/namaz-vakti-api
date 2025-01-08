@@ -1,8 +1,9 @@
-import { getTimes, findPlace, getPlace } from "../src/calculator";
-import { DateString } from "../src/types";
-import { isHourStringsClose } from "../src/util";
+import { getTimes, findPlace, getPlace } from "../api_src/calculator";
+import { DateString } from "../api_src/types";
+import { isHourStringsClose } from "../api_src/util";
 import { DATA_ANKARA_1 } from "../data/mockData";
-import { CalculationMethod } from "../src/lib/Adhan";
+import { CalculationMethod } from "adhan";
+import { it, expect, describe } from "vitest";
 
 describe("calculator tests", () => {
   it("should bring times data similar to https://namazvakitleri.diyanet.gov.tr/tr-TR for Ankara in 2022-12-10 for 31 days", () => {
@@ -39,7 +40,7 @@ describe("calculator tests", () => {
       expect(Object.keys(times).length).toBe(1);
       expect(Object.values(times).length).toBe(1);
       expect(Object.values(times)[0].length).toBe(6);
-    }
+    },
   );
 
   it("should find closest place to 0,0", () => {

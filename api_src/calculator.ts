@@ -1,12 +1,7 @@
-import {
-  Coordinates,
-  CalculationMethod,
-  PrayerTimes,
-  Madhab,
-} from "./lib/Adhan";
-import { ALL_PLACES } from "../data/geoData";
-import { HourString, Place, TimesData } from "./types";
-import { extractTimeFromDate, dateToString } from "./util";
+import { Coordinates, CalculationMethod, PrayerTimes, Madhab } from "adhan";
+import { ALL_PLACES } from "../data/geoData.js";
+import { HourString, Place, TimesData } from "./types.js";
+import { extractTimeFromDate, dateToStandardString } from "./util.js";
 
 export function getTimes(
   lat: number,
@@ -14,7 +9,7 @@ export function getTimes(
   date: Date,
   days: number,
   timezoneOffset: number,
-  calculationMethod: keyof typeof CalculationMethod = "Turkey"
+  calculationMethod: keyof typeof CalculationMethod = "Turkey",
 ): TimesData {
   const coordinates = new Coordinates(lat, lng);
   const params = CalculationMethod[calculationMethod]();
@@ -29,13 +24,13 @@ export function getTimes(
     arr.push(extractTimeFromDate(times.asr, timezoneOffset));
     arr.push(extractTimeFromDate(times.maghrib, timezoneOffset));
     arr.push(extractTimeFromDate(times.isha, timezoneOffset));
-    r[dateToString(date)] = arr;
+    r[dateToStandardString(date)] = arr;
     date.setDate(date.getDate() + 1);
   }
   return r;
 }
 
-export function findPlace(lat: number, lng: number): Place {
+export function findPlace(lat2: number, lng: number): Place {
   let minDiff = Number.MAX_SAFE_INTEGER;
   let place: Place = {
     countryCode: "",
@@ -49,7 +44,7 @@ export function findPlace(lat: number, lng: number): Place {
     for (const region in ALL_PLACES[country].regions) {
       for (const city in ALL_PLACES[country].regions[region]) {
         const [lat1, lng1] = ALL_PLACES[country].regions[region][city];
-        const diff = Math.abs(lat1 - lat) + Math.abs(lng1 - lng);
+        const diff = Math.abs(lat1 - lat2) + Math.abs(lng1 - lng);
         if (diff < minDiff) {
           place = {
             countryCode: ALL_PLACES[country].code,

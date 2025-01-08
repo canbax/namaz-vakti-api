@@ -3,7 +3,35 @@
   <head>
     <title>Namaz Vakti API (1.1.0)</title>
     <link rel="icon" href="favicon.ico" />
-    <script></script>
+    <script>
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(
+          () => {
+            showToast(`"${text}" kopyalandı`);
+          },
+          (err) => {
+            showToast('Hata! Kopyalanamadı.', true);
+          }
+        );
+      }
+
+      function showToast(message, isError = false) {
+        const toast = document.createElement('div');
+        toast.className = `toast ${isError ? 'error' : 'success'}`;
+        toast.textContent = message;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add('show');
+        }, 100); // Slight delay to trigger animation
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => document.body.removeChild(toast), 300); // Remove after animation
+        }, 3000); // Toast stays visible for 3 seconds
+      }
+    </script>
     <style>
       h3 {
         display: inline;
@@ -12,6 +40,56 @@
       .footer {
         position: absolute;
         bottom: 0;
+      }
+
+      .copy-container {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+      }
+
+      .copy-button {
+        margin-left: 10px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+
+      .copy-button:hover {
+        background-color: #45a049;
+      }
+
+      /* Toast styles */
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 250px;
+        padding: 15px;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 5px;
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .toast.error {
+        background-color: #f44336;
+      }
+
+      .toast.show {
+        opacity: 1;
+        visibility: visible;
       }
     </style>
   </head>
@@ -97,9 +175,21 @@
     hizmetlerimizin devamlılığına ve daha iyi olmasına katkı sağlayacaktır.
 
     <br /><br />
-    Yusuf Sait Canbaz
-    <br />
-    Ziraat Bankası TR53 0001 0090 1024 9249 7050 01
+    <div class="copy-container">
+      Yusuf Sait Canbaz
+      <button class="copy-button" onclick="copyToClipboard('Yusuf Sait Canbaz')">
+        Kopyala
+      </button>
+    </div>
+    <div class="copy-container">
+      TR49 0020 6001 3401 9074 7100 01
+      <button
+        class="copy-button"
+        onclick="copyToClipboard('TR49 0020 6001 3401 9074 7100 01')"
+      >
+      Kopyala
+      </button>
+    </div>
 
     <div class="footer">
       This site or product includes IP2Location LITE data available from

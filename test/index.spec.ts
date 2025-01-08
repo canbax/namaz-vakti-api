@@ -1,14 +1,15 @@
 import request from "supertest";
 import { app, httpServer } from "../api/index";
 import { ANKARA_PLACE_DATA } from "../data/mockData";
+import { vitest, it, expect, describe, afterEach, afterAll } from "vitest";
 
 describe("API endpoint tests", () => {
-  jest.mock("fs");
-  jest.mock("console");
+  vitest.mock("fs");
+  vitest.mock("console");
 
   afterEach(() => {
     // restore the spy created with spyOn
-    jest.restoreAllMocks();
+    vitest.restoreAllMocks();
   });
 
   it("should be able to bring all countries", async () => {
@@ -96,6 +97,73 @@ describe("API endpoint tests", () => {
     const res = await request(app).get(url);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual({ error: "Place cannot be found!" });
+  });
+
+  it("should not respond if days greater than 1000", async () => {
+    const url =
+      "/api/timesFromPlace?country=Turkey&region=Ankara&city=Ankara&days=1001";
+    const res = await request(app).get(url);
+    console.log("res: ", res);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toEqual({ error: "days can be maximum 1000!" });
+  });
+
+  it("should return index html page for a random page", async () => {
+    const url = "/asd";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeDefined();
+  });
+
+  it("should be able to get times for a Place", async () => {
+    const url = "/api/timesForPlace?id=123";
+    const res = await request(app).get(url);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.times).toBeDefined();
+    expect(res.body.place).toBeDefined();
+    expect(res.body.place.country).toBeDefined();
+  });
+
+  it("should be able to get times for a GPS", async () => {
+    const url = "/api/timesForGPS?lat=40&lng=32";
+    const res = await request(app).get(url);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.times).toBeDefined();
+    expect(res.body.place).toBeDefined();
+    expect(res.body.place.country).toBeDefined();
+  });
+
+  it("should be able to get near by places", async () => {
+    const url = "/api/nearByPlaces?lat=40&lng=32.52";
+    const res = await request(app).get(url);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body[0].country).toEqual("Turkiye");
+    expect(res.body.length).greaterThan(2);
+  });
+
+  it("should be able to search places", async () => {
+    const url = "/api/searchPlaces?q=Keç";
+    const res = await request(app).get(url);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body[0].country).toBeDefined();
+    expect(res.body[1].country).toBeDefined();
+    expect(res.body[1].name).toBeDefined();
+    expect(res.body.length).greaterThan(4);
+  });
+
+  it("should be able get a place by id", async () => {
+    const url = "/api/placeById?id=123";
+    const res = await request(app).get(url);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.country).toBeDefined();
+    expect(res.body.name).toBeDefined();
+    expect(res.body.latitude).toBeDefined();
+    expect(res.body.longitude).toBeDefined();
+    expect(res.body.stateName).toBeDefined();
   });
 
   it("should be able to get IP address", async () => {

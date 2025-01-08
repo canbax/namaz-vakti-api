@@ -1,14 +1,19 @@
-import { CalculationMethod } from "./lib/Adhan";
-import { DateString, HourString } from "./types";
+import { CalculationMethod } from "adhan";
+import { DateString, HourString } from "./types.js";
+import { Request } from "express";
 
 export function prefix0(n: number) {
   if (n > 99 || n < -99) throw new Error("Can only process 2 digits integers!");
   return (n + "").padStart(2, "0");
 }
 
+export function isDefined<T>(a: T | undefined | null): a is NonNullable<T> {
+  return a !== undefined && a !== null;
+}
+
 export function extractTimeFromDate(
   d: Date,
-  timezoneOffset: number
+  timezoneOffset: number,
 ): HourString {
   d.setMinutes(d.getMinutes() + timezoneOffset);
   const hour = d.getUTCHours();
@@ -22,28 +27,20 @@ export function isValidDate(str: string | null | undefined): boolean {
   const regexMatch = str.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
   if (!regexMatch) return false;
   const [y, m, d] = str.split("-").map((x) => Number(x));
+  if (!isDefined(y) || !isDefined(m) || !isDefined(d)) return false;
   if (y < 1000 || y > 3000 || m < 1 || m > 12 || d < 1 || d > 31) return false;
 
   return true;
 }
 
-export function parseValidDaysCount(days: string) {
-  const DAYS_PARAM_DEFAULT = 1;
-  const daysParam = Number(days);
-  if (isNaN(daysParam) || daysParam < 1 || daysParam > 1000) {
-    return DAYS_PARAM_DEFAULT;
-  }
-  return Math.floor(daysParam);
-}
-
 export function getCalculationMethodParameter(
-  calculationMethod: string | undefined
+  calculationMethod: string | undefined,
 ): keyof typeof CalculationMethod {
   const val = calculationMethod as keyof typeof CalculationMethod;
   return val && CalculationMethod[val] ? val : "Turkey";
 }
 
-export function dateToString(date: Date): DateString {
+export function dateToStandardString(date: Date): DateString {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -62,10 +59,40 @@ export function isInRange(a: number, min: number, max: number) {
 export function isHourStringsClose(
   s1: HourString,
   s2: HourString,
-  minuteDiff = 5
+  minuteDiff = 5,
 ): boolean {
   const [hour1, min1] = s1.split(":").map((x) => Number(x));
   const [hour2, min2] = s2.split(":").map((x) => Number(x));
 
+  if (
+    !isDefined(hour1) ||
+    !isDefined(hour2) ||
+    !isDefined(min1) ||
+    !isDefined(min2)
+  )
+    return false;
   return Math.abs(hour1 * 60 + min1 - hour2 * 60 - min2) <= minuteDiff;
+}
+
+export function getParamsForPlaceSearch(req: Request) {
+  const lat = Number(req.query["lat"] as string);
+  const lng = Number(req.query["lng"] as string);
+  const resultCount = Number(req.query["resultCount"] as string);
+  const lang = req.query["lang"] as string;
+  const countryCode = req.query["countryCode"] as string;
+
+  return { lat, lng, lang, resultCount, countryCode };
+}
+
+export function getCommonTimeRequestParameters(request: Request) {
+  const dateStr = request.query["date"] as string;
+  const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
+  const daysParam = Number(request.query["days"] as string);
+  const days = isNaN(daysParam) || daysParam < 1 ? 1 : daysParam; // 1 is default
+  const tzParam = Number(request.query["timezoneOffset"] as string);
+  const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
+  const calculateMethod = getCalculationMethodParameter(
+    request.query["calculationMethod"] as string,
+  );
+  return { date, days, tzOffset, calculateMethod };
 }
