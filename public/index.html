@@ -1,125 +1,136 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Namaz Vakti API (1.1.0)</title>
-    <link rel="icon" href="favicon.ico" />
-    <script>
-      function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(
-          () => {
-            showToast(`"${text}" kopyalandı`);
-          },
-          (err) => {
-            showToast('Hata! Kopyalanamadı.', true);
-          }
-        );
-      }
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Namaz Vakti API (1.1.0)</title>
+  <link rel="icon" href="favicon.ico" />
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+      background: #f9f9f9;
+      color: #333;
+    }
 
-      function showToast(message, isError = false) {
-        const toast = document.createElement('div');
-        toast.className = `toast ${isError ? 'error' : 'success'}`;
-        toast.textContent = message;
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
 
-        document.body.appendChild(toast);
+    a:hover {
+      text-decoration: underline;
+    }
 
-        setTimeout(() => {
-          toast.classList.add('show');
-        }, 100); // Slight delay to trigger animation
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #333;
+    }
 
-        setTimeout(() => {
-          toast.classList.remove('show');
-          setTimeout(() => document.body.removeChild(toast), 300); // Remove after animation
-        }, 3000); // Toast stays visible for 3 seconds
-      }
-    </script>
-    <style>
-      h3 {
-        display: inline;
-      }
+    h2 {
+      color: #444;
+      margin-top: 30px;
+    }
 
-      .footer {
-        position: absolute;
-        bottom: 0;
-      }
+    h3 {
+      color: #555;
+      display: inline;
+    }
 
-      .copy-container {
-        display: flex;
-        align-items: center;
-        margin: 5px 0;
-      }
+    .section {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-      .copy-button {
-        margin-left: 10px;
-        padding: 5px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-      }
+    .copy-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8f9fa;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
 
-      .copy-button:hover {
-        background-color: #45a049;
-      }
+    .copy-button {
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
 
-      /* Toast styles */
-      .toast {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        min-width: 250px;
-        padding: 15px;
-        background-color: #4caf50;
-        color: white;
-        border-radius: 5px;
-        text-align: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s, visibility 0.3s;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-      }
+    .copy-button:hover {
+      background-color: #45a049;
+    }
 
-      .toast.error {
-        background-color: #f44336;
-      }
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
 
-      .toast.show {
-        opacity: 1;
-        visibility: visible;
-      }
-    </style>
-  </head>
+    .footer a {
+      color: #007bff;
+    }
 
-  <body>
-    <h1>Namaz Vakti API (1.1.0)</h1>
-    <span> Diyanetin yöntemini kullanarak namaz vakti verileri sunar. </span>
-    <br />
-    <br />
-    <b>
-      Ücretsiz, reklamsız,
-      <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">
-        açık kaynak kodlu
-      </a>
-    </b>
-    <br />
-    <br />
-    <a target="_blank" href="https://github.com/canbax/namaz-vakti">
-      <h3>namaz-vakti</h3>
-    </a>
-    uygulaması için oluşturulmuştur
+    /* Toast styles */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 250px;
+      padding: 15px;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 5px;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
 
-    <br />
-    <a
-      target="_blank"
-      href="https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a"
-    >
-      <h2>Postman API tanımı</h2>
-    </a>
+    .toast.error {
+      background-color: #f44336;
+    }
 
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+  <h1>Namaz Vakti API (1.1.0)</h1>
+  <div class="section">
+    <p>
+      Vakit ve konum verileri sunar sunar. 
+      <strong>
+        Ücretsiz, reklamsız, 
+        <a target="_blank" href="https://github.com/canbax/namaz-vakti-api">açık kaynak kodlu</a>
+      </strong>.
+    </p>
+    <p>Uygulama için daha fazla bilgi: 
+      <a target="_blank" href="https://github.com/canbax/namaz-vakti"><strong>namaz-vakti</strong></a>.
+    </p>
+  </div>
+
+  <div class="section">
     <h2>Kullanım</h2>
     <br />
     <span>Koordinatlardan vakit verileri: </span>
@@ -168,32 +179,51 @@
     <a target="_blank" href="/api/ip"> /api/ip </a>
 
     <br />
+  </div>
+
+  <div class="section">
     <h2>Bağış</h2>
-    Namaz Vakti API ile ücretsiz, reklamsız ancak yüksek kalitede bir hizmet
+    <p>
+      Namaz Vakti API ile ücretsiz, reklamsız ancak yüksek kalitede bir hizmet
     sunmaya çalışıyoruz. Sunucu masrafları, zaman, emek harcıyoruz. Yapacağınız
     1 liralık bir bağış bile aşk, şevk ve motivasyon doğurarak bu
     hizmetlerimizin devamlılığına ve daha iyi olmasına katkı sağlayacaktır.
-
-    <br /><br />
+    </p>
     <div class="copy-container">
       Yusuf Sait Canbaz
-      <button class="copy-button" onclick="copyToClipboard('Yusuf Sait Canbaz')">
-        Kopyala
-      </button>
+      <button class="copy-button" onclick="copyToClipboard('Yusuf Sait Canbaz')">Kopyala</button>
     </div>
     <div class="copy-container">
       TR49 0020 6001 3401 9074 7100 01
-      <button
-        class="copy-button"
-        onclick="copyToClipboard('TR49 0020 6001 3401 9074 7100 01')"
-      >
-      Kopyala
-      </button>
+      <button class="copy-button" onclick="copyToClipboard('TR49 0020 6001 3401 9074 7100 01')">Kopyala</button>
     </div>
+  </div>
 
-    <div class="footer">
-      This site or product includes IP2Location LITE data available from
-      <a href="https://lite.ip2location.com">https://lite.ip2location.com</a>.
-    </div>
-  </body>
+  <div class="footer">
+    This site or product includes IP2Location LITE data available from 
+    <a href="https://lite.ip2location.com">IP2Location</a>.
+  </div>
+
+  <script>
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(
+        () => showToast(`"${text}" kopyalandı`),
+        () => showToast("Hata! Kopyalanamadı.", true)
+      );
+    }
+
+    function showToast(message, isError = false) {
+      const toast = document.createElement("div");
+      toast.className = `toast ${isError ? "error" : "success"}`;
+      toast.textContent = message;
+
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add("show"), 100);
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => document.body.removeChild(toast), 300);
+      }, 3000);
+    }
+  </script>
+</body>
 </html>
