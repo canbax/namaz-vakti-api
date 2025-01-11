@@ -2,7 +2,7 @@
 
 ![Build](https://github.com/canbax/namaz-vakti-api/actions/workflows/build-and-test.yml/badge.svg) ![Statements](https://img.shields.io/badge/statements-93.48%25-brightgreen.svg?style=flat) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/canbax/namaz-vakti-api/blob/main/LICENSE)
 
-Vakit verilerini hesaplar. Calculates the Islamic prayer times.
+Vakit ve konum verileri sunar. Calculates the Islamic prayer times.
 
 <p align="center">
     <img src="public/assets/logo.png" alt="Logo" width="300"/>
