@@ -17,9 +17,9 @@ http://localhost:3000/api/searchPlaces?q=Anka&lat=39.9306&lng=32.7439&lang=tr
 
 [Postman definition](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
 
-Built for [Vakit App](https://github.com/canbax/vakitapp)
+Built for [Vakit App](https://vakitapp.com)
 
-Uses [geo-data-generator](https://github.com/canbax/geo-data-generator) for geographic data
+Uses [GPS-miner](https://github.com/canbax/GPS-miner) for geographic data
 
 Use `update-readme-test-cov` command to update test coverage occasionally
 
