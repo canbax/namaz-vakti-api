@@ -17,7 +17,7 @@ http://localhost:3000/api/searchPlaces?q=Anka&lat=39.9306&lng=32.7439&lang=tr
 
 [Postman definition](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
 
-Built for [namaz-vakti](https://github.com/canbax/namaz-vakti)
+Built for [Vakit App](https://github.com/canbax/vakitapp)
 
 Uses [geo-data-generator](https://github.com/canbax/geo-data-generator) for geographic data
 
