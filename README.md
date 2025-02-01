@@ -10,10 +10,10 @@ Vakit ve konum verileri sunar. Calculates the Islamic prayer times.
 
 # API usage
 
-http://localhost:3000/api/nearByPlaces?lat=39.9306&lng=32.7439&lang=tr
-http://localhost:3000/api/timesForPlace?id=311046&timezoneOffset=180&lang=tr
-http://localhost:3000/api/timesForGPS?lat=39.9306&lng=32.7439&timezoneOffset=180&lang=tr
-http://localhost:3000/api/searchPlaces?q=Anka&lat=39.9306&lng=32.7439&lang=tr
+https://vakit.vercel.app/api/nearByPlaces?lat=39.9306&lng=32.7439&lang=tr
+https://vakit.vercel.app/api/timesForPlace?id=311046&timezoneOffset=180&lang=tr
+https://vakit.vercel.app/api/timesForGPS?lat=39.9306&lng=32.7439&timezoneOffset=180&lang=tr
+https://vakit.vercel.app/api/searchPlaces?q=Anka&lat=39.9306&lng=32.7439&lang=tr
 
 [Postman definition](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
 
