@@ -36,7 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
     "@vitejs/plugin-vue": "^5.1.2",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/coverage-istanbul": "^3.1.2",
     "eslint": "^9.9.1",
     "husky": "^9.1.5",
     "istanbul-badges-readme": "^1.9.0",
@@ -44,11 +44,11 @@
     "moment-timezone": "^0.5.45",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
-    "supertest": "^7.0.0",
+    "supertest": "^7.1.0",
     "tsx": "^4.19.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.4.0",
-    "vitest": "^2.0.5"
+    "vitest": "^3.1.2"
   },
   "engines": {
     "node": "22.x",

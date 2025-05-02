@@ -1,6 +1,6 @@
 # namaz-vakti-api
 
-![Build](https://github.com/canbax/namaz-vakti-api/actions/workflows/build-and-test.yml/badge.svg) ![Statements](https://img.shields.io/badge/statements-93.48%25-brightgreen.svg?style=flat) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/canbax/namaz-vakti-api/blob/main/LICENSE)
+![Build](https://github.com/canbax/namaz-vakti-api/actions/workflows/build-and-test.yml/badge.svg) ![Statements](https://img.shields.io/badge/statements-93.54%25-brightgreen.svg?style=flat) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/canbax/namaz-vakti-api/blob/main/LICENSE)
 
 Vakit ve konum verileri sunar. Calculates the Islamic prayer times.
 
@@ -17,7 +17,7 @@ https://vakit.vercel.app/api/searchPlaces?q=Anka&lat=39.9306&lng=32.7439&lang=tr
 
 [Postman definition](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
 
-Built for [Vakti App](https://vaktiapp.com) 
+Built for [Vakti App](https://vaktiapp.com)
 
 <a href="https://apps.apple.com/tr/app/vakti-app/id6743095525" target="_blank">
     <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" height="50">
