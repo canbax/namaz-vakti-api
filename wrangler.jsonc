@@ -3,4 +3,8 @@
   "compatibility_date": "2026-02-18",
   "main": "api/index.ts",
   "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+  },
 }
