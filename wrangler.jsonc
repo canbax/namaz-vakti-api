@@ -1,5 +1,6 @@
 {
-    "compatibility_flags": [
-        "nodejs_compat"
-    ]
+  "name": "namaz-vakti-api",
+  "compatibility_date": "2026-02-18",
+  "main": "api/index.ts",
+  "compatibility_flags": ["nodejs_compat"],
 }
