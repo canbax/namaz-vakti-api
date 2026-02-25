@@ -1,5 +1,10 @@
-import { Hono } from "hono";
-import { cors } from "hono/cors";
+import express, {
+  Express,
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+} from "express";
 import { ALL_PLACES } from "../data/geoData.js";
 import { getPlace, findPlace, getTimes } from "../api_src/calculator.js";
 import {
@@ -7,20 +12,42 @@ import {
   getParamsForPlaceSearch,
   isInRange,
 } from "../api_src/util.js";
-import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
-
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { Context } from "hono";
+import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
 
-const app = new Hono();
+export const app: Express = express();
 
-// Middleware
-app.use("*", cors());
+/** use this function like `app.use(allowOriginForAll);` for an express app
+ * Make API accessible for all clients. Not for only clients from a specific domain.
+ */
+const allowOriginForAll: RequestHandler = (
+  _: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  // another common pattern
+  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+  );
+  next();
+};
+
+app.use(allowOriginForAll);
+app.use(express.static("public"));
+app.use(logIPAdress);
 
 app.get("/api/searchPlaces", searchPlaces);
-app.get("/api/nearByPlaces", nearByPlaces);
+app.get("/api/nearbyPlaces", nearByPlaces);
 app.get("/api/timesForGPS", getTimesForGPS);
 app.get("/api/timesForPlace", getTimesForPlace);
 app.get("/api/timesFromCoordinates", getTimesFromCoordinates);
@@ -44,137 +71,120 @@ app.post("/api/ip", getIPAdress);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // if not starting with "/api" return index.html page as response so that routes in the static page will work
-app.get("*", async (c) => {
-  const url = new URL(c.req.url);
-  if (!url.pathname.startsWith("/api")) {
-    const fs = await import("fs/promises");
-    try {
-      const content = await fs.readFile(
-        path.resolve(__dirname, "..", "public", "index.html"),
-        "utf-8",
-      );
-      return c.html(content);
-    } catch {
-      return c.text("index.html not found", 404);
-    }
-  }
-  return c.text("index.html not found", 404);
+app.get(/^\/(?!api).*/, (_, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "public", "index.html"));
 });
 
-// For compatibility with some localdev setups, but purely optional for Hono + Workers
-if (
-  process.env["NODE_ENV"] !== "production" &&
-  !process.env["Generic_Worker"]
-) {
-  // try to serve with @hono/node-server if installed, or just log
-  console.log(
-    `To run locally, use 'npm run dev' which uses nodemon/tsx. For production use 'wrangler dev'`,
-  );
-}
+const PORT = process.env["PORT"] || 3000;
+export const httpServer = app.listen(PORT);
 
 /** get a list of countries
+ * @param  {} _
+ * @param  {} res
  */
-function getCountries(c: Context) {
+function getCountries(_: Request, res: Response) {
   try {
     const r = [];
-    for (const place in ALL_PLACES) {
-      r.push({ code: ALL_PLACES[place].code, name: place });
+    for (const c in ALL_PLACES) {
+      r.push({ code: ALL_PLACES[c].code, name: c });
     }
-    return c.json(r.sort((a, b) => a.name.localeCompare(b.name)));
+    res.send(r.sort((a, b) => a.name.localeCompare(b.name)));
   } catch (e) {
     console.log("error! ", e);
-    return c.json({ error: String(e) });
+    res.send("error: " + e);
+  } finally {
+    res.send("error: ");
   }
 }
 
-function getRegionsOfCountry(c: Context) {
-  const country = c.req.query("country") as string;
+function getRegionsOfCountry(req: Request, res: Response) {
+  const country = req.query["country"] as string;
   if (ALL_PLACES[country]) {
-    return c.json(
+    res.send(
       Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
         a.localeCompare(b),
       ),
     );
   } else {
-    return c.json({ error: "NOT FOUND!" });
+    res.send({ error: "NOT FOUND!" });
   }
 }
 
-function getCitiesOfRegion(c: Context) {
-  const country = c.req.query("country") as string;
-  const region = c.req.query("region") as string;
+function getCitiesOfRegion(req: Request, res: Response) {
+  const country = req.query["country"] as string;
+  const region = req.query["region"] as string;
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
-    return c.json(
+    res.send(
       Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
         a.localeCompare(b),
       ),
     );
   } else {
-    return c.json({ error: "NOT FOUND!" });
+    res.send({ error: "NOT FOUND!" });
   }
 }
 
-function getCoordinateData(c: Context) {
-  const country = c.req.query("country") as string;
-  const region = c.req.query("region") as string;
-  const city = c.req.query("city") as string;
+function getCoordinateData(req: Request, res: Response) {
+  const country = req.query["country"] as string;
+  const region = req.query["region"] as string;
+  const city = req.query["city"] as string;
   const coords = getPlace(country, region, city);
   if (coords) {
-    return c.json(coords);
+    res.send(coords);
   } else {
-    return c.json({ error: "NOT FOUND!" });
+    res.send({ error: "NOT FOUND!" });
   }
 }
 
 /**
  * DEPRECATED, use `getTimesForGPS`
  */
-function getTimesFromCoordinates(c: Context) {
-  const lat = Number(c.req.query("lat") as string);
-  const lng = Number(c.req.query("lng") as string);
+function getTimesFromCoordinates(req: Request, res: Response) {
+  const lat = Number(req.query["lat"] as string);
+  const lng = Number(req.query["lng"] as string);
   const { date, days, tzOffset, calculateMethod } =
-    getCommonTimeRequestParameters(c);
+    getCommonTimeRequestParameters(req);
   if (
     isNaN(lat) ||
     isNaN(lng) ||
     !isInRange(lat, -90, 90) ||
     !isInRange(lng, -180, 180)
   ) {
-    return c.json({ error: "Invalid coordinates!" });
+    res.send({ error: "Invalid coordinates!" });
   } else if (days > 1000) {
-    return c.json({ error: "days can be maximum 1000!" });
+    res.send({ error: "days can be maximum 1000!" });
   } else {
     const place = findPlace(lat, lng);
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
-    return c.json({ place, times });
+    res.send({ place, times });
   }
 }
 
-async function getTimesForGPS(c: Context) {
-  const { lat, lng, lang } = getParamsForPlaceSearch(c);
+async function getTimesForGPS(req: Request, res: Response) {
+  const { lat, lng, lang } = getParamsForPlaceSearch(req);
   const { date, days, tzOffset, calculateMethod } =
-    getCommonTimeRequestParameters(c);
+    getCommonTimeRequestParameters(req);
   if (
     isNaN(lat) ||
     isNaN(lng) ||
     !isInRange(lat, -90, 90) ||
     !isInRange(lng, -180, 180)
   ) {
-    return c.json({ error: "Invalid coordinates!" });
+    res.send({ error: "Invalid coordinates!" });
   } else if (days > 1000) {
-    return c.json({ error: "days can be maximum 1000!" });
+    res.send({ error: "days can be maximum 1000!" });
   } else {
     const [place] = await getNearbyPlaces(lat, lng, lang, 1);
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
-    return c.json({ place, times });
+    res.send({ place, times });
   }
 }
 
-async function searchPlaces(c: Context) {
-  const q = (c.req.query("q") ?? "") as string;
+async function searchPlaces(req: Request, res: Response) {
+  const q = (req.query["q"] ?? "") as string;
   const { lat, lng, lang, resultCount, countryCode } =
-    getParamsForPlaceSearch(c);
-  return c.json(
+    getParamsForPlaceSearch(req);
+  res.send(
     await getPlaceSuggestionsByText(
       q,
       lang,
@@ -186,88 +196,88 @@ async function searchPlaces(c: Context) {
   );
 }
 
-async function nearByPlaces(c: Context) {
-  try {
-    const { lat, lng, lang, resultCount } = getParamsForPlaceSearch(c);
-    const places = await getNearbyPlaces(lat, lng, lang, resultCount);
-    return c.json(places);
-  } catch (e) {
-    console.error("nearByPlaces error:", e);
-    return c.json({ error: String(e) }, 500);
-  }
+async function nearByPlaces(req: Request, res: Response) {
+  const { lat, lng, lang, resultCount } = getParamsForPlaceSearch(req);
+
+  res.send(await getNearbyPlaces(lat, lng, lang, resultCount));
 }
 
-function getPlaceData(c: Context) {
-  const lat = Number(c.req.query("lat") as string);
-  const lng = Number(c.req.query("lng") as string);
+function getPlaceData(req: Request, res: Response) {
+  const lat = Number(req.query["lat"] as string);
+  const lng = Number(req.query["lng"] as string);
   if (lat === undefined || lng === undefined || isNaN(lat) || isNaN(lng)) {
-    return c.json({ error: "INVALID coordinates!" });
+    res.send({ error: "INVALID coordinates!" });
   } else {
-    return c.json(findPlace(lat, lng));
+    res.send(findPlace(lat, lng));
   }
 }
 
-async function getTimesForPlace(c: Context) {
-  const placeId = Number(c.req.query("id"));
+async function getTimesForPlace(req: Request, res: Response) {
+  const placeId = Number(req.query["id"]);
   if (Number.isNaN(placeId)) {
-    return c.json({ error: "Id should be a positive integer!" });
+    res.send({ error: "Id should be a positive integer!" });
+    return;
   }
   const { date, days, tzOffset, calculateMethod } =
-    getCommonTimeRequestParameters(c);
-  const { lang } = getParamsForPlaceSearch(c);
+    getCommonTimeRequestParameters(req);
+  const { lang } = getParamsForPlaceSearch(req);
   const place = await getPlaceById(placeId, lang);
 
   if (!place) {
-    return c.json({ error: "Place cannot be found!" });
+    res.send({ error: "Place cannot be found!" });
   } else if (days > 1000) {
-    return c.json({ error: "days can be maximum 1000!" });
+    res.send({ error: "days can be maximum 1000!" });
   } else {
     const lat = place.latitude;
     const lng = place.longitude;
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
-    return c.json({ place, times });
+    res.send({ place, times });
   }
 }
 
-async function placeById(c: Context) {
-  const placeId = Number(c.req.query("id"));
+async function placeById(req: Request, res: Response) {
+  const placeId = Number(req.query["id"]);
   if (Number.isNaN(placeId)) {
-    return c.json({ error: "Id should be a positive integer!" });
+    res.send({ error: "Id should be a positive integer!" });
+    return;
   }
-  const { lang } = getParamsForPlaceSearch(c);
+  const { lang } = getParamsForPlaceSearch(req);
   const place = await getPlaceById(placeId, lang);
 
   if (!place) {
-    return c.json({ error: "Place cannot be found!" });
+    res.send({ error: "Place cannot be found!" });
   } else {
-    return c.json({ ...place });
+    res.send({ ...place });
   }
 }
 
 /**
  * DEPRECATED, use `getTimesForPlace`
  */
-function getTimesFromPlace(c: Context) {
-  const country = c.req.query("country") as string;
-  const region = c.req.query("region") as string;
-  const city = c.req.query("city") as string;
+function getTimesFromPlace(req: Request, res: Response) {
+  const country = req.query["country"] as string;
+  const region = req.query["region"] as string;
+  const city = req.query["city"] as string;
   const place = getPlace(country, region, city);
   const { date, days, tzOffset, calculateMethod } =
-    getCommonTimeRequestParameters(c);
+    getCommonTimeRequestParameters(req);
   if (!place) {
-    return c.json({ error: "Place cannot be found!" });
+    res.send({ error: "Place cannot be found!" });
   } else if (days > 1000) {
-    return c.json({ error: "days can be maximum 1000!" });
+    res.send({ error: "days can be maximum 1000!" });
   } else {
     const lat = place.latitude;
     const lng = place.longitude;
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
-    return c.json({ place, times });
+    res.send({ place, times });
   }
 }
 
-function getIPAdress(c: Context) {
-  return c.json({ IP: c.req.header("x-forwarded-for") });
+function getIPAdress(req: Request, res: Response) {
+  res.send({ IP: req.headers["x-forwarded-for"] });
 }
 
+function logIPAdress(_req: Request, _: Response, next: NextFunction) {
+  next();
+}
 export default app;
