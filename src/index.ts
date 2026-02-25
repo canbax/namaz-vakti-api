@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-import { cors } from "hono/cors";
 import { ALL_PLACES } from "../data/geoData.js";
 import { getPlace, findPlace, getTimes } from "../api_src/calculator.js";
 import {
@@ -13,9 +12,6 @@ import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
 import { Context } from "hono";
 
 const app = new Hono();
-
-// Middleware
-app.use("*", cors());
 
 app.get("/api/searchPlaces", searchPlaces);
 app.get("/api/nearByPlaces", nearByPlaces);
