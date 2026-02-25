@@ -5,15 +5,12 @@
 Vakit ve konum verileri sunar. Calculates the Islamic prayer times. Uses [irem](https://github.com/canbax/irem)
 
 <p align="center">
-    <img src="public/assets/logo.png" alt="Logo" width="300"/>
+    <img src="logo.png" alt="Logo" width="300"/>
 </p>
 
 # API usage
 
-https://vakit.vercel.app/api/nearByPlaces?lat=39.9306&lng=32.7439&lang=tr
-https://vakit.vercel.app/api/timesForPlace?id=311046&timezoneOffset=180&lang=tr
-https://vakit.vercel.app/api/timesForGPS?lat=39.9306&lng=32.7439&timezoneOffset=180&lang=tr
-https://vakit.vercel.app/api/searchPlaces?q=Anka&lat=39.9306&lng=32.7439&lang=tr
+https://vaktiapp.com/api-docs
 
 [Postman definition](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
 
