@@ -18,7 +18,9 @@
     "test2": "PORT=8080 vitest",
     "update-readme-test-cov": "npm run test-cov && npm run make-badges",
     "make-badges": "istanbul-badges-readme",
-    "all": "npm run lint && npm run format && npm run test"
+    "all": "npm run lint && npm run format && npm run test",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
   "author": "",
   "license": "ISC",
@@ -48,7 +50,8 @@
     "tsx": "^4.19.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.4.0",
-    "vitest": "^3.1.2"
+    "vitest": "^3.1.2",
+    "wrangler": "^4.68.1"
   },
   "engines": {
     "node": "22.x",
