@@ -1,6 +1,6 @@
 import { CalculationMethod } from "adhan";
 import { DateString, HourString } from "./types.js";
-import { Request } from "express";
+import { Context } from "hono";
 
 export function prefix0(n: number) {
   if (n > 99 || n < -99) throw new Error("Can only process 2 digits integers!");
@@ -74,25 +74,27 @@ export function isHourStringsClose(
   return Math.abs(hour1 * 60 + min1 - hour2 * 60 - min2) <= minuteDiff;
 }
 
-export function getParamsForPlaceSearch(req: Request) {
-  const lat = Number(req.query["lat"] as string);
-  const lng = Number(req.query["lng"] as string);
-  const resultCount = Number(req.query["resultCount"] as string);
-  const lang = req.query["lang"] as string;
-  const countryCode = req.query["countryCode"] as string;
+export function getParamsForPlaceSearch(c: Context) {
+  const query = c.req.query();
+  const lat = Number(query["lat"] as string);
+  const lng = Number(query["lng"] as string);
+  const resultCount = query["resultCount"] ? Number(query["resultCount"]) : 5;
+  const lang = (query["lang"] as string) || "en";
+  const countryCode = query["countryCode"] as string;
 
   return { lat, lng, lang, resultCount, countryCode };
 }
 
-export function getCommonTimeRequestParameters(request: Request) {
-  const dateStr = request.query["date"] as string;
+export function getCommonTimeRequestParameters(c: Context) {
+  const query = c.req.query();
+  const dateStr = query["date"] as string;
   const date = isValidDate(dateStr) ? new Date(dateStr) : new Date(); // use today if invalid
-  const daysParam = Number(request.query["days"] as string);
+  const daysParam = Number(query["days"] as string);
   const days = isNaN(daysParam) || daysParam < 1 ? 1 : daysParam; // 1 is default
-  const tzParam = Number(request.query["timezoneOffset"] as string);
+  const tzParam = Number(query["timezoneOffset"] as string);
   const tzOffset = isNaN(tzParam) ? 0 : tzParam; // 0 is default
   const calculateMethod = getCalculationMethodParameter(
-    request.query["calculationMethod"] as string,
+    query["calculationMethod"] as string,
   );
   return { date, days, tzOffset, calculateMethod };
 }
