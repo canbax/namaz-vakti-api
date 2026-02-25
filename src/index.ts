@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { serve } from "@hono/node-server";
 import { ALL_PLACES } from "../data/geoData.js";
 import { getPlace, findPlace, getTimes } from "../api_src/calculator.js";
@@ -13,6 +14,10 @@ import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
 import { Context } from "hono";
 
 const app = new Hono();
+
+if (process.env["ENABLE_CORS"]) {
+  app.use("/*", cors());
+}
 
 // Apply rate limiting middleware
 app.use(
