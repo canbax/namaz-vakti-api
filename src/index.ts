@@ -15,9 +15,21 @@ import { Context } from "hono";
 
 const app = new Hono();
 
-if (process.env["ENABLE_CORS"]) {
-  app.use("/*", cors());
-}
+app.use(
+  "/*",
+  cors({
+    origin: (origin) => {
+      if (
+        process.env["ENABLE_CORS"] ||
+        origin === "http://localhost" ||
+        origin === "capacitor://localhost"
+      ) {
+        return origin;
+      }
+      return null;
+    },
+  }),
+);
 
 // Apply rate limiting middleware
 app.use(
