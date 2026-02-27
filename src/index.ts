@@ -22,6 +22,7 @@ app.use(
       if (
         process.env["ENABLE_CORS"] ||
         origin === "http://localhost" ||
+        origin === "https://localhost" ||
         origin === "capacitor://localhost"
       ) {
         return origin;
