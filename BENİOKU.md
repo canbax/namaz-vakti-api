@@ -14,20 +14,6 @@
 
 **namaz-vakti-api**'ye hoş geldiniz! Bu proje, [Vakti App](https://vaktiapp.com) uygulamasının temel arka uç (backend) hizmetidir ve son derece isabetli İslami namaz vakitleri ile konum tabanlı veriler sunmak için tasarlanmıştır.
 
-## API Dokümantasyonu
-
-Uç noktalarımızı (endpoints) entegre etmek veya keşfetmek isteyen geliştiriciler için kapsamlı dokümantasyon sunuyoruz:
-
-- 📖 [API Dokümanları](https://vaktiapp.com/api-docs)
-- 🚀 [Postman Çalışma Alanı](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
-
-## İstek Sınırı (Rate Limiting)
-
-Kararlılığı ve adil kullanımı sağlamak amacıyla, bu API'de istek sınırlandırması uygulanmaktadır. Eğer uygulamanızın yüksek hacimde istek yapması gerekiyorsa ve sürekli olarak bu sınırlara takılıyorsanız, lütfen aşağıdaki seçenekleri değerlendirin:
-
-- **Kendiniz barındırın**: API'yi kendi sunucunuzda barındırmak için kaynak kodumuzu kullanabilirsiniz.
-- **Sınır artışı talep edin**: Özel kullanım durumunuz için istek sınırının artırılmasını görüşmek isterseniz, lütfen bu depoda (repository) bir konu (issue) açın.
-
 ## Uygulamayı İndirin
 
 Hizmetin tamamını doğrudan mobil cihazınızda deneyimleyin:
@@ -41,6 +27,20 @@ Hizmetin tamamını doğrudan mobil cihazınızda deneyimleyin:
         <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" height="50" alt="Google Play'den Alın">
     </a>
 </p>
+
+## API Dokümantasyonu
+
+Uç noktalarımızı (endpoints) entegre etmek veya keşfetmek isteyen geliştiriciler için kapsamlı dokümantasyon sunuyoruz:
+
+- 📖 [API Dokümanları](https://vaktiapp.com/api-docs)
+- 🚀 [Postman Çalışma Alanı](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
+
+## İstek Sınırı (Rate Limiting)
+
+Kararlılığı ve adil kullanımı sağlamak amacıyla, bu API'de istek sınırlandırması (15 dakikada 100 istek) uygulanmaktadır. Eğer uygulamanızın yüksek hacimde istek yapması gerekiyorsa ve sürekli olarak bu sınırlara takılıyorsanız, lütfen aşağıdaki seçenekleri değerlendirin:
+
+- **Kendiniz barındırın**: API'yi kendi sunucunuzda barındırmak için kaynak kodumuzu kullanabilirsiniz.
+- **Sınır artışı talep edin**: Özel kullanım durumunuz için istek sınırının artırılmasını görüşmek isterseniz, lütfen bu depoda (repository) bir konu (issue) açın.
 
 ## Teşekkürler
 

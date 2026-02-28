@@ -14,20 +14,6 @@ Calculates the Islamic prayer times. Uses [irem](https://github.com/canbax/irem)
 
 Welcome to the **namaz-vakti-api**! This project is the core backend service powering the [Vakti App](https://vaktiapp.com), designed to deliver highly accurate Islamic prayer times and location-based data.
 
-## API Documentation
-
-We provide comprehensive documentation for developers looking to integrate or explore our endpoints:
-
-- 📖 [API Docs](https://vaktiapp.com/api-docs)
-- 🚀 [Postman Workspace](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
-
-## Rate Limiting
-
-To ensure stability and fair usage, this API implements rate limiting. If your application needs to make a high volume of requests and you are consistently hitting these limits, please consider the following options:
-
-- **Host it yourself**: You are welcome to use the source code to host the API on your own server.
-- **Request an increase**: If you'd like to discuss a rate limit increase for your specific use case, please open an issue in this repository.
-
 ## Get the App
 
 Experience the full service directly on your mobile device:
@@ -41,6 +27,20 @@ Experience the full service directly on your mobile device:
         <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" height="50" alt="Get it on Google Play">
     </a>
 </p>
+
+## API Documentation
+
+We provide comprehensive documentation for developers looking to integrate or explore our endpoints:
+
+- 📖 [API Docs](https://vaktiapp.com/api-docs)
+- 🚀 [Postman Workspace](https://www.postman.com/canbax/workspace/namaz-vakti-api/api/bf039fea-6768-490b-b11d-11bb031bdd8a)
+
+## Rate Limiting
+
+To ensure stability and fair usage, this API implements a rate limit of **100 requests per 15 minutes**. If your application needs to make a high volume of requests and you are consistently hitting these limits, please consider the following options:
+
+- **Host it yourself**: You are welcome to use the source code to host the API on your own server.
+- **Request an increase**: If you'd like to discuss a rate limit increase for your specific use case, please open an issue in this repository.
 
 ## Acknowledgements
 
