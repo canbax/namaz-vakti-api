@@ -248,7 +248,7 @@ describe("API endpoint tests", () => {
   it("should give error response if country not found", async () => {
     const url = "/api/regions?country=XXXX";
     const res = await app.request(url);
-    expect(res.status).toEqual(200);
+    expect(res.status).toEqual(404);
 
     expect(await res.json()).toEqual({ error: "NOT FOUND!" });
   });
@@ -276,7 +276,7 @@ describe("API endpoint tests", () => {
   it("should give error response if a region is not found", async () => {
     const url = "/api/cities?country=Turkey&region=XXXX";
     const res = await app.request(url);
-    expect(res.status).toEqual(200);
+    expect(res.status).toEqual(404);
 
     expect(await res.json()).toEqual({ error: "NOT FOUND!" });
   });

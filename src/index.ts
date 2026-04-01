@@ -72,6 +72,7 @@ function getCountries(c: Context) {
     for (const place in ALL_PLACES) {
       r.push({ code: ALL_PLACES[place].code, name: place });
     }
+    c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
     return c.json(r.sort((a, b) => a.name.localeCompare(b.name)));
   } catch (e) {
     console.log("error! ", e);
@@ -81,28 +82,39 @@ function getCountries(c: Context) {
 
 function getRegionsOfCountry(c: Context) {
   const country = c.req.query("country") as string;
+  if (!country || country === "undefined" || country === "null") {
+    return c.json({ error: "Invalid country parameter!" }, 400);
+  }
   if (ALL_PLACES[country]) {
+    c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
     return c.json(
       Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
         a.localeCompare(b),
       ),
     );
   } else {
-    return c.json({ error: "NOT FOUND!" });
+    return c.json({ error: "NOT FOUND!" }, 404);
   }
 }
 
 function getCitiesOfRegion(c: Context) {
   const country = c.req.query("country") as string;
   const region = c.req.query("region") as string;
+  if (!country || country === "undefined" || country === "null") {
+    return c.json({ error: "Invalid country parameter!" }, 400);
+  }
+  if (!region || region === "undefined" || region === "null") {
+    return c.json({ error: "Invalid region parameter!" }, 400);
+  }
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
+    c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
     return c.json(
       Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
         a.localeCompare(b),
       ),
     );
   } else {
-    return c.json({ error: "NOT FOUND!" });
+    return c.json({ error: "NOT FOUND!" }, 404);
   }
 }
 
