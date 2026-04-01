@@ -25,6 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "@hono/node-server": "^1.19.9",
+    "@vercel/analytics": "^2.0.1",
     "adhan": "^4.4.3",
     "hono": "^4.12.2",
     "hono-rate-limiter": "^0.5.3",
