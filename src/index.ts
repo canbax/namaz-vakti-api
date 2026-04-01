@@ -10,10 +10,17 @@ import {
 } from "../api_src/util.js";
 import { rateLimiter } from "hono-rate-limiter";
 import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
+import { inject } from "@vercel/analytics";
 
 import { Context } from "hono";
 
 const app = new Hono();
+
+// Initialize Vercel Web Analytics
+// Note: This API serves JSON responses. Web Analytics tracking will be active
+// if/when HTML pages are served. For API-specific analytics, consider using
+// server-side custom events via @vercel/analytics/server
+inject({ mode: process.env.NODE_ENV === "development" ? "development" : "production" });
 
 app.use(
   "/*",
