@@ -15,6 +15,9 @@ import { Context } from "hono";
 
 const app = new Hono();
 
+const setCacheHeader = (c: Context) =>
+  c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
+
 app.use(
   "/*",
   cors({
@@ -33,11 +36,16 @@ app.use(
 );
 
 // Apply rate limiting middleware
+const ipKey = (c: Context) =>
+  c.req.header("x-forwarded-for")?.split(",")[0].trim() ??
+  c.req.header("x-real-ip") ??
+  "unknown";
+
 app.use(
   rateLimiter({
     windowMs: 15 * 60 * 1000, // 15 minutes
     limit: 100, // Limit each client to 100 requests per window
-    keyGenerator: (c) => c.req.header("x-forwarded-for") ?? "", // Use IP address as key
+    keyGenerator: ipKey,
   }),
 );
 
@@ -72,7 +80,7 @@ function getCountries(c: Context) {
     for (const place in ALL_PLACES) {
       r.push({ code: ALL_PLACES[place].code, name: place });
     }
-    c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
+    setCacheHeader(c);
     return c.json(r.sort((a, b) => a.name.localeCompare(b.name)));
   } catch (e) {
     console.log("error! ", e);
@@ -86,7 +94,7 @@ function getRegionsOfCountry(c: Context) {
     return c.json({ error: "Invalid country parameter!" }, 400);
   }
   if (ALL_PLACES[country]) {
-    c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
+    setCacheHeader(c);
     return c.json(
       Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
         a.localeCompare(b),
@@ -107,7 +115,7 @@ function getCitiesOfRegion(c: Context) {
     return c.json({ error: "Invalid region parameter!" }, 400);
   }
   if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
-    c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
+    setCacheHeader(c);
     return c.json(
       Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
         a.localeCompare(b),
@@ -124,6 +132,7 @@ function getCoordinateData(c: Context) {
   const city = c.req.query("city") as string;
   const coords = getPlace(country, region, city);
   if (coords) {
+    setCacheHeader(c);
     return c.json(coords);
   } else {
     return c.json({ error: "NOT FOUND!" });
@@ -244,6 +253,7 @@ async function placeById(c: Context) {
   if (!place) {
     return c.json({ error: "Place cannot be found!" });
   } else {
+    setCacheHeader(c);
     return c.json({ ...place });
   }
 }
