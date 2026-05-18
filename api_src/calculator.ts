@@ -3,6 +3,10 @@ import { ALL_PLACES } from "../data/geoData.js";
 import { HourString, Place, TimesData } from "./types.js";
 import { extractTimeFromDate, dateToStandardString } from "./util.js";
 
+// Simple LRU cache: evict the oldest entry when max size is reached
+const TIMES_CACHE_MAX = 200;
+const timesCache = new Map<string, TimesData>();
+
 export function getTimes(
   lat: number,
   lng: number,
@@ -11,6 +15,10 @@ export function getTimes(
   timezoneOffset: number,
   calculationMethod: keyof typeof CalculationMethod = "Turkey",
 ): TimesData {
+  const startDateStr = dateToStandardString(new Date(date));
+  const cacheKey = `${lat.toFixed(4)}|${lng.toFixed(4)}|${startDateStr}|${days}|${timezoneOffset}|${calculationMethod}`;
+  if (timesCache.has(cacheKey)) return timesCache.get(cacheKey)!;
+
   const coordinates = new Coordinates(lat, lng);
   const params = CalculationMethod[calculationMethod]();
   params.madhab = Madhab.Shafi;
@@ -27,6 +35,11 @@ export function getTimes(
     r[dateToStandardString(date)] = arr;
     date.setDate(date.getDate() + 1);
   }
+
+  if (timesCache.size >= TIMES_CACHE_MAX) {
+    timesCache.delete(timesCache.keys().next().value!);
+  }
+  timesCache.set(cacheKey, r);
   return r;
 }
 

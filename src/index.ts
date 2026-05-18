@@ -11,6 +11,34 @@ import {
 import { rateLimiter } from "hono-rate-limiter";
 import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
 
+// In-memory caches for external irem API responses
+const nearbyPlacesCache = new Map<string, Awaited<ReturnType<typeof getNearbyPlaces>>>();
+const placeByIdCache = new Map<string, Awaited<ReturnType<typeof getPlaceById>>>();
+
+async function cachedNearbyPlaces(
+  lat: number,
+  lng: number,
+  lang: string,
+  count: number,
+): ReturnType<typeof getNearbyPlaces> {
+  const key = `${lat.toFixed(2)}:${lng.toFixed(2)}:${lang}:${count}`;
+  if (nearbyPlacesCache.has(key)) return nearbyPlacesCache.get(key)!;
+  const result = await getNearbyPlaces(lat, lng, lang, count);
+  nearbyPlacesCache.set(key, result);
+  return result;
+}
+
+async function cachedPlaceById(
+  id: number,
+  lang: string,
+): ReturnType<typeof getPlaceById> {
+  const key = `${id}:${lang}`;
+  if (placeByIdCache.has(key)) return placeByIdCache.get(key)!;
+  const result = await getPlaceById(id, lang);
+  placeByIdCache.set(key, result);
+  return result;
+}
+
 import { Context } from "hono";
 
 const app = new Hono();
@@ -159,6 +187,7 @@ function getTimesFromCoordinates(c: Context) {
   } else {
     const place = findPlace(lat, lng);
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
+    setCacheHeader(c);
     return c.json({ place, times });
   }
 }
@@ -177,8 +206,11 @@ async function getTimesForGPS(c: Context) {
   } else if (days > 1000) {
     return c.json({ error: "days can be maximum 1000!" });
   } else {
-    const [place] = await getNearbyPlaces(lat, lng, lang, 1);
-    const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
+    const [[place], times] = await Promise.all([
+      cachedNearbyPlaces(lat, lng, lang, 1),
+      Promise.resolve(getTimes(lat, lng, date, days, tzOffset, calculateMethod)),
+    ]);
+    setCacheHeader(c);
     return c.json({ place, times });
   }
 }
@@ -228,7 +260,7 @@ async function getTimesForPlace(c: Context) {
   const { date, days, tzOffset, calculateMethod } =
     getCommonTimeRequestParameters(c);
   const { lang } = getParamsForPlaceSearch(c);
-  const place = await getPlaceById(placeId, lang);
+  const place = await cachedPlaceById(placeId, lang);
 
   if (!place) {
     return c.json({ error: "Place cannot be found!" });
@@ -238,6 +270,8 @@ async function getTimesForPlace(c: Context) {
     const lat = place.latitude;
     const lng = place.longitude;
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
+    setCacheHeader(c);
+    setCacheHeader(c);
     return c.json({ place, times });
   }
 }
@@ -248,7 +282,7 @@ async function placeById(c: Context) {
     return c.json({ error: "Id should be a positive integer!" });
   }
   const { lang } = getParamsForPlaceSearch(c);
-  const place = await getPlaceById(placeId, lang);
+  const place = await cachedPlaceById(placeId, lang);
 
   if (!place) {
     return c.json({ error: "Place cannot be found!" });
