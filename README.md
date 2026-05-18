@@ -37,7 +37,7 @@ We provide comprehensive documentation for developers looking to integrate or ex
 
 ## Rate Limiting
 
-To ensure stability and fair usage, this API implements a rate limit of **100 requests per 15 minutes**. If your application needs to make a high volume of requests and you are consistently hitting these limits, please consider the following options:
+To ensure stability and fair usage, this API implements a rate limit of **33 requests per 15 minutes**. If your application needs to make a high volume of requests and you are consistently hitting these limits, please consider the following options:
 
 - **Host it yourself**: You are welcome to use the source code to host the API on your own server.
 - **Request an increase**: If you'd like to discuss a rate limit increase for your specific use case, please open an issue in this repository.
