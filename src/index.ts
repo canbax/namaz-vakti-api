@@ -8,12 +8,17 @@ import {
   getParamsForPlaceSearch,
   isInRange,
 } from "../api_src/util.js";
-import { rateLimiter } from "hono-rate-limiter";
 import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
 
 // In-memory caches for external irem API responses
-const nearbyPlacesCache = new Map<string, Awaited<ReturnType<typeof getNearbyPlaces>>>();
-const placeByIdCache = new Map<string, Awaited<ReturnType<typeof getPlaceById>>>();
+const nearbyPlacesCache = new Map<
+  string,
+  Awaited<ReturnType<typeof getNearbyPlaces>>
+>();
+const placeByIdCache = new Map<
+  string,
+  Awaited<ReturnType<typeof getPlaceById>>
+>();
 
 async function cachedNearbyPlaces(
   lat: number,
@@ -44,7 +49,10 @@ import { Context } from "hono";
 const app = new Hono();
 
 const setCacheHeader = (c: Context) =>
-  c.header("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=3600");
+  c.header(
+    "Cache-Control",
+    "public, s-maxage=86400, stale-while-revalidate=3600",
+  );
 
 app.use(
   "/*",
@@ -60,20 +68,6 @@ app.use(
       }
       return null;
     },
-  }),
-);
-
-// Apply rate limiting middleware
-const ipKey = (c: Context) =>
-  c.req.header("x-forwarded-for")?.split(",")[0].trim() ??
-  c.req.header("x-real-ip") ??
-  "unknown";
-
-app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    limit: 33, // Limit each client to 33 requests per window
-    keyGenerator: ipKey,
   }),
 );
 
@@ -208,7 +202,9 @@ async function getTimesForGPS(c: Context) {
   } else {
     const [[place], times] = await Promise.all([
       cachedNearbyPlaces(lat, lng, lang, 1),
-      Promise.resolve(getTimes(lat, lng, date, days, tzOffset, calculateMethod)),
+      Promise.resolve(
+        getTimes(lat, lng, date, days, tzOffset, calculateMethod),
+      ),
     ]);
     setCacheHeader(c);
     return c.json({ place, times });
@@ -219,6 +215,7 @@ async function searchPlaces(c: Context) {
   const q = (c.req.query("q") ?? "") as string;
   const { lat, lng, lang, resultCount, countryCode } =
     getParamsForPlaceSearch(c);
+  setCacheHeader(c); // Cache search results
   return c.json(
     await getPlaceSuggestionsByText(
       q,
@@ -235,6 +232,7 @@ async function nearByPlaces(c: Context) {
   try {
     const { lat, lng, lang, resultCount } = getParamsForPlaceSearch(c);
     const places = await getNearbyPlaces(lat, lng, lang, resultCount);
+    setCacheHeader(c); // Cache nearby results
     return c.json(places);
   } catch (e) {
     console.error("nearByPlaces error:", e);

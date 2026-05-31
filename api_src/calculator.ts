@@ -6,6 +6,7 @@ import { extractTimeFromDate, dateToStandardString } from "./util.js";
 // Simple LRU cache: evict the oldest entry when max size is reached
 const TIMES_CACHE_MAX = 200;
 const timesCache = new Map<string, TimesData>();
+const findPlaceCache = new Map<string, Place>();
 
 export function getTimes(
   lat: number,
@@ -44,6 +45,9 @@ export function getTimes(
 }
 
 export function findPlace(lat2: number, lng: number): Place {
+  const cacheKey = `${lat2.toFixed(2)}|${lng.toFixed(2)}`;
+  if (findPlaceCache.has(cacheKey)) return findPlaceCache.get(cacheKey)!;
+
   let minDiff = Number.MAX_SAFE_INTEGER;
   let place: Place = {
     countryCode: "",
@@ -72,6 +76,12 @@ export function findPlace(lat2: number, lng: number): Place {
       }
     }
   }
+
+  if (findPlaceCache.size >= TIMES_CACHE_MAX) {
+    findPlaceCache.delete(findPlaceCache.keys().next().value!);
+  }
+  findPlaceCache.set(cacheKey, place);
+
   return place;
 }
 

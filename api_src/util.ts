@@ -76,8 +76,9 @@ export function isHourStringsClose(
 
 export function getParamsForPlaceSearch(c: Context) {
   const query = c.req.query();
-  const lat = Number(query["lat"] as string);
-  const lng = Number(query["lng"] as string);
+  // Rounding to 2 decimal places (approx 1km) vastly increases Edge Cache hit rate
+  const lat = Number(Number(query["lat"] as string).toFixed(2));
+  const lng = Number(Number(query["lng"] as string).toFixed(2));
   const resultCount = query["resultCount"] ? Number(query["resultCount"]) : 5;
   const lang = (query["lang"] as string) || "en";
   const countryCode = query["countryCode"] as string;
