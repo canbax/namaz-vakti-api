@@ -10,6 +10,29 @@ import {
 } from "../api_src/util.js";
 import { getPlaceSuggestionsByText, getNearbyPlaces, getPlaceById } from "irem";
 
+// Precomputed, sorted caches for geo data endpoints (countries, regions, cities)
+const countriesCache = Object.keys(ALL_PLACES)
+  .map((place) => ({ code: ALL_PLACES[place].code, name: place }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const regionsCache = new Map<string, string[]>();
+const citiesCache = new Map<string, string[]>();
+
+for (const country in ALL_PLACES) {
+  regionsCache.set(
+    country,
+    Object.keys(ALL_PLACES[country].regions).sort((a, b) => a.localeCompare(b)),
+  );
+  for (const region in ALL_PLACES[country].regions) {
+    citiesCache.set(
+      `${country}:${region}`,
+      Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
+        a.localeCompare(b),
+      ),
+    );
+  }
+}
+
 // In-memory caches for external irem API responses
 const nearbyPlacesCache = new Map<
   string,
@@ -98,12 +121,8 @@ app.post("/api/ip", getIPAdress);
  */
 function getCountries(c: Context) {
   try {
-    const r = [];
-    for (const place in ALL_PLACES) {
-      r.push({ code: ALL_PLACES[place].code, name: place });
-    }
     setCacheHeader(c);
-    return c.json(r.sort((a, b) => a.name.localeCompare(b.name)));
+    return c.json(countriesCache);
   } catch (e) {
     console.log("error! ", e);
     return c.json({ error: String(e) });
@@ -115,13 +134,10 @@ function getRegionsOfCountry(c: Context) {
   if (!country || country === "undefined" || country === "null") {
     return c.json({ error: "Invalid country parameter!" }, 400);
   }
-  if (ALL_PLACES[country]) {
+  const regions = regionsCache.get(country);
+  if (regions) {
     setCacheHeader(c);
-    return c.json(
-      Object.keys(ALL_PLACES[country].regions).sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    );
+    return c.json(regions);
   } else {
     return c.json({ error: "NOT FOUND!" }, 404);
   }
@@ -136,13 +152,10 @@ function getCitiesOfRegion(c: Context) {
   if (!region || region === "undefined" || region === "null") {
     return c.json({ error: "Invalid region parameter!" }, 400);
   }
-  if (ALL_PLACES[country] && ALL_PLACES[country].regions[region]) {
+  const cities = citiesCache.get(`${country}:${region}`);
+  if (cities) {
     setCacheHeader(c);
-    return c.json(
-      Object.keys(ALL_PLACES[country].regions[region]).sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    );
+    return c.json(cities);
   } else {
     return c.json({ error: "NOT FOUND!" }, 404);
   }
