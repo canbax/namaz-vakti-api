@@ -4,9 +4,29 @@ import { HourString, Place, TimesData } from "./types.js";
 import { extractTimeFromDate, dateToStandardString } from "./util.js";
 
 // Simple LRU cache: evict the oldest entry when max size is reached
-const TIMES_CACHE_MAX = 200;
+const TIMES_CACHE_MAX = 5000;
 const timesCache = new Map<string, TimesData>();
 const findPlaceCache = new Map<string, Place>();
+
+// Pre-flatten the locations list once at startup for highly optimized linear lookup
+const flatPlaces: Place[] = [];
+for (const country in ALL_PLACES) {
+  const countryObj = ALL_PLACES[country];
+  for (const region in countryObj.regions) {
+    const regionObj = countryObj.regions[region];
+    for (const city in regionObj) {
+      const [lat, lng] = regionObj[city];
+      flatPlaces.push({
+        countryCode: countryObj.code,
+        country,
+        region,
+        city,
+        latitude: lat,
+        longitude: lng,
+      });
+    }
+  }
+}
 
 export function getTimes(
   lat: number,
@@ -57,23 +77,13 @@ export function findPlace(lat2: number, lng: number): Place {
     latitude: 0,
     longitude: 0,
   };
-  for (const country in ALL_PLACES) {
-    for (const region in ALL_PLACES[country].regions) {
-      for (const city in ALL_PLACES[country].regions[region]) {
-        const [lat1, lng1] = ALL_PLACES[country].regions[region][city];
-        const diff = Math.abs(lat1 - lat2) + Math.abs(lng1 - lng);
-        if (diff < minDiff) {
-          place = {
-            countryCode: ALL_PLACES[country].code,
-            country,
-            region,
-            city,
-            latitude: lat1,
-            longitude: lng1,
-          };
-          minDiff = diff;
-        }
-      }
+
+  for (let i = 0; i < flatPlaces.length; i++) {
+    const p = flatPlaces[i];
+    const diff = Math.abs(p.latitude - lat2) + Math.abs(p.longitude - lng);
+    if (diff < minDiff) {
+      place = p;
+      minDiff = diff;
     }
   }
 

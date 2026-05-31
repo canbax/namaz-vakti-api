@@ -259,6 +259,7 @@ function getPlaceData(c: Context) {
   if (lat === undefined || lng === undefined || isNaN(lat) || isNaN(lng)) {
     return c.json({ error: "INVALID coordinates!" });
   } else {
+    setCacheHeader(c);
     return c.json(findPlace(lat, lng));
   }
 }
@@ -281,7 +282,6 @@ async function getTimesForPlace(c: Context) {
     const lat = place.latitude;
     const lng = place.longitude;
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
-    setCacheHeader(c);
     setCacheHeader(c);
     return c.json({ place, times });
   }
@@ -321,6 +321,7 @@ function getTimesFromPlace(c: Context) {
     const lat = place.latitude;
     const lng = place.longitude;
     const times = getTimes(lat, lng, date, days, tzOffset, calculateMethod);
+    setCacheHeader(c);
     return c.json({ place, times });
   }
 }
