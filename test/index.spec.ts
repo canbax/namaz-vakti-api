@@ -33,6 +33,18 @@ describe("API endpoint tests", () => {
     expect(body.length).greaterThan(2);
   });
 
+  it("should be able to get near by places around Türkler, Alanya", async () => {
+    const url =
+      "/api/nearByPlaces?lat=36.60640823985788&lng=31.778476826200723&lang=tr";
+    const res = await app.request(url);
+
+    expect(res.status).toEqual(200);
+    const body = (await res.json()) as any[];
+    expect(body[0].country).toEqual("Türkiye");
+    expect(body.length).greaterThan(2);
+    expect(body[0].name).toBe("Alanya");
+  });
+
   it("should be able to search places", async () => {
     const url = "/api/searchPlaces?q=Keç";
     const res = await app.request(url);
